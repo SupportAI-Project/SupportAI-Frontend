@@ -1,35 +1,25 @@
-FROM node:18-alpine as base
-RUN apk add --no-cache g++ make py3-pip libc6-compat
+# Stage 1: install dependencies
+FROM node:18-alpine AS deps
 WORKDIR /app
-COPY package*.json ./
-EXPOSE 3000
+COPY package*.json .
+ARG NODE_ENV
+ENV NODE_ENV $NODE_ENV
+RUN npm install
 
-FROM base as builder
+# Stage 2: build
+FROM node:18-alpine AS builder
 WORKDIR /app
-COPY . .
+COPY --from=deps /app/node_modules ./node_modules
+COPY src ./src
+COPY public ./public
+COPY package.json next.config.js jsconfig.json ./
 RUN npm run build
 
-
-FROM base as production
+# Stage 3: run
+FROM node:18-alpine
 WORKDIR /app
-
-ENV NODE_ENV=production
-RUN npm ci
-
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nextjs -u 1001
-USER nextjs
-
-
-COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
-
-CMD npm start
-
-FROM base as dev
-ENV NODE_ENV=development
-RUN npm install
-COPY . .
-CMD npm run dev
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./
+CMD ["npm", "run", "start"]
