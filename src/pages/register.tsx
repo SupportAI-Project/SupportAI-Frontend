@@ -1,14 +1,13 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import dogImage from "../assets/images/dogs/dog_gray_bg.jpeg";
+import dogImage from "../assets/images/dogs/dog_orange_bg.jpeg";
 
-const login: React.FC = () => {
+const Register: React.FC = () => {
   return (
     <div
       className="bg-gradient-primary"
       style={{
         height: "100vh",
-        minHeight: "inherit",
         width: "100vw",
         display: "flex",
         justifyContent: "center",
@@ -39,57 +38,71 @@ const login: React.FC = () => {
                   <div className="col-lg-6">
                     <div className="p-5">
                       <div className="text-center">
-                        <h4 className="text-dark mb-4">Welcome Back!</h4>
+                        <h4 className="text-dark mb-4">Create an Account!</h4>
                       </div>
                       <form className="user">
+                        <div className="row mb-3">
+                          <div className="col-sm-6 mb-3 mb-sm-0">
+                            <input
+                              className="form-control form-control-user"
+                              type="text"
+                              id="exampleFirstName"
+                              placeholder="First Name"
+                              name="first_name"
+                            />
+                          </div>
+                          <div className="col-sm-6">
+                            <input
+                              className="form-control form-control-user"
+                              type="text"
+                              id="exampleLastName"
+                              placeholder="Last Name"
+                              name="last_name"
+                            />
+                          </div>
+                        </div>
                         <div className="mb-3">
                           <input
-                            id="exampleInputEmail"
                             className="form-control form-control-user"
                             type="email"
+                            id="exampleInputEmail"
                             aria-describedby="emailHelp"
-                            placeholder="Enter Email Address..."
+                            placeholder="Email Address"
                             name="email"
                           />
                         </div>
-                        <div className="mb-3">
-                          <input
-                            id="exampleInputPassword"
-                            className="form-control form-control-user"
-                            type="password"
-                            placeholder="Password"
-                            name="password"
-                          />
-                        </div>
-                        <div className="mb-3">
-                          <div className="custom-checkbox small">
-                            <div className="form-check">
-                              <input
-                                id="formCheck-1"
-                                className="form-check-input"
-                                type="checkbox"
-                              />
-                              <label
-                                className="form-check-label"
-                                htmlFor="formCheck-1"
-                              >
-                                Remember Me
-                              </label>
-                            </div>
+                        <div className="row mb-3">
+                          <div className="col-sm-6 mb-3 mb-sm-0">
+                            <input
+                              className="form-control form-control-user"
+                              type="password"
+                              id="examplePasswordInput"
+                              placeholder="Password"
+                              name="password"
+                            />
+                          </div>
+                          <div className="col-sm-6">
+                            <input
+                              className="form-control form-control-user"
+                              type="password"
+                              id="exampleRepeatPasswordInput"
+                              placeholder="Repeat Password"
+                              name="password_repeat"
+                            />
                           </div>
                         </div>
                         <button
                           className="btn btn-primary d-block btn-user w-100"
                           type="submit"
                         >
-                          Login
+                          Register Account
                         </button>
                         <hr />
                         <a
                           className="btn btn-primary d-block btn-google btn-user w-100 mb-2"
                           role="button"
                         >
-                          <i className="fab fa-google"></i> Login with Google
+                          <i className="fab fa-google"></i> Register with Google
                         </a>
                         <hr />
                       </form>
@@ -99,8 +112,8 @@ const login: React.FC = () => {
                         </a>
                       </div>
                       <div className="text-center">
-                        <a className="small" href="register.html">
-                          Create an Account!
+                        <a className="small" href="/login">
+                          Already have an account? Login!
                         </a>
                       </div>
                     </div>
@@ -115,4 +128,4 @@ const login: React.FC = () => {
   );
 };
 
-export default login;
+export default Register;
