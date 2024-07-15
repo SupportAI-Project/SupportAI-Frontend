@@ -215,6 +215,7 @@
 .clearfix:after {
   visibility: hidden;
   display: flex;
+  z-index: 3;
   font-size: 0;
   content: " ";
   clear: both;
