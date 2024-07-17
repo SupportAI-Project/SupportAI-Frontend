@@ -1,29 +1,117 @@
-import Sidebar from "@/components/Sidebar";
-import Topbar from "@/components/Topbar";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "font-awesome/css/font-awesome.min.css";
 import styles from "../../styles/chat.module.css";
-
 import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-
-interface Message {
-  content: string;
-  isNote: boolean;
-  isSupportSender: boolean;
-  chatId: string;
-  time: Date;
-}
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+// import { io, Socket } from "socket.io-client";
+import createSocketConnection from "@/socket";
+import { Chat, Message } from "@/types";
+import { Sidebar, Topbar } from "@/components";
 
 const Dashboard = () => {
-  // const [newMessage, setNewMessage] = useState<string>("");
+  const [usersChats, setUsersChats] = useState<Chat[]>([]);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [message, setMessage] = useState<string>("");
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-  const [prevHeight, setPrevHeight] = useState(24);
+  const socket = createSocketConnection();
+  const [selectedChat, setSelectedChat] = useState<Chat>();
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  // useEffect(() => {
+  //   const messages: Message[] = [
+  //     {
+  //       content: "Hi Aiden, how are you? How is the project coming along?",
+  //       isNote: false,
+  //       isSupportSender: true,
+  //       chatId: "1",
+  //       time: new Date(),
+  //     },
+  //     {
+  //       content: "Are we meeting today?",
+  //       isNote: false,
+  //       isSupportSender: false,
+  //       chatId: "1",
+  //       time: new Date(),
+  //     },
+  //     {
+  //       content:
+  //         "Project has been already finished and I have results to show you.",
+  //       isNote: false,
+  //       isSupportSender: false,
+  //       chatId: "1",
+  //       time: new Date(),
+  //     },
+  //   ];
+  //   setChatMessages(messages);
+  // }, []);
+
+  useEffect(() => {
+    const fetchChats = async () => {
+      const response = await axios.get(process.env.BACKEND_URL + "/chats");
+      setUsersChats(response.data as Chat[]);
+      setSelectedChat(response.data[0]);
+      const messages = await axios.get(
+        process.env.BACKEND_URL + "/chats/" + response.data[0].chatId
+      );
+      setChatMessages(messages.data as Message[]);
+    };
+    fetchChats();
+  }, []);
+
+  useEffect(() => {
+    if (selectedChat) {
+      socket.emit("join", selectedChat.chatId);
+
+      // socket.on("connect", () => {
+      //   console.log("Connected to server");
+      // });
+
+      // socket.on("disconnect", () => {
+      //   console.log("Disconnected from server");
+      // });
+
+      //If user creates a new chat
+      socket.on("newChat", (chat: Chat) => {
+        setUsersChats((prevChats) => [...prevChats, chat]);
+      });
+
+      // If user sends a new message
+      socket.on("newMessage", (message: Message) => {
+        setChatMessages((prevMessages) => [...prevMessages, message]);
+      });
+
+      return () => {
+        socket.emit("leave", selectedChat.chatId);
+        socket.off("newMessage");
+        socket.off("newChat");
+      };
+    }
+  }, [selectedChat]);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      const newHeight = Math.min(textareaRef.current.scrollHeight, 10 * 31);
+      textareaRef.current.style.height = `${newHeight}px`;
+      const container = textareaRef.current.parentElement;
+      if (container) {
+        container.parentElement!.style.height = "auto";
+        container.parentElement!.style.height = `${
+          container.parentElement!.scrollHeight
+        }px`;
+        container.parentElement!.style.marginTop = `-${newHeight - 24}px`;
+      }
+    }
+  }, [message]);
+
+  const handleChangeChat = async (chat: Chat) => {
+    const messages = await axios.get(
+      process.env.BACKEND_URL + "/chats/" + chat.chatId
+    );
+    setChatMessages(messages.data);
+    setSelectedChat(chat);
+  };
+
+  const handleChangeMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const input = e.target.value;
     const lines = input.split("\n");
     if (lines.length <= 10) {
@@ -41,108 +129,26 @@ const Dashboard = () => {
       }
     } else if (e.key === "Enter") {
       e.preventDefault();
-      handleSend(message);
+      handleSend();
     }
   };
 
-  useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
-      const newHeight = Math.min(textareaRef.current.scrollHeight, 10 * 31);
-      // const heightDifference = newHeight - prevHeight;
-      // // Set new height and margin-top to move the textarea upwards
-      textareaRef.current.style.height = `${newHeight}px`;
-      // textareaRef.current.style.marginTop = `-${newHeight - 24}px`;
-      const container = textareaRef.current.parentElement;
-      if (container) {
-        container.parentElement!.style.height = "auto";
-        container.parentElement!.style.height = `${
-          container.parentElement!.scrollHeight
-        }px`;
-        container.parentElement!.style.marginTop = `-${newHeight - 24}px`;
-      }
-      // setPrevHeight(newHeight);
-    }
-  }, [message, prevHeight]);
-
-  // useEffect(() => {
-  //   const handleKeyUp = () => {
-  //     if (textareaRef.current) {
-  //       textareaRef.current.style.height = "0px";
-  //       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-  //     }
-  //   };
-
-  //   const textarea = textareaRef.current;
-  //   if (textarea) {
-  //     textarea.addEventListener("keyup", handleKeyUp);
-  //   }
-
-  //   return () => {
-  //     if (textarea) {
-  //       textarea.removeEventListener("keyup", handleKeyUp);
-  //     }
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   // Add your script code here
-  //   const script = document.createElement("script");
-  //   script.src = "https://example.com/script.js";
-  //   script.async = true;
-  //   document.body.appendChild(script);
-
-  //   // Clean up the script when component unmounts
-  //   return () => {
-  //     document.body.removeChild(script);
-  //   };
-  // }, []);
-
-  useEffect(() => {
-    const messages: Message[] = [
-      {
-        content: "Hi Aiden, how are you? How is the project coming along?",
-        isNote: false,
-        isSupportSender: true,
-        chatId: "1",
-        time: new Date(),
-      },
-      {
-        content: "Are we meeting today?",
-        isNote: false,
-        isSupportSender: false,
-        chatId: "1",
-        time: new Date(),
-      },
-      {
-        content:
-          "Project has been already finished and I have results to show you.",
-        isNote: false,
-        isSupportSender: false,
-        chatId: "1",
-        time: new Date(),
-      },
-    ];
-    setChatMessages(messages);
-  }, []);
-
-  function handleSend(event: MouseEvent<HTMLButtonElement, MouseEvent>): void {
+  async function handleSend() {
     if (message.trim() === "") {
       return;
     }
     const newMessage: Message = {
       content: message,
       isNote: false,
-      isSupportSender: false,
-      chatId: "1",
+      isSupportSender: true,
+      chatId: selectedChat!.chatId.toString(),
       time: new Date(),
     };
-    setChatMessages([...chatMessages, newMessage]);
-    setMessage("");
-  }
-
-  function handleSendMessage(): void {
-    throw new Error("Function not implemented.");
+    if (selectedChat) {
+      setChatMessages([...chatMessages, newMessage]);
+      socket.emit("message", newMessage);
+      setMessage("");
+    }
   }
 
   return (
@@ -159,12 +165,13 @@ const Dashboard = () => {
       >
         <div id="content" style={{ flex: "1 0 auto" }}>
           <Topbar />
+
           <div className="container-fluid">
             <div className="d-sm-flex justify-content-between align-items-center mb-4">
               <h3 className="text-dark mb-0">Dashboard</h3>
             </div>
           </div>
-          {/* <div className={`card ${styles["chat-app"]}`}> */}
+
           <div
             className={`card ${styles["chat-app"]}`}
             style={{
@@ -174,7 +181,39 @@ const Dashboard = () => {
           >
             <div id="plist" className={styles["people-list"]}>
               <ul className={`list-unstyled ${styles["chat-list"]} mt-2 mb-0`}>
-                <li className={`${styles["clearfix"]} `}>
+                {usersChats &&
+                  usersChats.map((chat, index) => {
+                    return (
+                      <li
+                        key={index}
+                        className={`${styles["clearfix"]} `}
+                        onClick={() => handleChangeChat(chat)}
+                      >
+                        <img
+                          src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                          alt="avatar"
+                        />
+                        <div className={styles.about}>
+                          <div className={styles.name}>
+                            <span>{chat.user.username}</span>
+                          </div>
+                          <div className={styles.status}>
+                            <i
+                              className={`fa fa-circle ${
+                                chat.isOpen
+                                  ? styles["online"]
+                                  : styles["offline"]
+                              }`}
+                            ></i>
+                            <span>
+                              {chat.isOpen ? "online" : "left 7 mins ago"}
+                            </span>
+                          </div>
+                        </div>
+                      </li>
+                    );
+                  })}
+                {/* <li className={`${styles["clearfix"]} `}>
                   <img
                     src="https://bootdey.com/img/Content/avatar/avatar1.png"
                     alt="avatar"
@@ -184,7 +223,7 @@ const Dashboard = () => {
                       <span>Vincent Porter</span>
                     </div>
                     <div className={styles.status}>
-                      <i className="fa fa-circle offline"></i>
+                      <i className={`fa fa-circle ${styles["offline"]}`}></i>
                       <span> left 7 mins ago </span>
                     </div>
                   </div>
@@ -205,13 +244,93 @@ const Dashboard = () => {
                       <span> online </span>
                     </div>
                   </div>
-                </li>
+                </li> */}
               </ul>
             </div>
             <div className={styles.chat}>
               <div className={`${styles["chat-header"]} ${styles.clearfix}`}>
                 <div className="row">
-                  <div className="col-6 offset-xxl-0" id="col-user-profile">
+                  {selectedChat ? (
+                    <div>
+                      <div className="col-6 offset-xxl-0">
+                        <a data-toggle="modal" data-target="#view_info">
+                          <img
+                            src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                            alt="avatar"
+                          />
+                        </a>
+                        <div className={`${styles["chat-about"]}`}>
+                          <h6 className="m-b-0">
+                            {selectedChat.user.username}
+                          </h6>
+                          <small>Last seen: 2 hours ago</small>
+                        </div>
+                      </div>
+                      <div
+                        className="col-6"
+                        id="col-btns"
+                        style={{
+                          textAlign: "left",
+                          lineHeight: 0,
+                          padding: "1rem",
+                          paddingTop: "inherit",
+                          paddingRight: "1rem",
+                          paddingBottom: "inherit",
+                          paddingLeft: "inherit",
+                          display: "flex",
+                          justifyContent: "end",
+                          gap: "5px",
+                        }}
+                      >
+                        <a
+                          className="btn d-none d-sm-inline-block btn-primary"
+                          role="button"
+                          id="btn-generate-guide"
+                          href="#"
+                          style={{
+                            textAlign: "justify",
+                            height: "2.2em",
+                            borderStyle: "inherit",
+                            borderRadius: "5px",
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faDownload} />
+                          &nbsp;Generate Guide
+                        </a>
+                        <a
+                          className="btn d-none d-sm-inline-block btn-light"
+                          role="button"
+                          id="btn-snooze"
+                          href="#"
+                          style={{
+                            textAlign: "justify",
+                            height: "2.2em",
+                            background: "var(--bs-gray-300)",
+                            color: "black",
+                            borderStyle: "inherit",
+                            borderRadius: "5px",
+                          }}
+                        >
+                          Snooze
+                        </a>
+                        <a
+                          className="btn d-none d-sm-inline-block btn-dark"
+                          role="button"
+                          id="btn-close-conversation"
+                          href="#"
+                          style={{
+                            textAlign: "justify",
+                            height: "2.2em",
+                            borderStyle: "inherit",
+                            borderRadius: "5px",
+                          }}
+                        >
+                          Close
+                        </a>
+                      </div>
+                    </div>
+                  ) : null}
+                  {/* <div className="col-6 offset-xxl-0" id="col-user-profile">
                     <a data-toggle="modal" data-target="#view_info">
                       <img
                         src="https://bootdey.com/img/Content/avatar/avatar2.png"
@@ -222,86 +341,8 @@ const Dashboard = () => {
                       <h6 className="m-b-0">Aiden Chavez</h6>
                       <small>Last seen: 2 hours ago</small>
                     </div>
-                  </div>
-                  <div
-                    className="col-6"
-                    id="col-btns"
-                    style={{
-                      textAlign: "left",
-                      lineHeight: 0,
-                      padding: "1rem",
-                      paddingTop: "inherit",
-                      paddingRight: "1rem",
-                      paddingBottom: "inherit",
-                      paddingLeft: "inherit",
-                      display: "flex",
-                      // position: "relative",
-                      justifyContent: "end",
-                      gap: "5px",
-                    }}
-                  >
-                    <a
-                      className="btn d-none d-sm-inline-block btn-primary"
-                      role="button"
-                      id="btn-generate-guide"
-                      href="#"
-                      style={{
-                        textAlign: "justify",
-                        height: "2.2em",
-                        borderStyle: "inherit",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faDownload} />
-                      &nbsp;Generate Guide
-                    </a>
-                    <a
-                      className="btn d-none d-sm-inline-block btn-light"
-                      role="button"
-                      id="btn-snooze"
-                      href="#"
-                      style={{
-                        textAlign: "justify",
-                        height: "2.2em",
-                        background: "var(--bs-gray-300)",
-                        color: "black",
-                        borderStyle: "inherit",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      Snooze
-                    </a>
-                    <a
-                      className="btn d-none d-sm-inline-block btn-dark"
-                      role="button"
-                      id="btn-close-conversation"
-                      href="#"
-                      style={{
-                        textAlign: "justify",
-                        height: "2.2em",
-                        borderStyle: "inherit",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      Close
-                    </a>
-                  </div>
+                  </div> */}
                 </div>
-                {/* <div className="row">
-                  <div className="col-lg-6">
-                    <a data-toggle="modal" data-target="#view_info">
-                      <img
-                        src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                        alt="avatar"
-                      />
-                    </a>
-                    <div className={`${styles["chat-about"]}`}>
-                      <h6 className="m-b-0">Aiden Chavez</h6>
-                      <small>Last seen: 2 hours ago</small>
-                    </div>
-                  </div>
-                  <div className="col-lg-6 hidden-sm text-right"></div>
-                </div> */}
               </div>
               <div
                 className={styles["chat-history"]}
@@ -372,7 +413,7 @@ const Dashboard = () => {
                     id="ta-message-text"
                     ref={textareaRef}
                     value={message}
-                    onChange={handleChange}
+                    onChange={handleChangeMessage}
                     onKeyDown={handleKeyDown}
                     placeholder="Type your message here..."
                     rows={5}
@@ -390,15 +431,27 @@ const Dashboard = () => {
                   ></textarea>
                 </div>
                 <div className="row mb-2 mx-2">
-                  <div className="col d-flex justify-content-end">
-                    <button
-                      className="btn btn-primary btn-sm"
-                      type="button"
-                      onSubmit={handleSend}
-                    >
-                      Send
-                    </button>
-                  </div>
+                  {selectedChat?.isOpen ? (
+                    <div className="col d-flex justify-content-end">
+                      <button
+                        className="btn btn-primary btn-sm"
+                        type="button"
+                        onSubmit={handleSend}
+                      >
+                        Send
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="col d-flex justify-content-end">
+                      <button
+                        className="btn btn-primary btn-sm"
+                        type="button"
+                        disabled
+                      >
+                        Send
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -406,7 +459,6 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
-    // </div>
   );
 };
 

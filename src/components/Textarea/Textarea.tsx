@@ -1,5 +1,5 @@
-// components/Textarea.tsx
 import React, { useEffect, useRef, useState } from "react";
+import "./Textarea.scss";
 
 interface TextareaProps {
   message: string;
@@ -38,7 +38,6 @@ const Textarea: React.FC<TextareaProps> = React.memo(
       if (textareaRef.current) {
         textareaRef.current.style.height = "auto";
         const newHeight = Math.min(textareaRef.current.scrollHeight, 10 * 31);
-        const heightDifference = newHeight - prevHeight;
 
         // Set new height and margin-top to move the textarea upwards
         textareaRef.current.style.height = `${newHeight}px`;
@@ -51,18 +50,11 @@ const Textarea: React.FC<TextareaProps> = React.memo(
     return (
       <textarea
         ref={textareaRef}
-        className="form-control form-control-lg"
+        className="form-control form-control-lg textarea-chat"
         placeholder="Enter text here..."
         value={message}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        style={{
-          overflow: "hidden",
-          resize: "none",
-          position: "relative",
-          bottom: 0,
-          width: "80%",
-        }}
         rows={1} // Start with a single row
       />
     );

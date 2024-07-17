@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../styles/topbar.module.scss";
+import "./Topbar.scss";
 
 const Topbar: React.FC = () => {
   return (
@@ -80,9 +80,7 @@ const Topbar: React.FC = () => {
             </div>
             {/* add here dropdown items */}
           </li>
-          <div
-            className={`d-none d-sm-block ${styles["topbar-divider"]}`}
-          ></div>
+          <div className="d-none d-sm-block topbar-divider"></div>
           <li className="nav-item dropdown no-arrow">
             <div className="nav-item dropdown no-arrow">
               <a
