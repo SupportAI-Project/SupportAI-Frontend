@@ -2,6 +2,6 @@ export interface Message {
   content: string;
   isNote: boolean;
   isSupportSender: boolean;
-  chatId: string;
+  chatId: number;
   time: Date;
 }

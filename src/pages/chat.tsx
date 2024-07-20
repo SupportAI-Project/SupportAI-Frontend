@@ -1,64 +1,36 @@
 import React, { useEffect, useState } from "react";
-// import "bootstrap/dist/css/bootstrap.css";
 import styles from "../../styles/chat.module.css";
 import "../../styles/chat.scss";
-import axios from "axios";
-import { io } from "socket.io-client";
 import { Textarea } from "@/components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import { Message } from "@/types";
+import { Chat, Message } from "@/types";
+import socket from "../socket";
 
 const ChatApp: React.FC = () => {
   const [message, setMessage] = useState<string>("");
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
-  // const [socket, setSocket] = useState<any>(null);
-
-  // const backendUrl: string = process.env.NEXT_PUBLIC_BACKEND_URL ?? "";
+  const [chatId, setChatId] = useState(0);
 
   useEffect(() => {
-    const messages: Message[] = [
-      {
-        content: "Hi Aiden, how are you? How is the project coming along?",
-        isNote: false,
-        isSupportSender: true,
-        chatId: "1",
-        time: new Date(),
-      },
-      {
-        content: "Are we meeting today?",
-        isNote: false,
-        isSupportSender: false,
-        chatId: "1",
-        time: new Date(),
-      },
-      {
-        content:
-          "Project has been already finished and I have results to show you.",
-        isNote: false,
-        isSupportSender: false,
-        chatId: "1",
-        time: new Date(),
-      },
-    ];
-    setChatMessages(messages);
-  }, []);
+    socket.emit("create");
+    socket.on("chatCreated", (chat: Chat) => {
+      const fd = new FormData();
+      setChatId(chat.chatId);
+      fd.append("chatId", chat.chatId.toString());
+      socket.emit("join", fd);
+      socket.on("newMessage", (data: Message) => {
+        console.log("Received message: ", data);
+        setChatMessages((prevMessages) => [...prevMessages, data]);
+      });
+    });
 
-  // useEffect(() => {
-  //   const socket = io(backendUrl);
-  //   setSocket(socket);
-  //   socket.on("connect", () => {
-  //     console.log("Connected to server");
-  //   });
-  //   socket.on("newMessage", (data: any) => {
-  //     console.log("Received message: ", data);
-  //     setChatMessages([...chatMessages, data]);
-  //   });
-  //   return () => {
-  //     socket.disconnect();
-  //     setSocket(null);
-  //   };
-  // }, []);
+    return () => {
+      socket.off("newMessage");
+      socket.off("chatCreated");
+      socket.disconnect();
+    };
+  }, []);
 
   async function handleSendMessage() {
     if (message === "") return;
@@ -67,21 +39,21 @@ const ChatApp: React.FC = () => {
       content: message,
       isNote: false,
       isSupportSender: false,
-      chatId: "1",
+      chatId: chatId,
       time: new Date(),
     };
 
     setChatMessages([...chatMessages, newMessage]);
     setMessage("");
-    // if (socket) {
-    //   const fd = new FormData();
-    //   const data = {
-    //     chatId: "1",
-    //     content: message,
-    //   };
-    //   fd.append("data", JSON.stringify(data));
-    //   socket.emit("message", fd);
-    // }
+    const fd = new FormData();
+    const data = {
+      chatId: chatId,
+      content: message,
+    };
+    const isSupportSender = false;
+    fd.append("data", JSON.stringify(data));
+    fd.append("isSupportSender", JSON.stringify(isSupportSender));
+    socket.emit("message", fd);
   }
 
   return (

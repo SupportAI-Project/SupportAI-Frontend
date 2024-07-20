@@ -12,7 +12,6 @@ const Dashboard = () => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [message, setMessage] = useState<string>("");
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
-
   const [selectedChat, setSelectedChat] = useState<Chat>();
 
   useEffect(() => {
@@ -42,7 +41,9 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (selectedChat) {
-      socket.emit("join", selectedChat.chatId);
+      const fd = new FormData();
+      fd.append("chatId", selectedChat.chatId.toString());
+      socket.emit("join", fd);
 
       // If user sends a new message
       socket.on("newMessage", (message: Message) => {
@@ -51,7 +52,9 @@ const Dashboard = () => {
 
       return () => {
         socket.off("newMessage");
-        socket.emit("leave", selectedChat.chatId);
+        const fd = new FormData();
+        fd.append("chatId", selectedChat.chatId.toString());
+        socket.emit("leave", fd);
       };
     }
   }, [selectedChat]);
@@ -110,12 +113,18 @@ const Dashboard = () => {
       content: message,
       isNote: false,
       isSupportSender: true,
-      chatId: selectedChat!.chatId.toString(),
+      chatId: selectedChat!.chatId,
       time: new Date(),
     };
     if (selectedChat) {
+      const fd = new FormData();
+      fd.append("chatId", selectedChat.chatId.toString());
+      fd.append("content", message);
+      fd.append("isNote", "false");
+      fd.append("isSupportSender", "true");
+      fd.append("time", newMessage.time.toISOString());
       setChatMessages([...chatMessages, newMessage]);
-      socket.emit("message", newMessage);
+      socket.emit("message", fd);
       setMessage("");
     }
   }
