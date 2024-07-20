@@ -3,46 +3,17 @@ import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-// import { io, Socket } from "socket.io-client";
-import createSocketConnection from "@/socket";
 import { Chat, Message } from "@/types";
 import { Sidebar, Topbar } from "@/components";
+import socket from "@/socket";
 
 const Dashboard = () => {
   const [usersChats, setUsersChats] = useState<Chat[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [message, setMessage] = useState<string>("");
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
-  const socket = createSocketConnection();
-  const [selectedChat, setSelectedChat] = useState<Chat>();
 
-  // useEffect(() => {
-  //   const messages: Message[] = [
-  //     {
-  //       content: "Hi Aiden, how are you? How is the project coming along?",
-  //       isNote: false,
-  //       isSupportSender: true,
-  //       chatId: "1",
-  //       time: new Date(),
-  //     },
-  //     {
-  //       content: "Are we meeting today?",
-  //       isNote: false,
-  //       isSupportSender: false,
-  //       chatId: "1",
-  //       time: new Date(),
-  //     },
-  //     {
-  //       content:
-  //         "Project has been already finished and I have results to show you.",
-  //       isNote: false,
-  //       isSupportSender: false,
-  //       chatId: "1",
-  //       time: new Date(),
-  //     },
-  //   ];
-  //   setChatMessages(messages);
-  // }, []);
+  const [selectedChat, setSelectedChat] = useState<Chat>();
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -58,21 +29,20 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
+    //If user creates a new chat
+    socket.on("chatCreated", (chat: Chat) => {
+      setUsersChats((prevChats) => [...prevChats, chat]);
+    });
+
+    return () => {
+      socket.off("chatCreated");
+      socket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
     if (selectedChat) {
       socket.emit("join", selectedChat.chatId);
-
-      // socket.on("connect", () => {
-      //   console.log("Connected to server");
-      // });
-
-      // socket.on("disconnect", () => {
-      //   console.log("Disconnected from server");
-      // });
-
-      //If user creates a new chat
-      socket.on("newChat", (chat: Chat) => {
-        setUsersChats((prevChats) => [...prevChats, chat]);
-      });
 
       // If user sends a new message
       socket.on("newMessage", (message: Message) => {
@@ -80,9 +50,8 @@ const Dashboard = () => {
       });
 
       return () => {
-        socket.emit("leave", selectedChat.chatId);
         socket.off("newMessage");
-        socket.off("newChat");
+        socket.emit("leave", selectedChat.chatId);
       };
     }
   }, [selectedChat]);
