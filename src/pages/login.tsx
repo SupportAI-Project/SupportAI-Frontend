@@ -1,8 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import dogImage from "../assets/images/dogs/dog_gray_bg.jpeg";
+import axios, { AxiosError } from "axios";
 
-const login: React.FC = () => {
+const Login: React.FC = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setError("");
+
+    try {
+      const response = await axios.post("http://localhost:8080/auth/login", {
+        username,
+        password,
+      });
+
+      // Handle successful login, e.g., save token, redirect, etc.
+      console.log("Login successful", response.data);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setError(
+          error.response?.data?.message || "Invalid username or password"
+        );
+      } else {
+        setError("An unexpected error occurred");
+      }
+    }
+  };
+
   return (
     <div
       className="bg-gradient-primary"
@@ -41,15 +70,16 @@ const login: React.FC = () => {
                       <div className="text-center">
                         <h4 className="text-dark mb-4">Welcome Back!</h4>
                       </div>
-                      <form className="user">
+                      <form className="user" onSubmit={handleLogin}>
                         <div className="mb-3">
                           <input
-                            id="exampleInputEmail"
+                            id="exampleInputUsername"
                             className="form-control form-control-user"
-                            type="email"
-                            aria-describedby="emailHelp"
-                            placeholder="Enter Email Address..."
-                            name="email"
+                            type="text"
+                            placeholder="Enter Username..."
+                            name="username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
                           />
                         </div>
                         <div className="mb-3">
@@ -59,6 +89,8 @@ const login: React.FC = () => {
                             type="password"
                             placeholder="Password"
                             name="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                           />
                         </div>
                         <div className="mb-3">
@@ -92,6 +124,11 @@ const login: React.FC = () => {
                           <i className="fab fa-google"></i> Login with Google
                         </a>
                         <hr />
+                        {error && (
+                          <div className="alert alert-danger" role="alert">
+                            {error}
+                          </div>
+                        )}
                       </form>
                       <div className="text-center">
                         <a className="small" href="forgot-password.html">
@@ -99,7 +136,7 @@ const login: React.FC = () => {
                         </a>
                       </div>
                       <div className="text-center">
-                        <a className="small" href="register.html">
+                        <a className="small" href="register">
                           Create an Account!
                         </a>
                       </div>
@@ -115,4 +152,4 @@ const login: React.FC = () => {
   );
 };
 
-export default login;
+export default Login;
