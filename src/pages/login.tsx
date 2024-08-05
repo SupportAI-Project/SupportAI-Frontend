@@ -1,8 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import dogImage from "../assets/images/dogs/dog_gray_bg.jpeg";
+import { ToastContainer, toast } from "react-toastify";
+import axios, { isAxiosError } from "axios";
+import { useRouter } from "next/router";
+import "react-toastify/dist/ReactToastify.css";
+import { getCookie } from "cookies-next";
 
-const login: React.FC = () => {
+const Login: React.FC = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/login`,
+        {
+          username,
+          password,
+        },
+        { withCredentials: true }
+      );
+
+      router.push("/dashboard");
+      console.log("Login successful", response);
+    } catch (error: any) {
+      if (isAxiosError(error)) {
+        toast.error(
+          error.response?.data?.message || "Invalid username or password"
+        );
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+    }
+  };
+
   return (
     <div
       className="bg-gradient-primary"
@@ -24,7 +62,7 @@ const login: React.FC = () => {
                   <div className="col-lg-6 d-none d-lg-flex">
                     <div className="flex-grow-1 bg-login-image">
                       <img
-                        className="flex-grow-1 bg-login-image"
+                        className="flex-grow-1"
                         src={dogImage.src}
                         alt=""
                         style={{
@@ -41,15 +79,16 @@ const login: React.FC = () => {
                       <div className="text-center">
                         <h4 className="text-dark mb-4">Welcome Back!</h4>
                       </div>
-                      <form className="user">
+                      <form className="user" onSubmit={handleLogin}>
                         <div className="mb-3">
                           <input
-                            id="exampleInputEmail"
+                            id="exampleInputUsername"
                             className="form-control form-control-user"
-                            type="email"
-                            aria-describedby="emailHelp"
-                            placeholder="Enter Email Address..."
-                            name="email"
+                            type="text"
+                            placeholder="Enter Username..."
+                            name="username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
                           />
                         </div>
                         <div className="mb-3">
@@ -59,6 +98,8 @@ const login: React.FC = () => {
                             type="password"
                             placeholder="Password"
                             name="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                           />
                         </div>
                         <div className="mb-3">
@@ -68,10 +109,13 @@ const login: React.FC = () => {
                                 id="formCheck-1"
                                 className="form-check-input"
                                 type="checkbox"
+                                checked={rememberMe}
+                                onChange={() => setRememberMe(!rememberMe)}
                               />
                               <label
                                 className="form-check-label"
                                 htmlFor="formCheck-1"
+                                aria-checked={rememberMe}
                               >
                                 Remember Me
                               </label>
@@ -87,11 +131,17 @@ const login: React.FC = () => {
                         <hr />
                         <a
                           className="btn btn-primary d-block btn-google btn-user w-100 mb-2"
+                          href="/auth/google"
                           role="button"
                         >
                           <i className="fab fa-google"></i> Login with Google
                         </a>
                         <hr />
+                        {error && (
+                          <div className="alert alert-danger" role="alert">
+                            {error}
+                          </div>
+                        )}
                       </form>
                       <div className="text-center">
                         <a className="small" href="forgot-password.html">
@@ -99,7 +149,7 @@ const login: React.FC = () => {
                         </a>
                       </div>
                       <div className="text-center">
-                        <a className="small" href="register.html">
+                        <a className="small" href="register">
                           Create an Account!
                         </a>
                       </div>
@@ -111,8 +161,26 @@ const login: React.FC = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
 
-export default login;
+export async function getServerSideProps(context: { req: any }) {
+  const cookieValue = getCookie("Authorization", { req: context.req });
+
+  if (cookieValue) {
+    return {
+      redirect: {
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}
+
+export default Login;
