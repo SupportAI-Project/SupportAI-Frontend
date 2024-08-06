@@ -7,6 +7,7 @@ import { Chat, Message } from "@/types";
 import { Sidebar, Topbar } from "@/components";
 import socket from "@/socket";
 import { width } from "@fortawesome/free-brands-svg-icons/fa42Group";
+import Image from "next/image";
 
 const Dashboard = () => {
   const [usersChats, setUsersChats] = useState<Chat[]>([]);
@@ -184,7 +185,7 @@ const Dashboard = () => {
                         className={`${styles["clearfix"]} `}
                         onClick={() => handleChangeChat(chat)}
                       >
-                        <img
+                        <Image
                           src="https://bootdey.com/img/Content/avatar/avatar1.png"
                           alt="avatar"
                         />
@@ -248,7 +249,7 @@ const Dashboard = () => {
                   <div className="row">
                     <div className="col-6  " style={{ height: "100%" }}>
                       <a data-toggle="modal" data-target="#view_info">
-                        <img
+                        <Image
                           src="https://bootdey.com/img/Content/avatar/avatar2.png"
                           alt="avatar"
                         />
@@ -343,7 +344,7 @@ const Dashboard = () => {
                           <span className={`${styles["message-data-time"]}`}>
                             {new Date(msg.timeStamp).toLocaleTimeString()}
                           </span>
-                          <img
+                          <Image
                             src="https://bootdey.com/img/Content/avatar/avatar7.png"
                             alt="avatar"
                           />

@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import dogImage from "../assets/images/dogs/dog_gray_bg.jpeg";
+import logo_google_icon from "../assets/images/logo_google_icon.ico";
 import { ToastContainer, toast } from "react-toastify";
 import axios, { isAxiosError } from "axios";
 import { useRouter } from "next/router";
 import "react-toastify/dist/ReactToastify.css";
 import { getCookie } from "cookies-next";
+import Image from "next/image";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -61,10 +63,12 @@ const Login: React.FC = () => {
                 <div className="row">
                   <div className="col-lg-6 d-none d-lg-flex">
                     <div className="flex-grow-1 bg-login-image">
-                      <img
+                      <Image
                         className="flex-grow-1"
                         src={dogImage.src}
                         alt=""
+                        width={300}
+                        height={400}
                         style={{
                           width: "100%",
                           height: "100%",
@@ -134,7 +138,18 @@ const Login: React.FC = () => {
                           href="/auth/google"
                           role="button"
                         >
-                          <i className="fab fa-google"></i> Login with Google
+                          <Image 
+                            className="flex-grow-1"
+                            src={logo_google_icon}
+                            alt=""
+                            width={30}
+                            height={40}
+                            style={{
+                              objectFit: "cover",
+                              objectPosition: "center",
+                            }}
+                          ></Image> 
+                          Login with Google
                         </a>
                         <hr />
                         {error && (

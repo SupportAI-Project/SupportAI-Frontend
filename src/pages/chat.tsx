@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { Chat, Message } from "@/types";
 import socket from "../socket";
+import Image from "next/image";
 
 const ChatApp: React.FC = () => {
   const [message, setMessage] = useState<string>("");
@@ -77,7 +78,7 @@ const ChatApp: React.FC = () => {
               </div>
               <ul className={`list-unstyled ${styles["chat-list"]} mt-2 mb-0`}>
                 <li className={styles.clearfix}>
-                  <img
+                  <Image
                     src="https://bootdey.com/img/Content/avatar/avatar1.png"
                     alt="avatar"
                   />
@@ -98,7 +99,7 @@ const ChatApp: React.FC = () => {
               <div className={`${styles["chat-header"]} ${styles.clearfix}`}>
                 <div className="row">
                   <div className="col-lg-6">
-                    <img
+                    <Image
                       src="https://bootdey.com/img/Content/avatar/avatar2.png"
                       alt="avatar"
                     />
@@ -124,7 +125,7 @@ const ChatApp: React.FC = () => {
                           <span className={`${styles["message-data-time"]}`}>
                             {msg.timeStamp.toLocaleTimeString()}
                           </span>
-                          <img
+                          <Image
                             src="https://bootdey.com/img/Content/avatar/avatar7.png"
                             alt="avatar"
                           />

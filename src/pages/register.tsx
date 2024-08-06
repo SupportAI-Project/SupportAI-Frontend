@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import dogImage from "../assets/images/dogs/dog_orange_bg.jpeg";
 import Link from "next/link";
+import Image from "next/image";
 
 const Register: React.FC = () => {
   const router = useRouter();
@@ -80,7 +81,7 @@ const Register: React.FC = () => {
                 <div className="row">
                   <div className="col-lg-6 d-none d-lg-flex">
                     <div className="flex-grow-1 bg-login-image">
-                      <img
+                      <Image
                         className="flex-grow-1 bg-login-image"
                         src={dogImage.src}
                         alt=""
