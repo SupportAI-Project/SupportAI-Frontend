@@ -6,6 +6,7 @@ import axios from "axios";
 import { Chat, Message } from "@/types";
 import { Sidebar, Topbar } from "@/components";
 import socket from "@/socket";
+import { width } from "@fortawesome/free-brands-svg-icons/fa42Group";
 
 const Dashboard = () => {
   const [usersChats, setUsersChats] = useState<Chat[]>([]);
@@ -16,16 +17,31 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchChats = async () => {
-      const response = await axios.get(process.env.BACKEND_URL + "/chats");
+      axios.defaults.withCredentials = true;
+      const response = await axios.get(
+        process.env.NEXT_PUBLIC_SERVER_URL + "/chats"
+      );
+      console.log(response.data);
+
+      console.log(response.data[0].chatId);
+
       setUsersChats(response.data as Chat[]);
+      console.log(usersChats);
+
       setSelectedChat(response.data[0]);
       const messages = await axios.get(
-        process.env.BACKEND_URL + "/chats/" + response.data[0].chatId
+        process.env.NEXT_PUBLIC_SERVER_URL + "/chats/" + response.data[0].chatId
       );
-      setChatMessages(messages.data as Message[]);
+      console.log(messages.data.messages);
+
+      setChatMessages(messages.data.messages as Message[]);
     };
     fetchChats();
   }, []);
+
+  useEffect(() => {
+    console.log("Chat Messages:", chatMessages);
+  }, [chatMessages]);
 
   useEffect(() => {
     //If user creates a new chat
@@ -77,7 +93,7 @@ const Dashboard = () => {
 
   const handleChangeChat = async (chat: Chat) => {
     const messages = await axios.get(
-      process.env.BACKEND_URL + "/chats/" + chat.chatId
+      process.env.NEXT_PUBLIC_SERVER_URL + "/chats/" + chat.chatId
     );
     setChatMessages(messages.data);
     setSelectedChat(chat);
@@ -114,7 +130,8 @@ const Dashboard = () => {
       isNote: false,
       isSupportSender: true,
       chatId: selectedChat!.chatId,
-      time: new Date(),
+      timeStamp: new Date(),
+      messageId: 0,
     };
     if (selectedChat) {
       const fd = new FormData();
@@ -122,7 +139,7 @@ const Dashboard = () => {
       fd.append("content", message);
       fd.append("isNote", "false");
       fd.append("isSupportSender", "true");
-      fd.append("time", newMessage.time.toISOString());
+      fd.append("timeStamp", newMessage.timeStamp.toISOString());
       setChatMessages([...chatMessages, newMessage]);
       socket.emit("message", fd);
       setMessage("");
@@ -173,7 +190,7 @@ const Dashboard = () => {
                         />
                         <div className={styles.about}>
                           <div className={styles.name}>
-                            <span>{chat.user.username}</span>
+                            <span>userName</span>
                           </div>
                           <div className={styles.status}>
                             <i
@@ -227,88 +244,79 @@ const Dashboard = () => {
             </div>
             <div className={styles.chat}>
               <div className={`${styles["chat-header"]} ${styles.clearfix}`}>
-                <div className="row">
-                  {selectedChat ? (
-                    <div>
-                      <div className="col-6 offset-xxl-0">
-                        <a data-toggle="modal" data-target="#view_info">
-                          <img
-                            src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                            alt="avatar"
-                          />
-                        </a>
-                        <div className={`${styles["chat-about"]}`}>
-                          <h6 className="m-b-0">
-                            {selectedChat.user.username}
-                          </h6>
-                          <small>Last seen: 2 hours ago</small>
-                        </div>
-                      </div>
-                      <div
-                        className="col-6"
-                        id="col-btns"
-                        style={{
-                          textAlign: "left",
-                          lineHeight: 0,
-                          padding: "1rem",
-                          paddingTop: "inherit",
-                          paddingRight: "1rem",
-                          paddingBottom: "inherit",
-                          paddingLeft: "inherit",
-                          display: "flex",
-                          justifyContent: "end",
-                          gap: "5px",
-                        }}
-                      >
-                        <a
-                          className="btn d-none d-sm-inline-block btn-primary"
-                          role="button"
-                          id="btn-generate-guide"
-                          href="#"
-                          style={{
-                            textAlign: "justify",
-                            height: "2.2em",
-                            borderStyle: "inherit",
-                            borderRadius: "5px",
-                          }}
-                        >
-                          <FontAwesomeIcon icon={faDownload} />
-                          &nbsp;Generate Guide
-                        </a>
-                        <a
-                          className="btn d-none d-sm-inline-block btn-light"
-                          role="button"
-                          id="btn-snooze"
-                          href="#"
-                          style={{
-                            textAlign: "justify",
-                            height: "2.2em",
-                            background: "var(--bs-gray-300)",
-                            color: "black",
-                            borderStyle: "inherit",
-                            borderRadius: "5px",
-                          }}
-                        >
-                          Snooze
-                        </a>
-                        <a
-                          className="btn d-none d-sm-inline-block btn-dark"
-                          role="button"
-                          id="btn-close-conversation"
-                          href="#"
-                          style={{
-                            textAlign: "justify",
-                            height: "2.2em",
-                            borderStyle: "inherit",
-                            borderRadius: "5px",
-                          }}
-                        >
-                          Close
-                        </a>
+                {selectedChat ? (
+                  <div className="row">
+                    <div className="col-6  " style={{ height: "100%" }}>
+                      <a data-toggle="modal" data-target="#view_info">
+                        <img
+                          src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                          alt="avatar"
+                        />
+                      </a>
+                      <div className={`${styles["chat-about"]}`}>
+                        <h6 className="m-b-0">selectedChat?.userName</h6>
+                        <small>Last seen: 2 hours ago</small>
                       </div>
                     </div>
-                  ) : null}
-                  {/* <div className="col-6 offset-xxl-0" id="col-user-profile">
+                    <div
+                      className="col-6"
+                      id="col-btns"
+                      style={{
+                        justifyContent: "end",
+                        alignItems: "center",
+                        display: "flex",
+                        gap: "0.5rem",
+                      }}
+                    >
+                      <a
+                        className="btn d-none d-sm-inline-block btn-primary"
+                        role="button"
+                        id="btn-generate-guide"
+                        href="#"
+                        style={{
+                          textAlign: "justify",
+                          height: "2.2em",
+                          borderStyle: "inherit",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faDownload} />
+                        &nbsp;Generate Guide
+                      </a>
+                      <a
+                        className="btn d-none d-sm-inline-block btn-light"
+                        role="button"
+                        id="btn-snooze"
+                        href="#"
+                        style={{
+                          textAlign: "justify",
+                          height: "2.2em",
+                          background: "var(--bs-gray-300)",
+                          color: "black",
+                          borderStyle: "inherit",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        Snooze
+                      </a>
+                      <a
+                        className="btn d-none d-sm-inline-block btn-dark"
+                        role="button"
+                        id="btn-close-conversation"
+                        href="#"
+                        style={{
+                          textAlign: "justify",
+                          height: "2.2em",
+                          borderStyle: "inherit",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        Close
+                      </a>
+                    </div>
+                  </div>
+                ) : null}
+                {/* <div className="col-6 offset-xxl-0" id="col-user-profile">
                     <a data-toggle="modal" data-target="#view_info">
                       <img
                         src="https://bootdey.com/img/Content/avatar/avatar2.png"
@@ -320,11 +328,10 @@ const Dashboard = () => {
                       <small>Last seen: 2 hours ago</small>
                     </div>
                   </div> */}
-                </div>
               </div>
               <div
                 className={styles["chat-history"]}
-                style={{ height: "650px", overflowY: "auto" }}
+                style={{ height: "35.3rem", overflowY: "auto" }}
               >
                 <ul className="m-b-0">
                   {chatMessages.map((msg, index) => {
@@ -334,7 +341,7 @@ const Dashboard = () => {
                           className={`d-flex justify-content-end ${styles["message-data"]}`}
                         >
                           <span className={`${styles["message-data-time"]}`}>
-                            {msg.time.toLocaleTimeString()}
+                            {new Date(msg.timeStamp).toLocaleTimeString()}
                           </span>
                           <img
                             src="https://bootdey.com/img/Content/avatar/avatar7.png"

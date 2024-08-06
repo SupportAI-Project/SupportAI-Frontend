@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
 import axios from "axios";
 import dogImage from "../assets/images/dogs/dog_orange_bg.jpeg";
+import Link from "next/link";
 
 const Register: React.FC = () => {
   const router = useRouter();
@@ -170,9 +171,9 @@ const Register: React.FC = () => {
                         </a>
                       </div>
                       <div className="text-center">
-                        <a className="small" href="/login">
+                        <Link href="/login" className="small">
                           Already have an account? Login!
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </div>

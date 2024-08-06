@@ -35,12 +35,13 @@ const ChatApp: React.FC = () => {
   async function handleSendMessage() {
     if (message === "") return;
     console.log("Send message: ", message);
-    const newMessage = {
+    const newMessage: Message = {
+      messageId: chatMessages.length + 1,
       content: message,
       isNote: false,
       isSupportSender: false,
       chatId: chatId,
-      time: new Date(),
+      timeStamp: new Date(),
     };
 
     setChatMessages([...chatMessages, newMessage]);
@@ -121,7 +122,7 @@ const ChatApp: React.FC = () => {
                           className={`d-flex justify-content-end ${styles["message-data"]}`}
                         >
                           <span className={`${styles["message-data-time"]}`}>
-                            {msg.time.toLocaleTimeString()}
+                            {msg.timeStamp.toLocaleTimeString()}
                           </span>
                           <img
                             src="https://bootdey.com/img/Content/avatar/avatar7.png"
