@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   env: {
-    BACKEND_URL: process.env.BACKEND_URL,
+    NEXT_PUBLIC_SERVER_URL: process.env.BACKEND_URL,
   },
 };
 

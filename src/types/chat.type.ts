@@ -4,5 +4,7 @@ export interface Chat {
   chatId: number;
   customerId: number;
   isOpen: boolean;
-  user: User;
+  startTime: Date;
+  endTime?: Date;
+  user?: User;
 }

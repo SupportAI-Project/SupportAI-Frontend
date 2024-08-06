@@ -29,13 +29,19 @@ const Sidebar: React.FC = () => {
         <ul className="navbar-nav text-light" id="accordionSidebar">
           <li className="nav-item">
             <a className="nav-link active sidebarItemBlock" href="#">
-              <FontAwesomeIcon className="sidebarItem" icon={faTachometerAlt} />
+              <FontAwesomeIcon
+                className="sidebarItem "
+                icon={faTachometerAlt}
+              />
               <span>Chat</span>
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link sidebarItemBlock" href="#">
-              <FontAwesomeIcon className="styles.sidebarItem" icon={faUser} />
+            <a className="nav-link sidebarItemBlock " href="#">
+              <FontAwesomeIcon
+                className="styles.sidebarItem me-1"
+                icon={faUser}
+              />
               <span>Guides</span>
             </a>
           </li>

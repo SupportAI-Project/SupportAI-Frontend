@@ -1,7 +1,8 @@
 export interface Message {
+  messageId: number;
   content: string;
   isNote: boolean;
   isSupportSender: boolean;
   chatId: number;
-  time: Date;
+  timeStamp: Date;
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import "./Topbar.scss";
+import Image from "next/image";
 
 const Topbar: React.FC = () => {
   return (
@@ -92,7 +93,7 @@ const Topbar: React.FC = () => {
                 <span className="d-none d-lg-inline me-2 text-gray-600 small">
                   Valerie Luna
                 </span>
-                <img
+                <Image
                   className="border rounded-circle img-profile"
                   src="assets/img/avatars/avatar1.jpeg"
                   alt="profile"
