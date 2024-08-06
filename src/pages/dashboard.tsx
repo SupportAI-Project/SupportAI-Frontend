@@ -1,4 +1,4 @@
-import styles from "../../styles/chat.module.css";
+import styles from "../styles/chat.module.css";
 import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";

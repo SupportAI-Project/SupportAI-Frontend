@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import styles from "../../styles/chat.module.css";
-import "../../styles/chat.scss";
+import styles from "../styles/chat.module.css";
+import "../styles/chat.scss";
 import { Textarea } from "@/components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
