@@ -1,9 +1,71 @@
+"use client";
+
 import Image from "next/image";
+import { useState, useEffect } from "react";
 
 export default function Home() {
+
+  const [text, setText] = useState("");
+  const [response, setResponse] = useState("");
+
+  useEffect(() => {
+    const fetchText = async () => {
+      const data = `user: I am having trouble with my computer. It is not turning on.
+          assistant: I am sorry to hear that. Have you tried to check if the power cord is plugged in?
+          user: Yes, I have checked that. It is plugged in.
+          assistant: Have you tried to press the power button?
+          user: Yes, I have tried that. It is still not turning on.
+          assistant: Have you tried to unplug the power cord and plug it back in?
+          user: Yes, I have tried that. The Type-C connection cable is damaged.
+          assistant: I recommend you to replace the Type-C connection cable.
+          user: I have replaced the Type-C connection cable. It is working now.
+          assistant: I am glad to hear that. Is there anything else I can help you with?
+          user: No, thank you. That is all.
+          assistant: You are welcome. Have a great day!
+          `
+      setText(data);
+    };
+
+    fetchText();
+  }, []);
+
+  const getGuide = async () => {
+    await fetch("http://localhost:3002/openai/generate-guide", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        chat: text,
+      }),
+    })
+      .then((res) => res.text())
+      .then((data) => {
+        console.log("Response from API:", data);
+        setResponse(data);
+      });
+  }
+
+
+
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
+
+      <div className="flex flex-col items-center justify-center w-full max-w-5xl text-center">
+        <button 
+          className="ml-2 px-2 py-1 text-sm font-semibold text-white bg-blue-500 rounded-lg dark:bg-blue-700"
+          onClick={getGuide}
+        >
+          Submit
+        </button>
+        <p className="mt-4 text-lg">
+          Response:
+          {response ? response : "No response yet."}
+        </p>
+      </div>
+
+      {/* <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
         <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
           Get started by editing&nbsp;
           <code className="font-mono font-bold">src/app/page.tsx</code>
@@ -107,7 +169,7 @@ export default function Home() {
             Instantly deploy your Next.js site to a shareable URL with Vercel.
           </p>
         </a>
-      </div>
+      </div> */}
     </main>
   );
 }
