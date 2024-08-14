@@ -93,9 +93,10 @@ const Topbar: React.FC = () => {
                 <span className="d-none d-lg-inline me-2 text-gray-600 small">
                   Valerie Luna
                 </span>
-                <Image
+                <img
                   className="border rounded-circle img-profile"
-                  src="assets/img/avatars/avatar1.jpeg"
+                  src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                  style={{ width: "30px", height: "30px" }}
                   alt="profile"
                 />
               </a>

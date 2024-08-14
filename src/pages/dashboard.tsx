@@ -2,12 +2,19 @@ import styles from "../styles/chat.module.css";
 import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
+
 import { Chat, Message } from "@/types";
 import { Sidebar, Topbar } from "@/components";
 import socket from "@/socket";
-import { width } from "@fortawesome/free-brands-svg-icons/fa42Group";
-import Image from "next/image";
+import "../styles/dashboard.scss";
+import { apiRequest, SERVER_URL } from "@/common";
+import { getCookie } from "cookies-next";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { cookies } from "next/headers";
+import { parse } from "cookie";
+
+// import Image from "next/image";
 
 const Dashboard = () => {
   const [usersChats, setUsersChats] = useState<Chat[]>([]);
@@ -15,33 +22,37 @@ const Dashboard = () => {
   const [message, setMessage] = useState<string>("");
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
   const [selectedChat, setSelectedChat] = useState<Chat>();
+  const [isNote, setIsNote] = useState<boolean>(false);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchChats = async () => {
-      axios.defaults.withCredentials = true;
-      const response = await axios.get(
-        process.env.NEXT_PUBLIC_SERVER_URL + "/chats"
-      );
-      console.log(response.data);
+      try {
+        const response = await apiRequest("/chats", "GET");
+        console.log(response);
 
-      console.log(response.data[0].chatId);
+        setUsersChats(response as Chat[]);
 
-      setUsersChats(response.data as Chat[]);
-      console.log(usersChats);
+        setSelectedChat(response[0]);
+        const messages = await apiRequest(
+          "/chats/" + response[0].chatId,
+          "GET"
+        );
 
-      setSelectedChat(response.data[0]);
-      const messages = await axios.get(
-        process.env.NEXT_PUBLIC_SERVER_URL + "/chats/" + response.data[0].chatId
-      );
-      console.log(messages.data.messages);
-
-      setChatMessages(messages.data.messages as Message[]);
+        setChatMessages(messages.messages as Message[]);
+      } catch (err: any) {
+        console.log(err);
+        if (err.response?.status === 401) {
+          router.push("/login");
+        }
+      }
     };
     fetchChats();
   }, []);
 
   useEffect(() => {
     console.log("Chat Messages:", chatMessages);
+    console.log(socket);
   }, [chatMessages]);
 
   useEffect(() => {
@@ -57,10 +68,12 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
+    console.log("Selected Chat:", selectedChat);
+
     if (selectedChat) {
       const fd = new FormData();
       fd.append("chatId", selectedChat.chatId.toString());
-      socket.emit("join", fd);
+      socket.emit("join", { chatId: selectedChat.chatId });
 
       // If user sends a new message
       socket.on("newMessage", (message: Message) => {
@@ -87,16 +100,26 @@ const Dashboard = () => {
         container.parentElement!.style.height = `${
           container.parentElement!.scrollHeight
         }px`;
-        container.parentElement!.style.marginTop = `-${newHeight - 24}px`;
+        // container.parentElement!.style.marginTop = `-${newHeight - 24}px`;
+        const lines = textareaRef.current.value.split("\n").length;
+
+        if (newHeight >= 30 * 5) {
+          container.parentElement!.style.marginTop = `-${(lines - 5) * 24}px`;
+        } else {
+          container.parentElement!.style.marginTop = `0px`;
+        }
       }
     }
   }, [message]);
 
   const handleChangeChat = async (chat: Chat) => {
-    const messages = await axios.get(
-      process.env.NEXT_PUBLIC_SERVER_URL + "/chats/" + chat.chatId
-    );
-    setChatMessages(messages.data);
+    // if (selectedChat?.chatId === chat.chatId) {
+    //   console.log("Same chat");
+    //   return;
+    // }
+    const messages = await apiRequest("/chats/" + chat.chatId, "GET");
+
+    setChatMessages(messages.messages as Message[]);
     setSelectedChat(chat);
   };
 
@@ -112,10 +135,12 @@ const Dashboard = () => {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && e.shiftKey) {
+      e.preventDefault();
       const lines = message.split("\n");
       if (lines.length >= 10) {
-        e.preventDefault();
+        return;
       }
+      setMessage((prev) => prev + "\n");
     } else if (e.key === "Enter") {
       e.preventDefault();
       handleSend();
@@ -123,33 +148,65 @@ const Dashboard = () => {
   };
 
   async function handleSend() {
+    console.log("Sending message");
+
     if (message.trim() === "") {
       return;
     }
-    const newMessage: Message = {
+    // const newMessage: Message = {
+    //   content: message,
+    //   isNote: false,
+    //   isSupportSender: true,
+    //   chatId: selectedChat!.chatId,
+    //   timeStamp: new Date(),
+    //   messageId: 0,
+    // };
+    console.log(selectedChat);
+    const data = {
+      chatId: selectedChat?.chatId,
       content: message,
-      isNote: false,
-      isSupportSender: true,
-      chatId: selectedChat!.chatId,
-      timeStamp: new Date(),
-      messageId: 0,
     };
+    const allMessage = {
+      data: data,
+      isSupportSender: true,
+      isNote: isNote,
+    };
+    console.log("Message:", message);
+
     if (selectedChat) {
       const fd = new FormData();
-      fd.append("chatId", selectedChat.chatId.toString());
-      fd.append("content", message);
-      fd.append("isNote", "false");
+      fd.append("data", JSON.stringify(data));
       fd.append("isSupportSender", "true");
-      fd.append("timeStamp", newMessage.timeStamp.toISOString());
-      setChatMessages([...chatMessages, newMessage]);
-      socket.emit("message", fd);
+      fd.append("isNote", isNote.toString());
+      socket.emit("message", allMessage);
       setMessage("");
     }
   }
 
+  async function handleGenerateGuide(
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ): Promise<void> {
+    event.preventDefault();
+    console.log("Generating guide");
+
+    const generatedGuide = await axios.post(
+      "localhost:3002/openai/generate-guide",
+      {
+        chatId: selectedChat?.chatId,
+      }
+    );
+    localStorage.setItem("generatedGuide", generatedGuide.data);
+    router.push("/editor");
+  }
+
   return (
-    <div id="wrapper" className="d-flex">
-      <Sidebar />
+    <div
+      id="wrapper"
+      className="d-flex "
+      style={{ minHeight: "100vh", flexDirection: "column" }}
+    >
+      {/* <Sidebar /> */}
+
       <div
         id="content-wrapper"
         className="d-flex flex-column"
@@ -185,13 +242,14 @@ const Dashboard = () => {
                         className={`${styles["clearfix"]} `}
                         onClick={() => handleChangeChat(chat)}
                       >
-                        <Image
+                        <img
                           src="https://bootdey.com/img/Content/avatar/avatar1.png"
                           alt="avatar"
+                          // style={{ width: "50px", height: "50px" }}
                         />
                         <div className={styles.about}>
                           <div className={styles.name}>
-                            <span>userName</span>
+                            <span>{chat.user?.username}</span>
                           </div>
                           <div className={styles.status}>
                             <i
@@ -243,19 +301,24 @@ const Dashboard = () => {
                 </li> */}
               </ul>
             </div>
-            <div className={styles.chat}>
+            <div className={`${styles.chat}`} style={{ marginLeft: "280px" }}>
               <div className={`${styles["chat-header"]} ${styles.clearfix}`}>
                 {selectedChat ? (
                   <div className="row">
-                    <div className="col-6  " style={{ height: "100%" }}>
-                      <a data-toggle="modal" data-target="#view_info">
-                        <Image
-                          src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                          alt="avatar"
-                        />
-                      </a>
+                    <div
+                      className="col-6 d-flex align-items-center "
+                      style={{ height: "100%" }}
+                    >
+                      <img
+                        src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                        alt="avatar"
+                        style={{ height: "2.5rem", width: "2.5rem" }}
+                      />
+
                       <div className={`${styles["chat-about"]}`}>
-                        <h6 className="m-b-0">selectedChat?.userName</h6>
+                        <h6 className="m-b-0">
+                          {selectedChat?.user?.username}
+                        </h6>
                         <small>Last seen: 2 hours ago</small>
                       </div>
                     </div>
@@ -280,6 +343,7 @@ const Dashboard = () => {
                           borderStyle: "inherit",
                           borderRadius: "5px",
                         }}
+                        onClick={handleGenerateGuide}
                       >
                         <FontAwesomeIcon icon={faDownload} />
                         &nbsp;Generate Guide
@@ -317,46 +381,62 @@ const Dashboard = () => {
                     </div>
                   </div>
                 ) : null}
-                {/* <div className="col-6 offset-xxl-0" id="col-user-profile">
-                    <a data-toggle="modal" data-target="#view_info">
-                      <img
-                        src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                        alt="avatar"
-                      />
-                    </a>
-                    <div className={`${styles["chat-about"]}`}>
-                      <h6 className="m-b-0">Aiden Chavez</h6>
-                      <small>Last seen: 2 hours ago</small>
-                    </div>
-                  </div> */}
               </div>
               <div
                 className={styles["chat-history"]}
-                style={{ height: "35.3rem", overflowY: "auto" }}
+                style={{ height: "27.9rem", overflowY: "auto" }}
               >
-                <ul className="m-b-0">
+                <ul className="mb-0">
                   {chatMessages.map((msg, index) => {
                     return (
                       <li key={index} className={`${styles.clearfix}`}>
                         <div
-                          className={`d-flex justify-content-end ${styles["message-data"]}`}
+                          className={`d-flex ${
+                            msg.isSupportSender
+                              ? "justify-content-end"
+                              : "justify-content-start"
+                          } ${styles["message-data"]} align-items-center`}
                         >
                           <span className={`${styles["message-data-time"]}`}>
-                            {new Date(msg.timeStamp).toLocaleTimeString()}
+                            {new Date(msg.timeStamp).toLocaleTimeString(
+                              "il-IL",
+                              {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: false,
+                                month: "2-digit",
+                                day: "2-digit",
+                              }
+                            )}
                           </span>
-                          <Image
-                            src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                            alt="avatar"
-                          />
+                          {msg.isSupportSender ? (
+                            <img
+                              className="ms-2"
+                              src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                              alt="avatar"
+                            />
+                          ) : (
+                            <img
+                              className="ms-2"
+                              src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                              alt="avatar"
+                            />
+                          )}
                         </div>
                         <div
                           className={`${styles["message"]} ${
                             msg.isSupportSender
-                              ? `${styles["float-right"]} ${styles["other-message"]}`
+                              ? `${styles["float-right"]} ${styles["other-message"]} `
                               : `${styles["my-message"]}`
-                          }`}
+                          } ${msg.isNote ? "note-message" : ""}`}
                         >
-                          {msg.content}
+                          {msg.content.split("\n").map((line, index) => {
+                            return (
+                              <p key={index} className="m-0">
+                                {line}
+                              </p>
+                            );
+                          })}
                         </div>
                       </li>
                     );
@@ -364,12 +444,12 @@ const Dashboard = () => {
                 </ul>
               </div>
               <div
-                className="container"
+                className="container mt-2"
                 style={{
                   bottom: "0",
                   padding: 0,
                   position: "relative",
-                  minWidth: "90%",
+                  minWidth: "98.5%",
                   border: "1px solid rgba(133, 135, 150, 0.32)",
                   borderRadius: "8px",
                   margin: "10px",
@@ -383,13 +463,17 @@ const Dashboard = () => {
                 <div className="row my-2 ms-2">
                   <div className="col" style={{ padding: 0 }}>
                     <button
-                      className="btn btn-sm"
+                      className={`btn-type ${!isNote ? "btn-selected" : ""}`}
                       type="button"
-                      style={{ backgroundColor: "white" }}
+                      onClick={() => setIsNote(false)}
                     >
                       Reply
                     </button>
-                    <button className="btn btn-sm" type="button">
+                    <button
+                      className={`btn-type ${isNote ? "btn-selected" : ""}`}
+                      type="button"
+                      onClick={() => setIsNote(true)}
+                    >
                       Note
                     </button>
                   </div>
@@ -422,7 +506,7 @@ const Dashboard = () => {
                       <button
                         className="btn btn-primary btn-sm"
                         type="button"
-                        onSubmit={handleSend}
+                        onClick={handleSend}
                       >
                         Send
                       </button>
@@ -447,5 +531,41 @@ const Dashboard = () => {
     </div>
   );
 };
+
+export async function getServerSideProps(context: { req: any }) {
+  const cookieValue = getCookie("Authorization", { req: context.req });
+  // console.log(cookies().getAll());
+  const { req } = context;
+  // const cookies = parse(req.headers.cookie || "");
+  // console.log(cookies);
+  // try {
+  //   const testCookie = await axios.get(`${SERVER_URL}/chats`, {
+  //     withCredentials: true,
+  //   });
+  // } catch (err: any) {
+  //   console.log(err);
+  //   if (err.response.status === 401) {
+  //     return {
+  //       redirect: {
+  //         destination: "/login",
+  //         permanent: false,
+  //       },
+  //     };
+  //   }
+  // }
+
+  if (!cookieValue) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}
 
 export default Dashboard;

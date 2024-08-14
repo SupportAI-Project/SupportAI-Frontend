@@ -60,3 +60,11 @@
   background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
   background-size: cover;
 }
+
+.bg-logout {
+  background-color: #e05b66 !important;
+  display: flex;
+  justify-content: center !important;
+  align-items: center !important;
+  // background-image: linear-gradient(180deg, #f8d7da 10%, #f8d7da 100%);
+}
