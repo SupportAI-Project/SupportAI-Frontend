@@ -1,32 +1,23 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { AuthClient } from "./api/auth.client";
 
-export async function middleware(request: NextRequest) {
-  const token = request.cookies.get("Authorization")?.value;
+export function middleware(request: NextRequest) {
+  const currentUser = request.cookies.get("Authorization")?.value;
   const { pathname } = request.nextUrl;
 
-  if (!token && pathname !== "/login" && pathname !== "/signup") {
-    // Redirect unauthenticated users to login if they're trying to access a protected route
-    return NextResponse.redirect(new URL("/login", request.url));
+  // Redirect authenticated users away from login or signup
+  if (currentUser && (pathname === "/login" || pathname === "/signup")) {
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
-  if (token) {
-    try {
-      const authClient = new AuthClient();
-      const currentUser = await authClient.validateToken();
+  // Allow unauthenticated users to access login or signup
+  if (!currentUser && (pathname === "/login" || pathname === "/signup")) {
+    return NextResponse.next();
+  }
 
-      // Redirect authenticated users away from login or signup
-      if (currentUser && (pathname === "/login" || pathname === "/signup")) {
-        return NextResponse.redirect(new URL("/", request.url));
-      }
-    } catch (err) {
-      console.log("asdsdad Invalid Token, Redirecting to login");
-      // Redirect users with invalid tokens to login
-      if (pathname !== "/login") {
-        return NextResponse.redirect(new URL("/login", request.url));
-      }
-    }
+  // Redirect unauthenticated users trying to access any other page to login
+  if (!currentUser && pathname !== "/login" && pathname !== "/signup") {
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   return NextResponse.next();

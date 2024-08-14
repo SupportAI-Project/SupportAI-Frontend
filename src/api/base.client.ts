@@ -39,19 +39,22 @@ export class BaseClient {
       throw new Error("Base URL is not defined");
     }
 
-    try {
-      const response = await fetch(`${this.base}/${endpoint}`, {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-          ...options.headers,
-        },
-        credentials: "include",
-        body: body != null ? JSON.stringify(body) : undefined,
-        ...options,
-      });
+    const fetchOptions: RequestInit = {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        ...options.headers,
+      },
+      credentials: "include",
+      ...options,
+    };
 
-      console.log("responseasdasd", response);
+    if (method !== "GET" && method !== "DELETE") {
+      fetchOptions.body = body != null ? JSON.stringify(body) : undefined;
+    }
+
+    try {
+      const response = await fetch(`${this.base}/${endpoint}`, fetchOptions);
 
       if (!response.ok) {
         const errorData: ErrorResponse = await response.json();
@@ -68,14 +71,11 @@ export class BaseClient {
         data,
       };
     } catch (error) {
+      console.error("An error occurred", error);
       if (error instanceof ApiError) {
         throw error;
       } else {
-        throw new ApiError(
-          500,
-          "An unexpected error occurred",
-          (error as Error).message
-        );
+        throw new Error("An unexpected error occurred");
       }
     }
   }
