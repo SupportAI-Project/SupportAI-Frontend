@@ -45,7 +45,13 @@ export default function Home() {
         setResponse(data);
       });
   }
-
+// This is how a POST request to the backend would look like. 
+  // const generatedGuide = await axios.post(
+  //   "localhost:3002/openai/generate-guide",
+  //   {
+  //     chatId: selectedChat?.chatId,
+  //   }
+  // );
 
 
 
