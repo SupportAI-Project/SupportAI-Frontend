@@ -1,5 +1,7 @@
 import { io, Socket } from "socket.io-client";
 
-let socket: Socket = io(process.env.BACKEND_URL || "http://localhost:3000");
+let socket: Socket = io("http://localhost:8080/chat", {
+  transports: ["websocket", "polling"],
+});
 
 export default socket;

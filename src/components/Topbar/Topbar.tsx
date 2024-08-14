@@ -1,5 +1,6 @@
 import React from "react";
 import "./Topbar.scss";
+import Image from "next/image";
 
 const Topbar: React.FC = () => {
   return (
@@ -94,7 +95,8 @@ const Topbar: React.FC = () => {
                 </span>
                 <img
                   className="border rounded-circle img-profile"
-                  src="assets/img/avatars/avatar1.jpeg"
+                  src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                  style={{ width: "30px", height: "30px" }}
                   alt="profile"
                 />
               </a>
