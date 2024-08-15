@@ -8,6 +8,6 @@ export class AuthClient extends BaseClient {
   }
 
   async register(signUpRequest: SignUpRequest) {
-    return this.post("auth/register", signUpRequest);
+    return this.post<SignUpRequest>("auth/register", signUpRequest);
   }
 }
