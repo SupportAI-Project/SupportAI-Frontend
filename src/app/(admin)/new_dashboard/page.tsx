@@ -11,11 +11,15 @@ import {
   Divider,
   Avatar,
   ListItemAvatar,
+  Button,
+  ListItemButton,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
+import SnoozeIcon from "@mui/icons-material/Snooze";
 import { useState } from "react";
 import PageContainer from "./components/PageContainer";
 import DashboardCard from "./components/Card";
+import SmartToyIcon from "@mui/icons-material/SmartToy";
 
 type Message = {
   sender: string;
@@ -30,25 +34,7 @@ type Contact = {
 };
 
 const Page = () => {
-  const [messages, setMessages] = useState<Message[]>([
-    { sender: "User 1", text: "Hello!", timestamp: "10:00 AM" },
-    { sender: "User 2", text: "Hi there!", timestamp: "10:01 AM" },
-  ]);
-  const [newMessage, setNewMessage] = useState("");
-
-  const handleSend = () => {
-    if (newMessage.trim()) {
-      const newMessageObj = {
-        sender: "User 1",
-        text: newMessage,
-        timestamp: new Date().toLocaleTimeString(),
-      };
-      setMessages([...messages, newMessageObj]);
-      setNewMessage("");
-    }
-  };
-
-  const contacts: Contact[] = [
+  const initialContacts: Contact[] = [
     {
       name: "Alice",
       avatar: "/avatar1.png",
@@ -65,6 +51,28 @@ const Page = () => {
       lastMessage: "Can you send me the file?",
     },
   ];
+
+  // Automatically select the first contact (Alice) when the page loads
+  const [messages, setMessages] = useState<Message[]>([
+    { sender: "User 1", text: "Hello!", timestamp: "10:00 AM" },
+    { sender: "User 2", text: "Hi there!", timestamp: "10:01 AM" },
+  ]);
+  const [newMessage, setNewMessage] = useState("");
+  const [selectedContact, setSelectedContact] = useState<Contact | null>(
+    initialContacts[0]
+  );
+
+  const handleSend = () => {
+    if (newMessage.trim()) {
+      const newMessageObj = {
+        sender: "User 1",
+        text: newMessage,
+        timestamp: new Date().toLocaleTimeString(),
+      };
+      setMessages([...messages, newMessageObj]);
+      setNewMessage("");
+    }
+  };
 
   return (
     <PageContainer title="Dashboard">
@@ -89,8 +97,18 @@ const Page = () => {
             }}
           >
             <List>
-              {contacts.map((contact, index) => (
-                <ListItem key={index} button>
+              {initialContacts.map((contact, index) => (
+                <ListItemButton
+                  key={index}
+                  selected={selectedContact?.name === contact.name}
+                  onClick={() => setSelectedContact(contact)}
+                  sx={{
+                    backgroundColor:
+                      selectedContact?.name === contact.name
+                        ? "#f5f5f5"
+                        : "inherit",
+                  }}
+                >
                   <ListItemAvatar>
                     <Avatar src={contact.avatar} />
                   </ListItemAvatar>
@@ -98,7 +116,7 @@ const Page = () => {
                     primary={contact.name}
                     secondary={contact.lastMessage}
                   />
-                </ListItem>
+                </ListItemButton>
               ))}
             </List>
           </Box>
@@ -113,6 +131,41 @@ const Page = () => {
               paddingLeft: 2,
             }}
           >
+            {/* Chat Header */}
+            {selectedContact && (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  paddingBottom: 1,
+                  marginBottom: 2,
+                  borderBottom: "1px solid",
+                  borderColor: "divider",
+                }}
+              >
+                <Typography variant="h6">{selectedContact.name}</Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                  }}
+                >
+                  <Button variant="contained" startIcon={<SmartToyIcon />}>
+                    Generate Guide
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    startIcon={<SnoozeIcon />}
+                    sx={{ textTransform: "none" }}
+                  >
+                    Snooze
+                  </Button>
+                </Box>
+              </Box>
+            )}
+
             {/* Message List */}
             <Box sx={{ flex: 1, overflowY: "auto", paddingBottom: 2 }}>
               <List>
@@ -169,8 +222,14 @@ const Page = () => {
                 placeholder="Type a message..."
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
+                disabled={!selectedContact}
               />
-              <IconButton color="primary" onClick={handleSend} sx={{ ml: 1 }}>
+              <IconButton
+                color="primary"
+                onClick={handleSend}
+                sx={{ ml: 1 }}
+                disabled={!selectedContact}
+              >
                 <SendIcon />
               </IconButton>
             </Box>

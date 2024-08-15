@@ -78,8 +78,6 @@ export class BaseClient {
         };
       }
     } catch (error) {
-      console.log("error", error);
-
       console.error("An error occurred", error);
       if (error instanceof ApiError) {
         throw error;
