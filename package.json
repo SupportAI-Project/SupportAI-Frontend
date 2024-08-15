@@ -11,8 +11,6 @@
   "dependencies": {
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
-    "@emotion/react": "^11.13.0",
-    "@emotion/styled": "^11.13.0",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-brands-svg-icons": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
@@ -57,9 +55,6 @@
     "@types/react": "^18",
     "@types/file-saver": "^2.0.7",
     "@types/html-to-text": "^9.0.4",
-    "@types/lodash": "^4.17.7",
-    "@types/node": "^20.14.14",
-    "@types/react": "^18.3.3",
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
