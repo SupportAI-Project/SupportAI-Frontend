@@ -1,6 +1,5 @@
 "use client";
 import { styled, Container, Box } from "@mui/material";
-import React, { useState } from "react";
 import Sidebar from "./components/sidebar/Sidebar";
 
 const MainWrapper = styled("div")(() => ({
@@ -23,13 +22,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
   return (
     <MainWrapper className="mainwrapper">
       {/* ------------------------------------------- */}
       {/* Sidebar */}
       {/* ------------------------------------------- */}
-      <Sidebar isSidebarOpen={isSidebarOpen} />
+      <Sidebar isSidebarOpen={true} />
       {/* ------------------------------------------- */}
       {/* Main Wrapper */}
       {/* ------------------------------------------- */}

@@ -126,6 +126,19 @@ const baselightTheme = createTheme({
   components: {
     MuiCssBaseline: {
       styleOverrides: {
+        "*::-webkit-scrollbar": {
+          width: "8px",
+        },
+        "*::-webkit-scrollbar-track": {
+          backgroundColor: "transparent",
+        },
+        "*::-webkit-scrollbar-thumb": {
+          backgroundColor: "#C4C4C4",
+          borderRadius: "8px",
+        },
+        "*::-webkit-scrollbar-thumb:hover": {
+          backgroundColor: "#A0A0A0",
+        },
         ".MuiPaper-elevation9, .MuiPopover-root .MuiPaper-elevation": {
           boxShadow:
             "rgb(145 158 171 / 30%) 0px 0px 2px 0px, rgb(145 158 171 / 12%) 0px 12px 24px -4px !important",
