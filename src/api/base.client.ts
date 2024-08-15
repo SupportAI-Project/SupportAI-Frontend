@@ -4,7 +4,7 @@ interface ErrorResponse {
   error: string;
 }
 
-interface SuccessResponse<T> {
+export interface SuccessResponse<T> {
   data: T;
 }
 

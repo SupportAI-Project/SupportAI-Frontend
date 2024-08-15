@@ -9,17 +9,13 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Paper } from "@mui/material";
+import { Paper, Alert } from "@mui/material";
+import useSignUpForm from "./hooks/useSignUpForm";
+import { LoadingButton } from "@mui/lab";
 
 const SignUp = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+  const { register, handleSubmit, errors, isValid, isError, error, isPending } =
+    useSignUpForm();
 
   return (
     <Container component={Paper} square elevation={6} maxWidth="xs">
@@ -38,17 +34,30 @@ const SignUp = () => {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
+        {isError && (
+          <Alert severity="error" sx={{ mt: 2 }}>
+            {error?.message}
+          </Alert>
+        )}
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          <Grid container spacing={3}>
+          <Grid container spacing={4}>
             <Grid item xs={12}>
               <TextField
                 autoComplete="username"
-                name="username"
                 required
                 fullWidth
                 id="username"
                 label="Username"
                 autoFocus
+                {...register("username")}
+                error={!!errors.username}
+                helperText={errors.username?.message}
+                sx={{
+                  "& .MuiFormHelperText-root.Mui-error": {
+                    position: "absolute",
+                    top: "100%",
+                  },
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -57,30 +66,48 @@ const SignUp = () => {
                 fullWidth
                 id="email"
                 label="Email Address"
-                name="email"
                 autoComplete="email"
+                {...register("email")}
+                error={!!errors.email}
+                helperText={errors.email?.message}
+                sx={{
+                  "& .MuiFormHelperText-root.Mui-error": {
+                    position: "absolute",
+                    top: "100%",
+                  },
+                }}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 required
                 fullWidth
-                name="password"
                 label="Password"
                 type="password"
                 id="password"
                 autoComplete="new-password"
+                {...register("password")}
+                error={!!errors.password}
+                helperText={errors.password?.message}
+                sx={{
+                  "& .MuiFormHelperText-root.Mui-error": {
+                    position: "absolute",
+                    top: "100%",
+                  },
+                }}
               />
             </Grid>
           </Grid>
-          <Button
+          <LoadingButton
             type="submit"
+            loading={isPending}
             fullWidth
             variant="contained"
             sx={{ mt: 4, mb: 2 }}
+            disabled={!isValid || isPending}
           >
             Sign Up
-          </Button>
+          </LoadingButton>
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="login" variant="body2">

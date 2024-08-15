@@ -2,8 +2,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { schema } from "../validations/schema";
 import { LoginRequest } from "@/api/types/login";
-import { useLogin } from "@/hooks/authHooks";
 import { useRouter } from "next/navigation";
+import { useLogin } from "@/hooks";
+import { SuccessResponse } from "@/api/base.client";
+import { User } from "@/types";
 
 const useLoginForm = () => {
   const {
@@ -22,8 +24,14 @@ const useLoginForm = () => {
 
   const onSubmit = (data: LoginRequest) => {
     mutate(data, {
-      onSuccess: () => {
-        router.push("/");
+      onSuccess: (response) => {
+        const { data: user } = response as SuccessResponse<User>;
+
+        if (user.roles.includes("admin")) {
+          router.push("/dashboard");
+        } else {
+          router.push("/");
+        }
       },
     });
   };
