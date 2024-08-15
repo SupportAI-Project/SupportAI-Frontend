@@ -26,7 +26,7 @@ export class BaseClient {
   base: string | undefined;
 
   constructor() {
-    this.base = process.env.BACKEND_URL;
+    this.base = process.env.NEXT_PUBLIC_SERVER_URL;
   }
 
   private async request<T>(
