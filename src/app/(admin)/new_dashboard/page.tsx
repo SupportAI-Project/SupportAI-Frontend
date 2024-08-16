@@ -89,29 +89,38 @@ const Page = () => {
             sx={{
               width: "30%",
               borderRight: "1px solid #e0e0e0",
+              overflow: "hidden",
             }}
           >
             <List>
               {initialContacts.map((contact, index) => (
-                <ListItemButton
+                <Box
                   key={index}
-                  selected={selectedContact?.name === contact.name}
-                  onClick={() => setSelectedContact(contact)}
                   sx={{
-                    backgroundColor:
-                      selectedContact?.name === contact.name
-                        ? "#f5f5f5"
-                        : "inherit",
+                    padding: "0 8px",
                   }}
                 >
-                  <ListItemAvatar>
-                    <Avatar src={contact.avatar} />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={contact.name}
-                    secondary={contact.lastMessage}
-                  />
-                </ListItemButton>
+                  <ListItemButton
+                    selected={selectedContact?.name === contact.name}
+                    onClick={() => setSelectedContact(contact)}
+                    sx={{
+                      backgroundColor:
+                        selectedContact?.name === contact.name
+                          ? "#f5f5f5"
+                          : "inherit",
+                      borderRadius: 0,
+                      marginRight: 0,
+                    }}
+                  >
+                    <ListItemAvatar>
+                      <Avatar src={contact.avatar} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={contact.name}
+                      secondary={contact.lastMessage}
+                    />
+                  </ListItemButton>
+                </Box>
               ))}
             </List>
           </Box>
