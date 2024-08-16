@@ -19,7 +19,6 @@
 }
 
 .chat-app .chat {
-  margin-left: 280px;
   border-left: 1px solid #eaeaea;
 }
 
@@ -169,8 +168,8 @@
   width: 0;
   position: absolute;
   pointer-events: none;
-  border-bottom-color: #efefef;
   border-width: 10px;
+  border-bottom-color: #ddd8d8;
   margin-left: -10px;
 }
 
@@ -180,8 +179,16 @@
 }
 
 .chat .chat-history .other-message:after {
-  border-bottom-color: #e8f1f3;
-  left: 93%;
+  border-bottom-color: #ddeff3;
+  margin-right: -10px;
+
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-width: 10px;
+  bottom: 100%;
+  left: 1.75rem !important;
 }
 
 .chat .chat-message {
@@ -328,7 +335,7 @@
 }
 
 .bg-gradient-primary {
-  background-color: #4e73df;
+  background-color: #4e73df !important;
   background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
   background-size: cover;
 }

@@ -1,0 +1,52 @@
+.btn-selected {
+  background-color: #afc0d3;
+}
+
+.btn-selected:hover {
+  background-color: #afc0d3 !important;
+}
+
+.btn-selected:active {
+  background-color: #afc0d3 !important;
+}
+
+.btn-selected:focus {
+  background-color: #afc0d3 !important;
+}
+
+.btn-type {
+  border: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.note-message {
+  background-color: rgba(254, 237, 175) !important;
+}
+
+.note-message:after {
+  border-bottom-color: rgba(254, 237, 175) !important;
+}
+
+::-webkit-scrollbar {
+  width: 0.3rem !important;
+  border-radius: 5px !important;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 5px !important;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px !important;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  border-radius: 5px !important;
+}
