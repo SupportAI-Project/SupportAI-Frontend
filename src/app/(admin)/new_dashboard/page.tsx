@@ -1,36 +1,15 @@
 "use client";
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-  TextField,
-  IconButton,
-  Avatar,
-  ListItemAvatar,
-  Button,
-  ListItemButton,
-  Divider,
-} from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
-import SnoozeIcon from "@mui/icons-material/Snooze";
 import { useState } from "react";
-import PageContainer from "../../../components/PageContainer";
-import DashboardCard from "./components/Card";
-import SmartToyIcon from "@mui/icons-material/SmartToy";
+import PageContainer from "@/components/PageContainer";
+import DashboardCard from "./shared/Card";
+import MessageInput from "./components/MessageInput";
+import { Box } from "@mui/material";
+import ContactList from "./components/ContactList";
+import ChatHeader from "./components/ChatHeader";
 
-type Message = {
-  sender: string;
-  text: string;
-  timestamp: string;
-};
+import MessageList from "./components/MessageList";
 
-type Contact = {
-  name: string;
-  avatar: string;
-  lastMessage: string;
-};
+import { Message, Contact } from "./types";
 
 const Page = () => {
   const initialContacts: Contact[] = [
@@ -85,45 +64,11 @@ const Page = () => {
           }}
         >
           {/* Contact List */}
-          <Box
-            sx={{
-              width: "30%",
-              borderRight: "1px solid #e0e0e0",
-              overflow: "hidden",
-            }}
-          >
-            <List>
-              {initialContacts.map((contact, index) => (
-                <Box
-                  key={index}
-                  sx={{
-                    padding: "0 8px",
-                  }}
-                >
-                  <ListItemButton
-                    selected={selectedContact?.name === contact.name}
-                    onClick={() => setSelectedContact(contact)}
-                    sx={{
-                      backgroundColor:
-                        selectedContact?.name === contact.name
-                          ? "#f5f5f5"
-                          : "inherit",
-                      borderRadius: 0,
-                      marginRight: 0,
-                    }}
-                  >
-                    <ListItemAvatar>
-                      <Avatar src={contact.avatar} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={contact.name}
-                      secondary={contact.lastMessage}
-                    />
-                  </ListItemButton>
-                </Box>
-              ))}
-            </List>
-          </Box>
+          <ContactList
+            contacts={initialContacts}
+            selectedContact={selectedContact}
+            onSelectContact={setSelectedContact}
+          />
 
           {/* Chat Container */}
           <Box
@@ -136,113 +81,18 @@ const Page = () => {
             }}
           >
             {/* Chat Header */}
-            {selectedContact && (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  paddingBottom: 1,
-                  marginBottom: 2,
-                  borderBottom: "1px solid",
-                  borderColor: "divider",
-                }}
-              >
-                <Typography variant="h6">{selectedContact.name}</Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 1,
-                  }}
-                >
-                  <Button variant="contained" startIcon={<SmartToyIcon />}>
-                    Generate Guide
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    startIcon={<SnoozeIcon />}
-                    sx={{ textTransform: "none" }}
-                  >
-                    Snooze
-                  </Button>
-                </Box>
-              </Box>
-            )}
+            <ChatHeader selectedContact={selectedContact} />
 
             {/* Message List */}
-            <Box
-              sx={{
-                flex: 1,
-                overflowY: "auto",
-                paddingBottom: 2,
-              }}
-            >
-              <List>
-                {messages.map((msg, index) => (
-                  <ListItem
-                    key={index}
-                    sx={{
-                      display: "flex",
-                      justifyContent:
-                        msg.sender === "User 1" ? "flex-end" : "flex-start",
-                      mb: 1,
-                      alignItems: "flex-start",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems:
-                          msg.sender === "User 1" ? "flex-end" : "flex-start",
-                        backgroundColor:
-                          msg.sender === "User 1" ? "lightblue" : "lightgray",
-                        borderRadius: 2,
-                        padding: 1,
-                        maxWidth: "70%",
-                        wordWrap: "break-word",
-                      }}
-                    >
-                      <Typography variant="body2" color="textSecondary">
-                        {msg.sender} • {msg.timestamp}
-                      </Typography>
-                      <Typography variant="body1">{msg.text}</Typography>
-                    </Box>
-                  </ListItem>
-                ))}
-              </List>
-            </Box>
-            <Divider />
+            <MessageList messages={messages} />
+
             {/* Input and Send Button */}
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                paddingTop: 1,
-                position: "sticky",
-                bottom: 0,
-                backgroundColor: "background.paper",
-              }}
-            >
-              <TextField
-                fullWidth
-                variant="outlined"
-                size="small"
-                placeholder="Type a message..."
-                value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
-                disabled={!selectedContact}
-              />
-              <IconButton
-                color="primary"
-                onClick={handleSend}
-                sx={{ ml: 1 }}
-                disabled={!selectedContact}
-              >
-                <SendIcon />
-              </IconButton>
-            </Box>
+            <MessageInput
+              newMessage={newMessage}
+              onMessageChange={(e) => setNewMessage(e.target.value)}
+              onSend={handleSend}
+              disabled={!selectedContact}
+            />
           </Box>
         </Box>
       </DashboardCard>

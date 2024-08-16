@@ -1,5 +1,5 @@
 "use client";
-import DashboardCard from "../components/Card";
+import DashboardCard from "../shared/Card";
 import useGuideItems from "./hooks/useGuideItems";
 import {
   Card,
@@ -15,7 +15,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import SupportIcon from "@mui/icons-material/Support";
 import { useTheme } from "@mui/material/styles";
-import PageContainer from "../../../../components/PageContainer";
+import PageContainer from "@/components/PageContainer";
 import { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 

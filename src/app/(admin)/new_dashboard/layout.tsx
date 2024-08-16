@@ -1,6 +1,6 @@
 "use client";
 import { styled, Container, Box } from "@mui/material";
-import Sidebar from "./components/sidebar/Sidebar";
+import Sidebar from "./shared/sidebar/Sidebar";
 
 const MainWrapper = styled("div")(() => ({
   display: "flex",
