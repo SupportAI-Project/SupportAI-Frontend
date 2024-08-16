@@ -79,7 +79,7 @@ const Page = () => {
           sx={{
             display: "flex",
             flexDirection: "row",
-            height: "calc(100vh - 150px)",
+            height: "calc(100vh - 135px)",
             margin: 0,
             padding: 0,
           }}
