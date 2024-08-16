@@ -6,50 +6,16 @@ import MessageInput from "./components/MessageInput";
 import { Box } from "@mui/material";
 import ContactList from "./components/ContactList";
 import ChatHeader from "./components/ChatHeader";
-
 import MessageList from "./components/MessageList";
-
-import { Message, Contact } from "./types";
+import { Contact } from "./types";
+import { useChat, useContacts } from "./hooks";
 
 const Page = () => {
-  const initialContacts: Contact[] = [
-    {
-      name: "Alice",
-      avatar: "/avatar1.png",
-      lastMessage: "See you later!",
-    },
-    {
-      name: "Bob",
-      avatar: "/avatar2.png",
-      lastMessage: "Let's catch up tomorrow.",
-    },
-    {
-      name: "Charlie",
-      avatar: "/avatar3.png",
-      lastMessage: "Can you send me the file?",
-    },
-  ];
-
-  const [messages, setMessages] = useState<Message[]>([
-    { sender: "User 1", text: "Hello!", timestamp: "10:00 AM" },
-    { sender: "User 2", text: "Hi there!", timestamp: "10:01 AM" },
-  ]);
-  const [newMessage, setNewMessage] = useState("");
+  const { contacts } = useContacts();
+  const { messages, newMessage, handleChange, handleSend } = useChat();
   const [selectedContact, setSelectedContact] = useState<Contact | null>(
-    initialContacts[0]
+    contacts[0]
   );
-
-  const handleSend = () => {
-    if (newMessage.trim()) {
-      const newMessageObj = {
-        sender: "User 1",
-        text: newMessage,
-        timestamp: new Date().toLocaleTimeString(),
-      };
-      setMessages([...messages, newMessageObj]);
-      setNewMessage("");
-    }
-  };
 
   return (
     <PageContainer title="Dashboard">
@@ -65,7 +31,7 @@ const Page = () => {
         >
           {/* Contact List */}
           <ContactList
-            contacts={initialContacts}
+            contacts={contacts}
             selectedContact={selectedContact}
             onSelectContact={setSelectedContact}
           />
@@ -89,8 +55,8 @@ const Page = () => {
             {/* Input and Send Button */}
             <MessageInput
               newMessage={newMessage}
-              onMessageChange={(e) => setNewMessage(e.target.value)}
-              onSend={handleSend}
+              onMessageChange={handleChange}
+              onSend={() => selectedContact && handleSend("User 1")}
               disabled={!selectedContact}
             />
           </Box>
