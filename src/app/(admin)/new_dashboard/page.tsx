@@ -17,7 +17,7 @@ import {
 import SendIcon from "@mui/icons-material/Send";
 import SnoozeIcon from "@mui/icons-material/Snooze";
 import { useState } from "react";
-import PageContainer from "./components/PageContainer";
+import PageContainer from "../../../components/PageContainer";
 import DashboardCard from "./components/Card";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 
