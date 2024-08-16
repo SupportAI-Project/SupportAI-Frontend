@@ -1,14 +1,8 @@
 import { useState } from "react";
+import { Guide } from "../types";
 
-type GuideItem = {
-  title: string;
-  issue: string;
-  likes: number;
-  dislikes: number;
-};
-
-const useGuideItems = () => {
-  const [guideItems] = useState<GuideItem[]>([
+export const useGuideItems = () => {
+  const [guideItems] = useState<Guide[]>([
     {
       title: "How to startup the computer",
       issue: "Computer not starting",
@@ -37,5 +31,3 @@ const useGuideItems = () => {
 
   return { guideItems };
 };
-
-export default useGuideItems;
