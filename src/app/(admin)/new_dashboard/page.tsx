@@ -1,18 +1,17 @@
 "use client";
 import {
   Box,
-  Paper,
   List,
   ListItem,
   ListItemText,
   Typography,
   TextField,
   IconButton,
-  Divider,
   Avatar,
   ListItemAvatar,
   Button,
   ListItemButton,
+  Divider,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import SnoozeIcon from "@mui/icons-material/Snooze";
@@ -52,7 +51,6 @@ const Page = () => {
     },
   ];
 
-  // Automatically select the first contact (Alice) when the page loads
   const [messages, setMessages] = useState<Message[]>([
     { sender: "User 1", text: "Hello!", timestamp: "10:00 AM" },
     { sender: "User 2", text: "Hi there!", timestamp: "10:01 AM" },
@@ -77,15 +75,13 @@ const Page = () => {
   return (
     <PageContainer title="Dashboard">
       <DashboardCard title="Chat">
-        <Paper
-          elevation={3}
+        <Box
           sx={{
-            maxWidth: 1200,
-            margin: "auto",
-            padding: 2,
             display: "flex",
             flexDirection: "row",
-            height: "500px",
+            height: "calc(100vh - 150px)",
+            margin: 0,
+            padding: 0,
           }}
         >
           {/* Contact List */}
@@ -93,7 +89,6 @@ const Page = () => {
             sx={{
               width: "30%",
               borderRight: "1px solid #e0e0e0",
-              paddingRight: 2,
             }}
           >
             <List>
@@ -126,8 +121,8 @@ const Page = () => {
             sx={{
               display: "flex",
               flexDirection: "column",
-              height: "100%",
               width: "70%",
+              height: "100%",
               paddingLeft: 2,
             }}
           >
@@ -167,7 +162,13 @@ const Page = () => {
             )}
 
             {/* Message List */}
-            <Box sx={{ flex: 1, overflowY: "auto", paddingBottom: 2 }}>
+            <Box
+              sx={{
+                flex: 1,
+                overflowY: "auto",
+                paddingBottom: 2,
+              }}
+            >
               <List>
                 {messages.map((msg, index) => (
                   <ListItem
@@ -234,7 +235,7 @@ const Page = () => {
               </IconButton>
             </Box>
           </Box>
-        </Paper>
+        </Box>
       </DashboardCard>
     </PageContainer>
   );
