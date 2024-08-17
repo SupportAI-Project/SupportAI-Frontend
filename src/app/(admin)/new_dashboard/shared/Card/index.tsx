@@ -10,6 +10,7 @@ type Props = {
   headsubtitle?: string | JSX.Element;
   children?: JSX.Element;
   middlecontent?: string | JSX.Element;
+  fullHeight?: boolean;
 };
 
 const DashboardCard = ({
@@ -22,9 +23,19 @@ const DashboardCard = ({
   headtitle,
   headsubtitle,
   middlecontent,
+  fullHeight = false,
 }: Props) => {
   return (
-    <Card sx={{ padding: 0 }} elevation={9} variant={undefined}>
+    <Card
+      sx={{
+        padding: 0,
+        height: fullHeight ? "100%" : "auto",
+        display: "flex",
+        flexDirection: "column",
+        elevation: 9,
+        variant: undefined,
+      }}
+    >
       {cardheading ? (
         <CardContent>
           <Typography variant="h5">{headtitle}</Typography>
@@ -33,7 +44,8 @@ const DashboardCard = ({
           </Typography>
         </CardContent>
       ) : (
-        <CardContent sx={{ p: "30px" }}>
+        <CardContent sx={{ p: "30px", flex: 1 }}>
+          {/* Allow content to expand */}
           {title ? (
             <Stack
               direction="row"
@@ -56,7 +68,6 @@ const DashboardCard = ({
               {action}
             </Stack>
           ) : null}
-
           {children}
         </CardContent>
       )}

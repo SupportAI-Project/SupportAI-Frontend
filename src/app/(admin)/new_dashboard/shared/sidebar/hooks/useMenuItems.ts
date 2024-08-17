@@ -5,6 +5,7 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import { AuthClient } from "@/api/auth.client";
 import { useRouter } from "next/navigation";
+import CreateIcon from "@mui/icons-material/Create";
 
 const authClient = new AuthClient();
 
@@ -36,6 +37,12 @@ export const useMenuItems = () => {
       title: "Guides",
       icon: AutoStoriesIcon,
       href: "/new_dashboard/guides",
+    },
+    {
+      id: uniqueId(),
+      title: "Create Guide",
+      icon: CreateIcon,
+      href: "/new_dashboard/guides/create",
     },
     {
       navlabel: true,
