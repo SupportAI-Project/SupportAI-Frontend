@@ -1,14 +1,9 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+"use client";
+
+import { baselightTheme } from "@/util/theme";
 import "./globals.css";
 import { Providers } from "./providers";
-
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "SupportAI",
-  description: "SupportAI is a platform that generates guides.",
-};
+import { CssBaseline, ThemeProvider } from "@mui/material";
 
 export default function RootLayout({
   children,
@@ -17,8 +12,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body style={{ height: "100vh" }} className={inter.className}>
-        <Providers>{children}</Providers>
+      <body style={{ height: "100vh" }}>
+        <ThemeProvider theme={baselightTheme}>
+          <CssBaseline />
+          <Providers>{children}</Providers>
+        </ThemeProvider>
       </body>
     </html>
   );
