@@ -1,22 +1,44 @@
-import { useState } from "react";
-import { Contact } from "../types";
+import { useEffect, useState } from "react";
+import { Chat } from "@/types";
+import { useChats } from "@/hooks/api/chatHooks";
+import { SuccessResponse } from "@/api/base.client";
+import socket from "@/socket";
 
 export const useContacts = () => {
-  const initialContacts: Contact[] = [
-    { name: "Alice", avatar: "/avatar1.png", lastMessage: "See you later!" },
-    {
-      name: "Bob",
-      avatar: "/avatar2.png",
-      lastMessage: "Let's catch up tomorrow.",
-    },
-    {
-      name: "Charlie",
-      avatar: "/avatar3.png",
-      lastMessage: "Can you send me the file?",
-    },
-  ];
+  const [contacts, setContacts] = useState<Chat[]>([]);
+  const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
 
-  const [contacts, setContacts] = useState<Contact[]>(initialContacts);
+  const { isError, data, error } = useChats();
 
-  return { contacts, setContacts };
+  useEffect(() => {
+    if (data) {
+      const { data: chats } = data as SuccessResponse<Chat[]>;
+      setContacts(chats);
+      setSelectedChat(chats[0]);
+    }
+  }, [data]);
+
+  if (isError) {
+    console.error(error);
+  }
+
+  useEffect(() => {
+    //If user creates a new chat
+    socket.on("chatCreated", (chat: Chat) => {
+      setContacts((prevChats) => [...prevChats, chat]);
+    });
+
+    return () => {
+      socket.off("chatCreated");
+    };
+  }, []);
+  const handleChatSelect = (chat: Chat) => {
+    setSelectedChat(chat);
+  };
+
+  return {
+    contacts,
+    selectedChat,
+    handleChatSelect,
+  };
 };
