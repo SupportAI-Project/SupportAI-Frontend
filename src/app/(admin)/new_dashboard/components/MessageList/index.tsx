@@ -1,6 +1,5 @@
 import { Box, List, ListItem, Typography } from "@mui/material";
-import { Message } from "../../types";
-
+import { Message } from "@/types";
 type Props = {
   messages: Message[];
 };
@@ -20,8 +19,7 @@ const MessageList = ({ messages }: Props) => {
             key={index}
             sx={{
               display: "flex",
-              justifyContent:
-                msg.sender === "User 1" ? "flex-end" : "flex-start",
+              justifyContent: msg.isSupportSender ? "flex-end" : "flex-start",
               mb: 1,
               alignItems: "flex-start",
             }}
@@ -30,9 +28,12 @@ const MessageList = ({ messages }: Props) => {
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: msg.sender === "User 1" ? "flex-end" : "flex-start",
-                backgroundColor:
-                  msg.sender === "User 1" ? "lightblue" : "lightgray",
+                alignItems: msg.isSupportSender ? "flex-end" : "flex-start",
+                backgroundColor: msg.isSupportSender
+                  ? !msg.isNote
+                    ? "lightblue"
+                    : "rgba(254, 237, 175)"
+                  : "lightgray",
                 borderRadius: 2,
                 padding: 1,
                 maxWidth: "70%",
@@ -40,9 +41,25 @@ const MessageList = ({ messages }: Props) => {
               }}
             >
               <Typography variant="body2" color="textSecondary">
-                {msg.sender} • {msg.timestamp}
+                {msg.isSupportSender ? "Support" : "User"} •{" "}
+                {new Date(msg.timeStamp).toLocaleTimeString("il-IL", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: false,
+                  month: "2-digit",
+                  day: "2-digit",
+                })}
               </Typography>
-              <Typography variant="body1">{msg.text}</Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  whiteSpace: "pre-line",
+                  wordWrap: "break-word",
+                  alignSelf: "flex-start",
+                }}
+              >
+                {msg.content}
+              </Typography>
             </Box>
           </ListItem>
         ))}
