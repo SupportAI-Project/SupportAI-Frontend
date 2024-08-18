@@ -1,3 +1,4 @@
+import { Message } from "./message.type";
 import { User } from "./user.type";
 
 export interface Chat {
@@ -6,5 +7,6 @@ export interface Chat {
   isOpen: boolean;
   startTime: Date;
   endTime?: Date;
+  messages?: Message[];
   user?: User;
 }
