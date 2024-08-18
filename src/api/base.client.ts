@@ -66,10 +66,17 @@ export class BaseClient {
         );
       }
 
-      const data: T = await response.json();
-      return {
-        data,
-      };
+      const contentType = response.headers.get("Content-Type");
+      if (contentType && contentType.includes("application/json")) {
+        const data: T = await response.json();
+        return {
+          data,
+        };
+      } else {
+        return {
+          data: {} as T,
+        };
+      }
     } catch (error) {
       console.error("An error occurred", error);
       if (error instanceof ApiError) {

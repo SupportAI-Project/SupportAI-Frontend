@@ -10,4 +10,8 @@ export class AuthClient extends BaseClient {
   async register(signUpRequest: SignUpRequest) {
     return this.post<SignUpRequest>("auth/register", signUpRequest);
   }
+
+  async logout() {
+    return this.post("auth/logout", {});
+  }
 }
