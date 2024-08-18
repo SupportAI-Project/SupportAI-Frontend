@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import PageContainer from "@/components/PageContainer";
 import DashboardCard from "./shared/Card";
 import MessageInput from "./components/MessageInput";
@@ -7,16 +6,20 @@ import { Box } from "@mui/material";
 import ContactList from "./components/ContactList";
 import ChatHeader from "./components/ChatHeader";
 import MessageList from "./components/MessageList";
-import { Contact } from "./types";
 import { useChat, useContacts } from "./hooks";
+import { useSocket } from "@/hooks";
 
 const Page = () => {
-  const { contacts } = useContacts();
-  const { messages, newMessage, handleChange, handleSend } = useChat();
-  const [selectedContact, setSelectedContact] = useState<Contact | null>(
-    contacts[0]
-  );
-
+  const { contacts, selectedChat, handleChatSelect } = useContacts();
+  const {
+    chatMessages,
+    handleSendMessage,
+    newMessage,
+    handleChange,
+    isNote,
+    handleChangeNote,
+  } = useChat(selectedChat?.chatId || null);
+  useSocket();
   return (
     <PageContainer title="Dashboard">
       <DashboardCard title="Chat">
@@ -31,9 +34,9 @@ const Page = () => {
         >
           {/* Contact List */}
           <ContactList
-            contacts={contacts}
-            selectedContact={selectedContact}
-            onSelectContact={setSelectedContact}
+            chats={contacts}
+            selectedChat={selectedChat}
+            onSelectChat={handleChatSelect}
           />
 
           {/* Chat Container */}
@@ -47,17 +50,19 @@ const Page = () => {
             }}
           >
             {/* Chat Header */}
-            <ChatHeader selectedContact={selectedContact} />
+            <ChatHeader selectedContact={selectedChat} />
 
             {/* Message List */}
-            <MessageList messages={messages} />
+            <MessageList messages={chatMessages} />
 
             {/* Input and Send Button */}
             <MessageInput
               newMessage={newMessage}
               onMessageChange={handleChange}
-              onSend={() => selectedContact && handleSend("User 1")}
-              disabled={!selectedContact}
+              handleChangeNote={handleChangeNote}
+              isNote={isNote}
+              onSend={() => selectedChat && handleSendMessage()}
+              disabled={!selectedChat}
             />
           </Box>
         </Box>
