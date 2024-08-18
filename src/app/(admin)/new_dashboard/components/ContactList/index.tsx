@@ -6,15 +6,15 @@ import {
   Avatar,
   ListItemText,
 } from "@mui/material";
-import { Contact } from "../../types";
+import { Chat } from "@/types";
 
 type Props = {
-  contacts: Contact[];
-  selectedContact: Contact | null;
-  onSelectContact: (contact: Contact) => void;
+  chats: Chat[];
+  selectedChat: Chat | null;
+  onSelectChat: (chat: Chat) => void;
 };
 
-const ContactList = ({ contacts, selectedContact, onSelectContact }: Props) => {
+const ContactList = ({ chats, selectedChat, onSelectChat }: Props) => {
   return (
     <Box
       sx={{
@@ -24,30 +24,42 @@ const ContactList = ({ contacts, selectedContact, onSelectContact }: Props) => {
       }}
     >
       <List>
-        {contacts.map((contact, index) => (
-          <Box key={index} sx={{ padding: "0 8px" }}>
-            <ListItemButton
-              selected={selectedContact?.name === contact.name}
-              onClick={() => onSelectContact(contact)}
-              sx={{
-                backgroundColor:
-                  selectedContact?.name === contact.name
-                    ? "#f5f5f5"
-                    : "inherit",
-                borderRadius: 0,
-                marginRight: 0,
-              }}
-            >
-              <ListItemAvatar>
-                <Avatar src={contact.avatar} />
-              </ListItemAvatar>
-              <ListItemText
-                primary={contact.name}
-                secondary={contact.lastMessage}
-              />
-            </ListItemButton>
+        {chats.length === 0 ? (
+          <Box sx={{ padding: "16px", textAlign: "center", color: "#888" }}>
+            No chats yet!
           </Box>
-        ))}
+        ) : (
+          <List>
+            {chats.map((chat, index) => (
+              <Box key={index} sx={{ padding: "0 8px" }}>
+                <ListItemButton
+                  selected={
+                    selectedChat?.user?.username === chat.user?.username
+                  }
+                  onClick={() => onSelectChat(chat)}
+                  sx={{
+                    backgroundColor:
+                      selectedChat?.user?.username === chat.user?.username
+                        ? "#f5f5f5"
+                        : "inherit",
+                    borderRadius: 0,
+                    marginRight: 0,
+                  }}
+                >
+                  <ListItemAvatar>
+                    <Avatar
+                      src={"https://bootdey.com/img/Content/avatar/avatar2.png"} // Maybe add later avatars to users
+                    />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={chat.user?.username}
+                    // secondary={chat.}
+                  />
+                </ListItemButton>
+              </Box>
+            ))}
+          </List>
+        )}
       </List>
     </Box>
   );
