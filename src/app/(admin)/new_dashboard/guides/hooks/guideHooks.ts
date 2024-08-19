@@ -14,5 +14,6 @@ export function useReviews(guideId: number) {
   return useQuery({
     queryKey: ['reviews', 'guide', guideId],
     queryFn: () => guideClient.getReviews(guideId),
+    
   });
 }
