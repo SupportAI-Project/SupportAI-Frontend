@@ -4,18 +4,10 @@ import { Review } from './types/Review';
 
 export class GuideClient extends BaseClient {
   async getAllGuides() {
-    const response = await this.get<Guide[]>('guides');
-    if('error' in response) {
-      return response;
-    }
-    return response.data;
+    return await this.get<Guide[]>('guides');
   }
 
   async getReviews(guideId: number) {
-    const response = await this.get<Review[]>('reviews/guide/' + guideId);
-    if('error' in response) {
-      return response;
-    }
-    return response.data;
+    return await this.get<Review[]>('reviews/guide/' + guideId);
   }
 }

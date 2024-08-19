@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Guide } from "../types";
+import { Guide } from "@/api/types/Guide";
 
 export const useSearchGuides = (initialGuides: Guide[]) => {
   const [searchQuery, setSearchQuery] = useState("");
