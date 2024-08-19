@@ -1,7 +1,6 @@
 import { Grid, Typography } from "@mui/material";
 import GuideCard from "../GuideCard";
 import { Guide } from "@/api/types/Guide";
-import { ClientResponse, SuccessResponse } from "@/api/base.client";
 
 type Props = {
   guideItems:Guide[];
