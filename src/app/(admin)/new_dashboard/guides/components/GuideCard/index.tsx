@@ -5,17 +5,30 @@ import SupportIcon from "@mui/icons-material/Support";
 import { useTheme } from "@mui/material/styles";
 import { Guide } from "../../types";
 
+import { useRouter } from "next/navigation";
+import { log } from "console";
+
 type Props = {
   guide: Guide;
 };
 
 const GuideCard = ({ guide }: Props) => {
   const theme = useTheme();
+  const router = useRouter();
 
   return (
     <Card variant="outlined">
       <CardContent>
-        <Box display="flex" alignItems="center" mb={1}>
+        <Box
+          display="flex"
+          alignItems="center"
+          mb={1}
+          onClick={() => {
+            console.log(guide);
+            router.push(`/new_dashboard/guides/${guide.guideId}`);
+          }}
+          sx={{ cursor: "pointer" }}
+        >
           <SupportIcon color="primary" sx={{ marginRight: theme.spacing(1) }} />
           <Typography variant="h6">{guide.title}</Typography>
         </Box>

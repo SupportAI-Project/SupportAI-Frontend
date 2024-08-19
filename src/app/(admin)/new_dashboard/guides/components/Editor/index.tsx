@@ -7,13 +7,20 @@ import SaveAsIcon from "@mui/icons-material/SaveAs";
 const DynamicReactQuill = dynamic(() => import("react-quill"));
 
 interface Props {
-  intitialTitle?: string;
+  initialTitle?: string;
   initialIssue?: string;
   initialContent?: string;
-  onSave: (content: string) => void;
+  onSave: (title: string, issue: string, content: string) => void;
 }
 
-const GuideEditor = ({ initialContent = "", onSave }: Props) => {
+const GuideEditor = ({
+  initialTitle = "",
+  initialIssue = "",
+  initialContent = "",
+  onSave,
+}: Props) => {
+  const [title, setTitle] = useState<string>(initialTitle);
+  const [issue, setIssue] = useState<string>(initialIssue);
   const [contentHTML, setContent] = useState<string>(initialContent);
 
   const modules = {
@@ -48,8 +55,22 @@ const GuideEditor = ({ initialContent = "", onSave }: Props) => {
 
   return (
     <>
-      <TextField label="Title" variant="outlined" fullWidth sx={{ mb: 2 }} />
-      <TextField label="Issue" variant="outlined" fullWidth sx={{ mb: 2 }} />
+      <TextField
+        label="Title"
+        variant="outlined"
+        fullWidth
+        sx={{ mb: 2 }}
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
+      <TextField
+        label="Issue"
+        variant="outlined"
+        fullWidth
+        sx={{ mb: 2 }}
+        value={issue}
+        onChange={(e) => setIssue(e.target.value)}
+      />
       <DynamicReactQuill
         theme="snow"
         modules={modules}
@@ -63,7 +84,7 @@ const GuideEditor = ({ initialContent = "", onSave }: Props) => {
           variant="contained"
           color="primary"
           startIcon={<SaveAsIcon />}
-          onClick={() => onSave(contentHTML)}
+          onClick={() => onSave(title, issue, contentHTML)}
         >
           Save Guide
         </Button>

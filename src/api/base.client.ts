@@ -8,7 +8,7 @@ export interface SuccessResponse<T> {
   data: T;
 }
 
-type ClientResponse<T> = SuccessResponse<T> | ErrorResponse;
+export type ClientResponse<T> = SuccessResponse<T> | ErrorResponse;
 
 class ApiError extends Error {
   statusCode: number;

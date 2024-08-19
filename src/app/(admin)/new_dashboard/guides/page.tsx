@@ -5,10 +5,11 @@ import { Box } from "@mui/material";
 import GuideList from "./components/GuideList";
 import SearchBar from "./components/SearchBar";
 import { useSearchGuides, useGuideItems } from "./hooks";
+
 const Page = () => {
-  const { guideItems } = useGuideItems();
+  const { guides } = useGuideItems();
   const { searchQuery, filteredGuides, handleSearchChange } =
-    useSearchGuides(guideItems);
+    useSearchGuides(guides);
 
   return (
     <PageContainer title="Guides">

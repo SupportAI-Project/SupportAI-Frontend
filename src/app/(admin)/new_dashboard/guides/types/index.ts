@@ -1,7 +1,13 @@
 export type Guide = {
-  id: number;
+  guideId: number;
   title: string;
   issue: string;
   likes: number;
   dislikes: number;
 };
+
+export type GuideResponse = Guide;
+
+export interface ErrorResponse {
+  message: string;
+}

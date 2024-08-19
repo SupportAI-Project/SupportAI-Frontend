@@ -4,12 +4,11 @@ import { Guide } from "../types";
 import { useParams } from "next/navigation";
 import { useGuideItems } from "../hooks";
 import DashboardCard from "../../shared/Card";
+import { useGetGuide } from "./hooks/useGetGuide";
 
 const GuidePage = () => {
   const { id } = useParams<{ id: string }>()!;
-
-  const { guideItems } = useGuideItems();
-  const guide = guideItems.find((guide: Guide) => guide.id === Number(id));
+  const { guide } = useGetGuide(id);
 
   if (!guide) {
     return <p>Guide not found</p>;
