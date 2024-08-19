@@ -1,9 +1,7 @@
-import { Card, CardContent, Typography, Box, IconButton } from "@mui/material";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import { Card, CardContent, Typography, Box } from "@mui/material";
 import SupportIcon from "@mui/icons-material/Support";
 import { useTheme } from "@mui/material/styles";
-import { Guide } from "../../types";
+import { Guide } from "@/api/types/Guide";
 
 type Props = {
   guide: Guide;
@@ -20,31 +18,16 @@ const GuideCard = ({ guide }: Props) => {
           <Typography variant="h6">{guide.title}</Typography>
         </Box>
         <Typography variant="body2" color="textSecondary" mb={2}>
-          Issue: {guide.issue}
+          Created by User ID: {guide.creatorId}
         </Typography>
-        <Box display="flex" alignItems="center">
-          <Box display="flex" alignItems="center" mr={2}>
-            <IconButton
-              color="success"
-              sx={{ color: theme.palette.success.main, p: 0 }}
-            >
-              <ThumbUpIcon />
-            </IconButton>
-            <Typography variant="body2" ml={0.5}>
-              {guide.likes}
-            </Typography>
-          </Box>
-          <Box display="flex" alignItems="center">
-            <IconButton
-              color="error"
-              sx={{ color: theme.palette.error.main, p: 0 }}
-            >
-              <ThumbDownIcon />
-            </IconButton>
-            <Typography variant="body2" ml={0.5}>
-              {guide.dislikes}
-            </Typography>
-          </Box>
+        <Typography variant="body2" color="textSecondary" mb={2}>
+          Created at: {new Date(guide.createdAt).toLocaleDateString()}
+        </Typography>
+        <Typography variant="body1" dangerouslySetInnerHTML={{ __html: guide.contentHTML }} />
+        <Box display="flex" alignItems="center" mt={2}>
+          <Typography variant="body2" color="textSecondary">
+            Total Stars: {guide.starsTotalSum}
+          </Typography>
         </Box>
       </CardContent>
     </Card>
