@@ -3,7 +3,7 @@ import PageContainer from "@/components/PageContainer";
 import { useParams } from "next/navigation";
 import { useGuide } from "../hooks";
 import DashboardCard from "../../shared/Card";
-import { Typography, CircularProgress, Alert, Container } from "@mui/material";
+import { Typography, CircularProgress, Alert, Box } from "@mui/material";
 import { Guide } from "@/api/types/Guide";
 import ReviewList from "../components/ReviewList";
 
@@ -35,19 +35,16 @@ const GuidePage = () => {
       <PageContainer title={guide.title}>
         <DashboardCard title={guide.title}>
           <div>
-            <div dangerouslySetInnerHTML={{ __html: guide.contentHTML }} />
-            <Typography variant="body2" sx={{ mt: 1 }}>
+          <Typography variant="body2" sx={{ mb: 2 }}>
               Created by {guide.creator?.username} on{" "}
               {new Date(guide.createdAt).toLocaleDateString()}
             </Typography>
-            <Typography variant="h6" sx={{ mt: 2 }}>
-              Reviews
-            </Typography>
-            <Container sx={{ mt: 2 , mb: 2}}>
-              <ReviewList reviews={guide.reviews || []} />
-            </Container>  
+            <div dangerouslySetInnerHTML={{ __html: guide.contentHTML }} />
+            
           </div>
         </DashboardCard>
+        <Box mt={2}></Box>
+        <ReviewList reviews={guide.reviews || []} />
       </PageContainer>
     );
   }
