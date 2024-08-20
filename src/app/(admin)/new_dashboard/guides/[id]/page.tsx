@@ -1,32 +1,50 @@
 "use client";
 import PageContainer from "@/components/PageContainer";
-import { Guide } from "../types";
 import { useParams } from "next/navigation";
-import { useGuideItems } from "../hooks";
+import { useGuides } from "../hooks";
 import DashboardCard from "../../shared/Card";
+import { Typography } from "@mui/material";
+import { Guide } from "@/api/types/Guide";
 
 const GuidePage = () => {
-  const { id } = useParams<{ id: string }>()!;
+  const params = useParams();
 
-  const { guideItems } = useGuideItems();
-  const guide = guideItems.find((guide: Guide) => guide.id === Number(id));
+  const id = params?.id ? Number(params.id) : null;
 
-  if (!guide) {
-    return <p>Guide not found</p>;
+  const { data: guideItems, isLoading, isError, isSuccess } = useGuides();
+
+  let guide: Guide | undefined;
+
+  if (isSuccess && guideItems && "data" in guideItems) {
+    guide = guideItems.data.find((g) => g.guideId === Number(id));
   }
 
-  return (
-    <PageContainer title={guide?.title}>
-      <DashboardCard title={guide?.title}>
-        <div>
-          <h1>{guide?.title}</h1>
-          <p>{guide?.issue}</p>
-          <p>Likes: {guide?.likes}</p>
-          <p>Dislikes: {guide?.dislikes}</p>
-        </div>
-      </DashboardCard>
-    </PageContainer>
-  );
+  if (isLoading) {
+    return <Typography>Loading...</Typography>;
+  }
+
+  if (isError || !guideItems || (isSuccess && !guide)) {
+    return <Typography>Guide not found</Typography>;
+  }
+  if(isSuccess && guide) {
+    return (
+      <PageContainer title={guide.title}>
+        <DashboardCard title={guide.title}>
+          <div>
+            <h1>{guide.title}</h1>
+            <div dangerouslySetInnerHTML={{ __html: guide.contentHTML }} />
+            <Typography variant="body2">
+              Created by User ID: {guide.creatorId} on{" "}
+              {new Date(guide.createdAt).toLocaleDateString()}
+            </Typography>
+            <Typography variant="body2">
+              Stars: {guide.starsTotalSum}
+            </Typography>
+          </div>
+        </DashboardCard>
+      </PageContainer>
+    );
+  }
 };
 
 export default GuidePage;
