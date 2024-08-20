@@ -6,8 +6,7 @@ import { Box } from "@mui/material";
 import ContactList from "./components/ContactList";
 import ChatHeader from "./components/ChatHeader";
 import MessageList from "./components/MessageList";
-import { useContacts } from "./hooks";
-import { useSelectedContact } from "./hooks/useSelectedContact";
+import { useContacts, useSelectedContact } from "./hooks";
 import { useSocket } from "@/app/hooks/useSocket";
 
 const Page = () => {
