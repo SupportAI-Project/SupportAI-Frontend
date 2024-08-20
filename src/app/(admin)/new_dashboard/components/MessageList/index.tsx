@@ -1,6 +1,6 @@
 import { Box, List, ListItem, Typography } from "@mui/material";
 import { useMessageList } from "./hooks/useMessageList";
-import { useSocket } from "../../providers";
+import { useSocket } from "@/app/providers";
 import { useOnMessagesReceived } from "./hooks/useOnMessageReceived";
 type Props = {
   chatId: number;
@@ -8,8 +8,8 @@ type Props = {
 
 const MessageList = ({ chatId }: Props) => {
   const socket = useSocket();
+  const { newMessages } = useOnMessagesReceived({ socket, chatId });
   const { messages } = useMessageList({ chatId });
-  const { newMessages } = useOnMessagesReceived({ socket });
   const allMessages = messages.concat(
     newMessages.length > 0 ? newMessages : []
   );

@@ -5,8 +5,9 @@ import { Socket } from "socket.io-client";
 
 type Props = {
   socket: Socket;
+  chatId: number;
 };
-export const useOnMessagesReceived = ({ socket }: Props) => {
+export const useOnMessagesReceived = ({ socket, chatId }: Props) => {
   const [newMessages, setNewMessages] = useState<Message[]>([]);
   useEffect(() => {
     socket.on("newMessage", (message: Message) => {
@@ -17,5 +18,9 @@ export const useOnMessagesReceived = ({ socket }: Props) => {
       socket.off("newMessage");
     };
   }, []);
+  useEffect(() => {
+    if (chatId) setNewMessages([]);
+  }, [chatId]);
+
   return { newMessages };
 };

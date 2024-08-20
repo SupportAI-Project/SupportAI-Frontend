@@ -1,7 +1,7 @@
 import { Box, TextField, IconButton, Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useMessage } from "./hooks/useMessage";
-import { useSocket } from "../../providers";
+import { useSocket } from "@/app/providers";
 
 type MessageInputProps = {
   chatId: number;
