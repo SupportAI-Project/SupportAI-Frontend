@@ -1,3 +1,4 @@
+"use client";
 import { io, Socket } from "socket.io-client";
 import { z } from "zod";
 
@@ -13,7 +14,7 @@ if (!socketUrl.success) {
 }
 
 let socket: Socket = io(socketUrl.data, {
-  transports: ["websocket", "polling"],
+  transports: ["websocket"],
   autoConnect: false,
 });
 

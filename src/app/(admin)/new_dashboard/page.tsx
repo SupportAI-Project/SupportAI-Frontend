@@ -6,20 +6,20 @@ import { Box } from "@mui/material";
 import ContactList from "./components/ContactList";
 import ChatHeader from "./components/ChatHeader";
 import MessageList from "./components/MessageList";
-import { useChat, useContacts } from "./hooks";
-import { useSocket } from "@/hooks";
+import { useContacts } from "./hooks";
+import { useSocket } from "./providers";
+import { useSelectedContact } from "./hooks/useSelectedContact";
 
 const Page = () => {
-  const { contacts, selectedChat, handleChatSelect } = useContacts();
-  const {
-    chatMessages,
-    handleSendMessage,
-    newMessage,
-    handleChange,
-    isNote,
-    handleChangeNote,
-  } = useChat(selectedChat?.chatId || null);
-  useSocket();
+  const socket = useSocket();
+  const { selectedContact, handleContactSelect } = useSelectedContact({
+    socket,
+  });
+  const { contacts } = useContacts({
+    socket,
+    handleContactSelect,
+  });
+
   return (
     <PageContainer title="Dashboard">
       <DashboardCard title="Chat">
@@ -34,37 +34,41 @@ const Page = () => {
         >
           {/* Contact List */}
           <ContactList
-            chats={contacts}
-            selectedChat={selectedChat}
-            onSelectChat={handleChatSelect}
+            contacts={contacts}
+            selectedContact={selectedContact}
+            onSelectContact={handleContactSelect}
           />
 
           {/* Chat Container */}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              width: "70%",
-              height: "100%",
-              paddingLeft: 2,
-            }}
-          >
-            {/* Chat Header */}
-            <ChatHeader selectedContact={selectedChat} />
+          {selectedContact && (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                width: "70%",
+                height: "100%",
+                paddingLeft: 2,
+              }}
+            >
+              {/* Chat Header */}
+              {selectedContact && (
+                <ChatHeader selectedContact={selectedContact} />
+              )}
 
-            {/* Message List */}
-            <MessageList messages={chatMessages} />
+              {/* Message List */}
+              {selectedContact && (
+                <MessageList
+                  // messages={contactMessages}
+                  chatId={selectedContact.chatId}
+                />
+              )}
 
-            {/* Input and Send Button */}
-            <MessageInput
-              newMessage={newMessage}
-              onMessageChange={handleChange}
-              handleChangeNote={handleChangeNote}
-              isNote={isNote}
-              onSend={() => selectedChat && handleSendMessage()}
-              disabled={!selectedChat}
-            />
-          </Box>
+              {/* Input and Send Button */}
+              {selectedContact && (
+                <MessageInput chatId={selectedContact.chatId} />
+              )}
+            </Box>
+          )}
         </Box>
       </DashboardCard>
     </PageContainer>

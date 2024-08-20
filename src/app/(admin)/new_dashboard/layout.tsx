@@ -1,6 +1,7 @@
 "use client";
 import { styled, Container, Box } from "@mui/material";
 import Sidebar from "./shared/sidebar/Sidebar";
+import { SocketProvider } from "./providers";
 
 const MainWrapper = styled("div")(() => ({
   display: "flex",
@@ -22,33 +23,35 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <MainWrapper className="mainwrapper">
-      {/* ------------------------------------------- */}
-      {/* Sidebar */}
-      {/* ------------------------------------------- */}
-      <Sidebar isSidebarOpen={true} />
-      {/* ------------------------------------------- */}
-      {/* Main Wrapper */}
-      {/* ------------------------------------------- */}
-      <PageWrapper className="page-wrapper">
+    <SocketProvider>
+      <MainWrapper className="mainwrapper">
         {/* ------------------------------------------- */}
-        {/* PageContent */}
+        {/* Sidebar */}
         {/* ------------------------------------------- */}
-        <Container
-          maxWidth={false}
-          sx={{
-            paddingTop: "20px",
-          }}
-        >
+        <Sidebar isSidebarOpen={true} />
+        {/* ------------------------------------------- */}
+        {/* Main Wrapper */}
+        {/* ------------------------------------------- */}
+        <PageWrapper className="page-wrapper">
           {/* ------------------------------------------- */}
-          {/* Page Route */}
+          {/* PageContent */}
           {/* ------------------------------------------- */}
-          <Box sx={{ minHeight: "calc(100vh - 170px)" }}>{children}</Box>
-          {/* ------------------------------------------- */}
-          {/* End Page */}
-          {/* ------------------------------------------- */}
-        </Container>
-      </PageWrapper>
-    </MainWrapper>
+          <Container
+            maxWidth={false}
+            sx={{
+              paddingTop: "20px",
+            }}
+          >
+            {/* ------------------------------------------- */}
+            {/* Page Route */}
+            {/* ------------------------------------------- */}
+            <Box sx={{ minHeight: "calc(100vh - 170px)" }}>{children}</Box>
+            {/* ------------------------------------------- */}
+            {/* End Page */}
+            {/* ------------------------------------------- */}
+          </Container>
+        </PageWrapper>
+      </MainWrapper>
+    </SocketProvider>
   );
 }
