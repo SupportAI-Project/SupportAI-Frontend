@@ -2,15 +2,17 @@
 import { useOnFetch } from "@/common/hooks/useOnFetch";
 import { useChatById } from "@/hooks/api/chatHooks";
 import { Chat, Message, ClientResponse, SuccessResponse } from "@/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Socket } from "socket.io-client";
 
 type Props = {
   chatId: number;
+  socket: Socket;
 };
 
-export const useMessageList = ({ chatId }: Props) => {
+export const useMessageList = ({ chatId, socket }: Props) => {
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
-
+  const [newMessages, setNewMessages] = useState<Message[]>([]);
   const { data, error, isError } = useChatById(chatId);
 
   useOnFetch(
@@ -28,7 +30,20 @@ export const useMessageList = ({ chatId }: Props) => {
     false
   );
 
+  useEffect(() => {
+    socket.on("newMessage", (message: Message) => {
+      setNewMessages((prev) => [...prev, message]);
+    });
+
+    return () => {
+      socket.off("newMessage");
+    };
+  }, []);
+  useEffect(() => {
+    if (chatId) setNewMessages([]);
+  }, [chatId]);
+
   return {
-    messages: chatMessages,
+    messages: chatMessages.concat(newMessages),
   };
 };

@@ -1,18 +1,15 @@
 import { Box, List, ListItem, Typography } from "@mui/material";
 import { useMessageList } from "./hooks/useMessageList";
-import { useSocket } from "@/app/providers";
-import { useOnMessagesReceived } from "./hooks/useOnMessageReceived";
+
+import { useSocket } from "@/app/hooks/useSocket";
 type Props = {
   chatId: number;
 };
 
 const MessageList = ({ chatId }: Props) => {
   const socket = useSocket();
-  const { newMessages } = useOnMessagesReceived({ socket, chatId });
-  const { messages } = useMessageList({ chatId });
-  const allMessages = messages.concat(
-    newMessages.length > 0 ? newMessages : []
-  );
+  const { messages } = useMessageList({ chatId, socket });
+
   return (
     <Box
       sx={{
@@ -22,7 +19,7 @@ const MessageList = ({ chatId }: Props) => {
       }}
     >
       <List>
-        {allMessages.map((msg, index) => (
+        {messages.map((msg, index) => (
           <ListItem
             key={index}
             sx={{
