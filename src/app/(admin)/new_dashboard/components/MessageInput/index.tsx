@@ -68,12 +68,7 @@ const MessageInput = ({ chatId }: MessageInputProps) => {
           error={!!errors.message}
           helperText={errors.message ? errors.message.message : ""}
         />
-        <IconButton
-          color="primary"
-          onClick={handleSubmit}
-          sx={{ ml: 1 }}
-          // disabled={disabled}
-        >
+        <IconButton color="primary" onClick={handleSubmit} sx={{ ml: 1 }}>
           <SendIcon />
         </IconButton>
       </Box>

@@ -51,10 +51,7 @@ const ContactList = ({ contacts, onSelectContact, selectedContact }: Props) => {
                       src={"https://bootdey.com/img/Content/avatar/avatar2.png"} // Maybe add later avatars to users
                     />
                   </ListItemAvatar>
-                  <ListItemText
-                    primary={contact.user?.username}
-                    // secondary={chat.}
-                  />
+                  <ListItemText primary={contact.user?.username} />
                 </ListItemButton>
               </Box>
             ))}
