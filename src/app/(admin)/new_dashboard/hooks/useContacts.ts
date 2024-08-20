@@ -1,8 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Chat } from "@/types";
+import { Chat, ClientResponse, SuccessResponse } from "@/types";
 import { useChats } from "@/hooks/api/chatHooks";
-import { ClientResponse, SuccessResponse } from "@/api/base.client";
 import { useOnFetch } from "@/common/hooks/useOnFetch";
 import { Socket } from "socket.io-client";
 

@@ -1,8 +1,7 @@
 "use client";
-import { ClientResponse, SuccessResponse } from "@/api/base.client";
 import { useOnFetch } from "@/common/hooks/useOnFetch";
 import { useChatById } from "@/hooks/api/chatHooks";
-import { Chat, Message } from "@/types";
+import { Chat, Message, ClientResponse, SuccessResponse } from "@/types";
 import { useState } from "react";
 
 type Props = {

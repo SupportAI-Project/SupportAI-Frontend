@@ -4,8 +4,7 @@ import { schema } from "../validations/schema";
 import { LoginRequest } from "@/api/types/login";
 import { useRouter } from "next/navigation";
 import { useLogin } from "@/hooks";
-import { SuccessResponse } from "@/api/base.client";
-import { User } from "@/types";
+import { User, SuccessResponse } from "@/types";
 
 const useLoginForm = () => {
   const {
