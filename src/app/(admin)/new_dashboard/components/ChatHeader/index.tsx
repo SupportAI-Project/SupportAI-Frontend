@@ -1,10 +1,10 @@
 import { Box, Typography, Button } from "@mui/material";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import SnoozeIcon from "@mui/icons-material/Snooze";
-import { Chat } from "@/types";
+import { Contact } from "../../types";
 
 type Props = {
-  selectedContact: Chat | null;
+  selectedContact: Contact | null;
 };
 
 const ChatHeader = ({ selectedContact }: Props) => {
@@ -22,7 +22,7 @@ const ChatHeader = ({ selectedContact }: Props) => {
     >
       {selectedContact && (
         <>
-          <Typography variant="h6">{selectedContact.user?.username}</Typography>
+          <Typography variant="h6">{selectedContact.username}</Typography>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <Button variant="contained" startIcon={<SmartToyIcon />}>
               Generate Guide

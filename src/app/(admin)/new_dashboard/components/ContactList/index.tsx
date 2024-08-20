@@ -6,12 +6,12 @@ import {
   Avatar,
   ListItemText,
 } from "@mui/material";
-import { Chat } from "@/types";
+import { Contact } from "../../types";
 
 type Props = {
-  contacts: Chat[];
-  selectedContact: Chat | null;
-  onSelectContact: (chat: Chat) => void;
+  contacts: Contact[];
+  selectedContact: Contact | null;
+  onSelectContact: (chat: Contact) => void;
 };
 
 const ContactList = ({ contacts, onSelectContact, selectedContact }: Props) => {
@@ -33,13 +33,11 @@ const ContactList = ({ contacts, onSelectContact, selectedContact }: Props) => {
             {contacts.map((contact, index) => (
               <Box key={index} sx={{ padding: "0 8px" }}>
                 <ListItemButton
-                  selected={
-                    selectedContact?.user?.userId === contact.user?.userId
-                  }
+                  selected={selectedContact?.chatId === contact.chatId}
                   onClick={() => onSelectContact(contact)}
                   sx={{
                     backgroundColor:
-                      selectedContact?.user?.userId === contact.user?.userId
+                      selectedContact?.chatId === contact.chatId
                         ? "#f5f5f5"
                         : "#ffffff",
                     borderRadius: 0,
@@ -51,7 +49,7 @@ const ContactList = ({ contacts, onSelectContact, selectedContact }: Props) => {
                       src={"https://bootdey.com/img/Content/avatar/avatar2.png"} // Maybe add later avatars to users
                     />
                   </ListItemAvatar>
-                  <ListItemText primary={contact.user?.username} />
+                  <ListItemText primary={contact.username} />
                 </ListItemButton>
               </Box>
             ))}

@@ -1,14 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Chat } from "@/types";
 import { Socket } from "socket.io-client";
+import { Contact } from "../types";
 
 type Props = {
   socket: Socket;
 };
 
 export const useSelectedContact = ({ socket }: Props) => {
-  const [selectedContact, setSelectedContact] = useState<Chat | null>(null);
+  const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
 
   useEffect(() => {
     if (socket && selectedContact) {
@@ -19,8 +19,8 @@ export const useSelectedContact = ({ socket }: Props) => {
     }
   }, [selectedContact]);
 
-  const handleContactSelect = (chat: Chat) => {
-    setSelectedContact(chat);
+  const handleContactSelect = (contact: Contact) => {
+    setSelectedContact(contact);
   };
 
   return {
