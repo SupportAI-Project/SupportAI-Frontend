@@ -1,10 +1,18 @@
 import { Box, List, ListItem, Typography } from "@mui/material";
-import { Message } from "@/types";
+import { useMessageList } from "./hooks/useMessageList";
+import { useSocket } from "../../providers";
+import { useOnMessagesReceived } from "./hooks/useOnMessageReceived";
 type Props = {
-  messages: Message[];
+  chatId: number;
 };
 
-const MessageList = ({ messages }: Props) => {
+const MessageList = ({ chatId }: Props) => {
+  const socket = useSocket();
+  const { messages } = useMessageList({ chatId });
+  const { newMessages } = useOnMessagesReceived({ socket });
+  const allMessages = messages.concat(
+    newMessages.length > 0 ? newMessages : []
+  );
   return (
     <Box
       sx={{
@@ -14,7 +22,7 @@ const MessageList = ({ messages }: Props) => {
       }}
     >
       <List>
-        {messages.map((msg, index) => (
+        {allMessages.map((msg, index) => (
           <ListItem
             key={index}
             sx={{
@@ -32,7 +40,7 @@ const MessageList = ({ messages }: Props) => {
                 backgroundColor: msg.isSupportSender
                   ? !msg.isNote
                     ? "lightblue"
-                    : "rgba(254, 237, 175)"
+                    : (theme) => theme.palette.note.main
                   : "lightgray",
                 borderRadius: 2,
                 padding: 1,
