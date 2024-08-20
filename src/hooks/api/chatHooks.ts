@@ -1,19 +1,21 @@
+import { ClientResponse, SuccessResponse } from "@/api/base.client";
 import { ChatClient } from "@/api/chat.client";
+import { ChatResponse } from "@/api/types/chat";
+import { Chat } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 
 const chatClient = new ChatClient();
 
 export function useChats() {
-  return useQuery({
+  return useQuery<ClientResponse<ChatResponse[]>, Error>({
     queryKey: ["chats"],
     queryFn: () => chatClient.chats(),
   });
 }
 
-export function useChatById(chatId: number | null) {
-  return useQuery({
-    queryKey: chatId ? ["chats", chatId] : ["random"],
-    queryFn: chatId ? () => chatClient.chatById({ chatId }) : undefined,
-    enabled: !!chatId,
+export function useChatById(chatId: number) {
+  return useQuery<ClientResponse<ChatResponse>, Error>({
+    queryKey: ["chatID", chatId],
+    queryFn: () => chatClient.chatById({ chatId }),
   });
 }
