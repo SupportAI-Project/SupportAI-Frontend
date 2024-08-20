@@ -1,19 +1,9 @@
 "use client";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { schema } from "../validations/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Socket } from "socket.io-client";
-
-const schema = z.object({
-  message: z
-    .string()
-    .trim()
-    .min(1)
-    .refine((msg) => msg.split("\n").length <= 10, {
-      message: "Message should not exceed 10 lines",
-    }),
-});
 
 type MessageRequest = {
   message: string;
