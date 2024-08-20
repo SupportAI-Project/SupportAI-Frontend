@@ -7,14 +7,7 @@ type Props = {
 };
 
 const GuideList = ({ guideItems }: Props) => {
-  if (!guideItems) {
-    return (
-      <Grid item xs={12}>
-        <Typography>Loading...</Typography>
-      </Grid>
-    );
-  }
-
+ 
   return (
     <Grid container spacing={2}>
       {guideItems.length > 0 ? (
