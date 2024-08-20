@@ -1,44 +1,46 @@
+"use client";
 import { useEffect, useState } from "react";
 import { Chat } from "@/types";
 import { useChats } from "@/hooks/api/chatHooks";
-import { SuccessResponse } from "@/api/base.client";
-import socket from "@/socket";
+import { ClientResponse, SuccessResponse } from "@/api/base.client";
+import { useOnFetch } from "@/common/hooks/useOnFetch";
+import { Socket } from "socket.io-client";
 
-export const useContacts = () => {
+type Props = {
+  socket: Socket;
+  handleContactSelect: (contact: Chat) => void;
+};
+
+export const useContacts = ({ socket, handleContactSelect }: Props) => {
   const [contacts, setContacts] = useState<Chat[]>([]);
-  const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
-
   const { isError, data, error } = useChats();
 
-  useEffect(() => {
-    if (data) {
-      const { data: chats } = data as SuccessResponse<Chat[]>;
-      setContacts(chats);
-      setSelectedChat(chats[0]);
-    }
-  }, [data]);
+  useOnFetch(
+    (clientResponse: ClientResponse<Chat[]>) => {
+      if (isError) {
+        throw error;
+      } else {
+        const successResponse = clientResponse as SuccessResponse<Chat[]>;
+        const chats = successResponse.data;
+        setContacts(() => chats);
+        handleContactSelect(chats[0]);
+      }
+    },
+    !!data || isError,
+    data
+  );
 
-  if (isError) {
-    console.error(error);
-  }
-
   useEffect(() => {
-    //If user creates a new chat
     socket.on("chatCreated", (chat: Chat) => {
-      setContacts((prevChats) => [...prevChats, chat]);
+      setContacts((prevContacts) => [...prevContacts, chat]);
     });
 
     return () => {
       socket.off("chatCreated");
     };
   }, []);
-  const handleChatSelect = (chat: Chat) => {
-    setSelectedChat(chat);
-  };
 
   return {
     contacts,
-    selectedChat,
-    handleChatSelect,
   };
 };

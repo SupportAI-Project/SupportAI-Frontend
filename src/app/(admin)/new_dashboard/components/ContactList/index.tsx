@@ -9,12 +9,12 @@ import {
 import { Chat } from "@/types";
 
 type Props = {
-  chats: Chat[];
-  selectedChat: Chat | null;
-  onSelectChat: (chat: Chat) => void;
+  contacts: Chat[];
+  selectedContact: Chat | null;
+  onSelectContact: (chat: Chat) => void;
 };
 
-const ContactList = ({ chats, selectedChat, onSelectChat }: Props) => {
+const ContactList = ({ contacts, onSelectContact, selectedContact }: Props) => {
   return (
     <Box
       sx={{
@@ -24,24 +24,24 @@ const ContactList = ({ chats, selectedChat, onSelectChat }: Props) => {
       }}
     >
       <List>
-        {chats.length === 0 ? (
+        {contacts.length === 0 ? (
           <Box sx={{ padding: "16px", textAlign: "center", color: "#888" }}>
             No chats yet!
           </Box>
         ) : (
           <List>
-            {chats.map((chat, index) => (
+            {contacts.map((contact, index) => (
               <Box key={index} sx={{ padding: "0 8px" }}>
                 <ListItemButton
                   selected={
-                    selectedChat?.user?.username === chat.user?.username
+                    selectedContact?.user?.userId === contact.user?.userId
                   }
-                  onClick={() => onSelectChat(chat)}
+                  onClick={() => onSelectContact(contact)}
                   sx={{
                     backgroundColor:
-                      selectedChat?.user?.username === chat.user?.username
+                      selectedContact?.user?.userId === contact.user?.userId
                         ? "#f5f5f5"
-                        : "inherit",
+                        : "#ffffff",
                     borderRadius: 0,
                     marginRight: 0,
                   }}
@@ -52,7 +52,7 @@ const ContactList = ({ chats, selectedChat, onSelectChat }: Props) => {
                     />
                   </ListItemAvatar>
                   <ListItemText
-                    primary={chat.user?.username}
+                    primary={contact.user?.username}
                     // secondary={chat.}
                   />
                 </ListItemButton>
