@@ -31,7 +31,6 @@ const GuidePage = () => {
       <PageContainer title={guide.title}>
         <DashboardCard title={guide.title}>
           <div>
-            <h1>{guide.title}</h1>
             <div dangerouslySetInnerHTML={{ __html: guide.contentHTML }} />
             <Typography variant="body2">
               Created by User ID: {guide.creatorId} on{" "}
