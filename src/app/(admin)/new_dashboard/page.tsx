@@ -8,7 +8,7 @@ import ChatHeader from "./components/ChatHeader";
 import MessageList from "./components/MessageList";
 import { useContacts } from "./hooks";
 import { useSelectedContact } from "./hooks/useSelectedContact";
-import { useSocket } from "@/app/providers";
+import { useSocket } from "@/app/hooks/useSocket";
 
 const Page = () => {
   const socket = useSocket();
