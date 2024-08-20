@@ -35,18 +35,10 @@ const GuidePage = () => {
         <DashboardCard title={guide.title}>
           <div>
             <div dangerouslySetInnerHTML={{ __html: guide.contentHTML }} />
-            <Typography variant="body2">
+            <Typography>
               Created by {guide.creator?.username} on{" "}
               {new Date(guide.createdAt).toLocaleDateString()}
             </Typography>
-            <Typography variant="body2">
-              <Rating
-                value={3}
-                precision={0.5}
-                readOnly
-              />
-            </Typography>
-            <Typography>length {guide.reviews?.length}</Typography>
           </div>
         </DashboardCard>
       </PageContainer>

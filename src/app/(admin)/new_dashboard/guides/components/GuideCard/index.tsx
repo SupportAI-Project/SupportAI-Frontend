@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography, Box } from "@mui/material";
+import { Card, CardContent, Typography, Box, Rating } from "@mui/material";
 import SupportIcon from "@mui/icons-material/Support";
 import { useTheme } from "@mui/material/styles";
 import { Guide } from "@/api/types/Guide";
@@ -9,7 +9,8 @@ type Props = {
 
 const GuideCard = ({ guide }: Props) => {
   const theme = useTheme();
-
+  const totalStars = guide.reviews?.reduce((acc, review) => acc + review.stars, 0);
+  const avgRating = (totalStars ?? 0) / (guide.reviews?.length ?? 1);
   return (
     <Card variant="outlined">
       <CardContent>
@@ -18,8 +19,13 @@ const GuideCard = ({ guide }: Props) => {
           <Typography variant="h6">{guide.title}</Typography>
         </Box>
         <Typography variant="body2" color="textSecondary" mb={2}>
-          Created by User ID: {guide.creatorId}
+          Created by : {guide.creator?.username}
         </Typography>
+        <Rating
+                value={avgRating}
+                precision={0.5}
+                readOnly
+              />
         <Typography variant="body2" color="textSecondary" mb={2}>
           Created at: {new Date(guide.createdAt).toLocaleDateString()}
         </Typography>
