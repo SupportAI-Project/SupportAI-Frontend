@@ -1,14 +1,14 @@
 "use client";
 import DashboardCard from "../shared/Card";
 import PageContainer from "@/components/PageContainer";
-import { Box, Typography } from "@mui/material";
+import { Alert, Box, CircularProgress, Typography } from "@mui/material";
 import GuideList from "./components/GuideList";
 import SearchBar from "./components/SearchBar";
 import { useSearchGuides, useAllGuides } from "./hooks";
 import { Guide } from "@/api/types/Guide";
 
 const Page = () => {
-  const { data: guideItems, isLoading, isError, isSuccess } = useAllGuides();
+  const { data: guideItems, isLoading, error, isError, isSuccess } = useAllGuides();
 
   let guides: Guide[] = [];
 
@@ -24,8 +24,8 @@ const Page = () => {
     <PageContainer title="Guides">
       <DashboardCard title="Guides">
         <Box>
-          {isLoading && <Typography>Loading...</Typography>}
-          {isError && <Typography>Error loading guides</Typography>}
+          {isLoading && <CircularProgress />}
+          {isError && <Alert severity="error">{error.message}</Alert>}
           {isSuccess && guides.length > 0 && (
             <>
               <Box mb={2}>

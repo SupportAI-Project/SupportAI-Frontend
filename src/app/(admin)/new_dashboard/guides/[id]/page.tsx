@@ -1,9 +1,9 @@
 "use client";
 import PageContainer from "@/components/PageContainer";
 import { useParams } from "next/navigation";
-import { useAllGuides, useGuide } from "../hooks";
+import { useGuide } from "../hooks";
 import DashboardCard from "../../shared/Card";
-import { Typography,Rating } from "@mui/material";
+import { Typography, CircularProgress, Alert } from "@mui/material";
 import { Guide } from "@/api/types/Guide";
 
 const GuidePage = () => {
@@ -14,15 +14,15 @@ const GuidePage = () => {
   
   let guide: Guide | undefined = undefined;
 
- const {data:response , isLoading, isError, isSuccess} = useGuide(id ?? 0);
+ const {data:response , isLoading, isError, error, isSuccess} = useGuide(id ?? 0);
 
  
   if (isLoading) {
-    return <Typography>Loading...</Typography>;
+    return <CircularProgress />;
   }
 
   if(isError) {
-    return <Typography>Error</Typography>;
+    return <Alert severity="error">This is an error Alert.</Alert>;
   }
 
   if(isSuccess && "data" in response) {
