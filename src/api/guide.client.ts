@@ -10,4 +10,8 @@ export class GuideClient extends BaseClient {
   async getReviews(guideId: number) {
     return await this.get<Review[]>('reviews/guide/' + guideId);
   }
+
+  async getGuide(guideId: number) {
+    return await this.get<Guide>('guides/' + guideId);
+  }
 }

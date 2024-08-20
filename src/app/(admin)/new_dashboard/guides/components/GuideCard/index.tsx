@@ -23,11 +23,6 @@ const GuideCard = ({ guide }: Props) => {
         <Typography variant="body2" color="textSecondary" mb={2}>
           Created at: {new Date(guide.createdAt).toLocaleDateString()}
         </Typography>
-        <Box display="flex" alignItems="center" mt={2}>
-          <Typography variant="body2" color="textSecondary">
-            Total Stars: {guide.starsTotalSum}
-          </Typography>
-        </Box>
       </CardContent>
     </Card>
   );

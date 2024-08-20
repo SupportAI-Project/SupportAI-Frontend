@@ -4,11 +4,11 @@ import PageContainer from "@/components/PageContainer";
 import { Box, Typography } from "@mui/material";
 import GuideList from "./components/GuideList";
 import SearchBar from "./components/SearchBar";
-import { useSearchGuides, useGuides } from "./hooks";
+import { useSearchGuides, useAllGuides } from "./hooks";
 import { Guide } from "@/api/types/Guide";
 
 const Page = () => {
-  const { data: guideItems, isLoading, isError, isSuccess } = useGuides();
+  const { data: guideItems, isLoading, isError, isSuccess } = useAllGuides();
 
   let guides: Guide[] = [];
 
