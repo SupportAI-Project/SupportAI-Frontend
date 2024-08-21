@@ -6,7 +6,7 @@ type Props = {
   chatId: number;
 };
 
-const SupportMessageList = ({ chatId }: Props) => {
+const UserMessageList = ({ chatId }: Props) => {
   const socket = useSocket();
   const { messages } = useMessageList({ chatId, socket });
 
@@ -29,4 +29,4 @@ const SupportMessageList = ({ chatId }: Props) => {
   );
 };
 
-export default SupportMessageList;
+export default UserMessageList;
