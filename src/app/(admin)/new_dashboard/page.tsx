@@ -56,10 +56,7 @@ const Page = () => {
 
               {/* Message List */}
               {selectedContact && (
-                <MessageList
-                  // messages={contactMessages}
-                  chatId={selectedContact.chatId}
-                />
+                <MessageList chatId={selectedContact.chatId} />
               )}
 
               {/* Input and Send Button */}
