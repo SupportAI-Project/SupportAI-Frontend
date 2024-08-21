@@ -66,7 +66,6 @@ const GuideViewer: React.FC = () => {
             {guide && (
               <>
                 <h1>{guide.title}</h1>
-                <h5>Created by {guide.creator}</h5>
                 <h6>{guide.creationDate}</h6>
               </>
             )}
