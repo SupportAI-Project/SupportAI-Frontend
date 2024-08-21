@@ -23,8 +23,8 @@ const GuideList = ({ guideItems }: Props) => {
             xs={12}
             sm={6}
             md={4}
-            key={guide.guideId}
-            onClick={() => handleCardClick(guide.guideId)}
+            key={guide.id}
+            onClick={() => handleCardClick(guide.id)}
             style={{ cursor: "pointer" }}
           >
             <GuideCard guide={guide} />

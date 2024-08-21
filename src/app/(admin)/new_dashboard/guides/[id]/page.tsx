@@ -45,7 +45,7 @@ const GuidePage = () => {
           </div>
         </DashboardCard>
         <Divider sx={{ mt: 2, mb: 2, border: 'none' }} />
-        <ReviewList guideId={guide.guideId}/>        
+        <ReviewList guideId={guide.id}/>        
       </PageContainer>
     );
   }
