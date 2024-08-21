@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { userSchema } from './User';
 
 export const reviewSchema = z.object({
-  reviewId: z.number(),
+  id: z.number(),
   userId: z.number(),
   guideId: z.number(),
   stars: z.number().min(1).max(5),

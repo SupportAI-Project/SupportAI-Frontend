@@ -42,7 +42,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ guideId }) => {
         <DashboardCard title="Reviews">
           <Box mt={2}>
             {reviews.map((review, index) => (
-              <Box key={review.reviewId} mb={2}>
+              <Box key={review.id} mb={2}>
                 <Typography>
                   {review.user?.username} - {new Date(review.createdAt).toLocaleDateString()}
                 </Typography>
