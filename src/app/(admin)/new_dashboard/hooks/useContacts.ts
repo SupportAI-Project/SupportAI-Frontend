@@ -1,22 +1,56 @@
-import { useState } from "react";
+"use client";
+import { useEffect, useState } from "react";
+import { Chat, ClientResponse, SuccessResponse } from "@/types";
+import { useChats } from "@/hooks/api/chatHooks";
+import { useOnFetch } from "@/common/hooks/useOnFetch";
+import { Socket } from "socket.io-client";
 import { Contact } from "../types";
 
-export const useContacts = () => {
-  const initialContacts: Contact[] = [
-    { name: "Alice", avatar: "/avatar1.png", lastMessage: "See you later!" },
-    {
-      name: "Bob",
-      avatar: "/avatar2.png",
-      lastMessage: "Let's catch up tomorrow.",
-    },
-    {
-      name: "Charlie",
-      avatar: "/avatar3.png",
-      lastMessage: "Can you send me the file?",
-    },
-  ];
+type Props = {
+  socket: Socket;
+  handleContactSelect: (contact: Contact) => void;
+};
 
-  const [contacts, setContacts] = useState<Contact[]>(initialContacts);
+export const useContacts = ({ socket, handleContactSelect }: Props) => {
+  const [contacts, setContacts] = useState<Contact[]>([]);
+  const { isError, data, error } = useChats();
 
-  return { contacts, setContacts };
+  useOnFetch(
+    (clientResponse: ClientResponse<Chat[]>) => {
+      if (isError) {
+        throw error;
+      } else {
+        const successResponse = clientResponse as SuccessResponse<Chat[]>;
+        const chats = successResponse.data;
+        const contacts = chats.map((chat) => ({
+          chatId: chat.chatId,
+          userId: chat.user!.userId,
+          username: chat.user!.username,
+          isOpen: chat.isOpen,
+        }));
+        setContacts(contacts);
+        handleContactSelect(contacts[0]);
+      }
+    },
+    !!data || isError,
+    data
+  );
+
+  useEffect(() => {
+    if (socket && contacts) {
+      socket.on("chatCreated", (chat: Chat) => {
+        const contact = {
+          chatId: chat.chatId,
+          userId: chat.customerId,
+          username: chat.user!.username,
+          isOpen: chat.isOpen,
+        };
+        setContacts([...contacts, contact]);
+      });
+    }
+  }, [contacts]);
+
+  return {
+    contacts,
+  };
 };

@@ -1,14 +1,4 @@
-interface ErrorResponse {
-  statusCode: number;
-  message: string;
-  error: string;
-}
-
-export interface SuccessResponse<T> {
-  data: T;
-}
-
-type ClientResponse<T> = SuccessResponse<T> | ErrorResponse;
+import { ClientResponse, ErrorResponse } from "@/types";
 
 class ApiError extends Error {
   statusCode: number;

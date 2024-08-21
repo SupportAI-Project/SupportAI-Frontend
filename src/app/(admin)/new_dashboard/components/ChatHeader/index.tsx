@@ -22,7 +22,7 @@ const ChatHeader = ({ selectedContact }: Props) => {
     >
       {selectedContact && (
         <>
-          <Typography variant="h6">{selectedContact.name}</Typography>
+          <Typography variant="h6">{selectedContact.username}</Typography>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <Button variant="contained" startIcon={<SmartToyIcon />}>
               Generate Guide

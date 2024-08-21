@@ -1,5 +1,5 @@
 import { Box, Drawer } from "@mui/material";
-import { Sidebar, Logo } from "react-mui-sidebar";
+import Image from "next/image";
 import SidebarItems from "./SidebarItems";
 
 interface ItemType {
@@ -49,25 +49,39 @@ const DashboardSidebar = ({ isSidebarOpen }: ItemType) => {
             height: "100%",
           }}
         >
-          <Sidebar
-            width={"270px"}
-            collapsewidth="80px"
+          <Drawer
             open={isSidebarOpen}
-            themeColor="#5d87ff"
-            themeSecondaryColor="#49beff"
-            showProfile={false}
+            variant="permanent"
+            PaperProps={{
+              sx: {
+                boxSizing: "border-box",
+                ...scrollbarStyles,
+                width: "270px",
+              },
+            }}
           >
             {/* ------------------------------------------- */}
             {/* Logo */}
             {/* ------------------------------------------- */}
-            <Logo img="/logo.png" />
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100px",
+                width: "270px",
+              }}
+            >
+              <Image src="/logo.png" alt="logo" width={220} height={150} />
+            </Box>
+            {/* <Logo img="/logo.png" /> */}
             <Box>
               {/* ------------------------------------------- */}
               {/* Sidebar Items */}
               {/* ------------------------------------------- */}
               <SidebarItems />
             </Box>
-          </Sidebar>
+          </Drawer>
         </Box>
       </Drawer>
     </Box>

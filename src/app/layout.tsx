@@ -2,7 +2,7 @@
 
 import { baselightTheme } from "@/util/theme";
 import "./globals.css";
-import { Providers } from "./providers";
+import { Providers, SocketProvider } from "./providers";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 
 export default function RootLayout({
@@ -15,7 +15,9 @@ export default function RootLayout({
       <body style={{ height: "100vh" }}>
         <ThemeProvider theme={baselightTheme}>
           <CssBaseline />
-          <Providers>{children}</Providers>
+          <Providers>
+            <SocketProvider>{children}</SocketProvider>
+          </Providers>
         </ThemeProvider>
       </body>
     </html>
