@@ -20,6 +20,7 @@ const UserMessageList = ({ chatId }: Props) => {
     >
       <List>
         {messages.map((msg, index) => {
+          if (msg.isNote) return null;
           return (
             <Message message={msg} key={index} isSupport={false}></Message>
           );
