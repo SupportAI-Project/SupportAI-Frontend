@@ -3,9 +3,10 @@ import PageContainer from "@/components/PageContainer";
 import { useParams } from "next/navigation";
 import { useGuide } from "../hooks";
 import DashboardCard from "../../shared/Card";
-import { Typography, CircularProgress, Alert, Box } from "@mui/material";
+import { Typography, CircularProgress, Alert, Box, Divider } from "@mui/material";
 import { Guide } from "@/api/types/Guide";
 import ReviewList from "../components/ReviewList";
+import AddReviewBox from "../components/AddReviewBox";
 
 const GuidePage = () => {
   const params = useParams();
@@ -43,8 +44,8 @@ const GuidePage = () => {
             
           </div>
         </DashboardCard>
-        <Box mt={2}></Box>
-        <ReviewList reviews={guide.reviews || []} />
+        <Divider sx={{ mt: 2, mb: 2, border: 'none' }} />
+        <ReviewList guideId={guide.guideId}/>        
       </PageContainer>
     );
   }

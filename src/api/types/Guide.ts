@@ -1,21 +1,6 @@
 import { z } from 'zod';
-
-const userSchema = z.object({
-  userId: z.number(),
-  username: z.string(),
-  email: z.string(),
-  password: z.string(), 
-  roles: z.array(z.string()),
-}).optional();
-
-const reviewSchema = z.object({
-  reviewId: z.number(),
-  userId: z.number(),
-  guideId: z.number(),
-  stars: z.number(),
-  comment: z.string(),
-  createdAt: z.date(),
-});
+import { userSchema } from './User';
+import { reviewSchema } from './Review';
 
 const guideSchema = z.object({
   guideId: z.number(),

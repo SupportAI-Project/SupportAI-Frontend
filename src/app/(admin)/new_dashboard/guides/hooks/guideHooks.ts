@@ -1,5 +1,7 @@
 import { GuideClient } from '@/api/guide.client';
-import { useQuery } from '@tanstack/react-query';
+import { Review } from '@/api/types/Review';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { CreateReviewDto } from '../dto/CreateReviewDto';
 
 const guideClient = new GuideClient();
 
@@ -21,5 +23,11 @@ export function useGuide(guideId: number) {
   return useQuery({
     queryKey: ['guide', guideId],
     queryFn: () => guideClient.getGuide(guideId),
+  });
+}
+
+export function useAddReview() {
+  return useMutation({
+    mutationFn: (review:CreateReviewDto) => guideClient.addReview(review),
   });
 }
