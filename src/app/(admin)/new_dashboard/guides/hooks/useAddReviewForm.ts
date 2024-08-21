@@ -11,7 +11,7 @@ const useAddReviewForm = (guideId: number) => {
   const handleSubmit = () => {
     const newReview: CreateReviewDto = {
       guideId,
-      stars: stars ?? 0,
+      rating: stars ?? 0,
       comment: comment.trim() || undefined,
     };
     const validation = CreateReviewSchema.safeParse(newReview);

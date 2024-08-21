@@ -9,7 +9,7 @@ type Props = {
 
 const GuideCard = ({ guide }: Props) => {
   const theme = useTheme();
-  const totalStars = guide.reviews?.reduce((acc, review) => acc + review.stars, 0);
+  const totalStars = guide.reviews?.reduce((acc, review) => acc + review.rating, 0);
   const avgRating = (totalStars ?? 0) / (guide.reviews?.length ?? 1);
   return (
     <Card variant="outlined">

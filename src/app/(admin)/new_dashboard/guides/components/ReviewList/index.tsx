@@ -49,7 +49,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ guideId }) => {
                 <Typography variant="body1" mb={0.5}>
                   {review.comment}
                 </Typography>
-                <Rating value={review.stars} readOnly />
+                <Rating value={review.rating} readOnly />
                 {index < reviews.length - 1 && <Divider sx={{ mt: 2, mb: 2 }} />}
               </Box>
             ))}
