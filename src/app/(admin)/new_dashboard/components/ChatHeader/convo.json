@@ -1,0 +1,14 @@
+{
+    "user": "I am having trouble with my computer. It is not turning on.",
+    "assistant": "I am sorry to hear that. Have you tried to check if the power cord is plugged in?",
+    "user": "Yes, I have checked that. It is plugged in.",
+    "assistant": "Have you tried to press the power button?",
+    "user": "Yes, I have tried that. It is still not turning on.",
+    "assistant": "Have you tried to unplug the power cord and plug it back in?",
+    "user": "Yes, I have tried that. The Type-C connection cable is damaged.",
+    "assistant": "I recommend you to replace the Type-C connection cable.",
+    "user": "I have replaced the Type-C connection cable. It is working now.",
+    "assistant": "I am glad to hear that. Is there anything else I can help you with?",
+    "user": "No, thank you. That is all.",
+    "assistant": "You are welcome. Have a great day!"
+  }
