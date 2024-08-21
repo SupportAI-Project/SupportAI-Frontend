@@ -1,43 +1,28 @@
-import React, { useState } from 'react';
-import { useAddReview } from '../../hooks';
+import React from 'react';
 import { Box, Typography, Rating, TextField, Button } from '@mui/material';
-import { CreateReviewDto,CreateReviewSchema } from '../../dto/CreateReviewDto';
-
+import useAddReviewForm from '../../hooks/useAddReviewForm';
 interface AddReviewBoxProps {
-    guideId: number;
+  guideId: number;
 }
 
 const AddReviewBox: React.FC<AddReviewBoxProps> = ({ guideId }) => {
-  const [comment, setComment] = useState('');
-  const [stars, setStars] = useState(0);
-  const [validationError, setValidationError] = useState<string | null>(null);
-  const {mutate, isError,error,isPending,isSuccess} = useAddReview();
-
-  const handleSubmit = () => {
-    const newReview: CreateReviewDto = {
-        guideId,
-        stars: stars ?? 0,
-        comment: comment.trim() || undefined,
-    };
-    const validation = CreateReviewSchema.safeParse(newReview);
-    if (!validation.success) {
-        setValidationError(validation.error.errors.map((err) => err.message).join(", "));
-        return;
-    }
-
-    mutate(validation.data,{
-        onSuccess: () => {
-            setComment('');
-            setStars(5);
-        }
-    });
-  };
+  const {
+    comment,
+    setComment,
+    stars,
+    setStars,
+    validationError,
+    isError,
+    error,
+    isPending,
+    isSuccess,
+    handleSubmit,
+  } = useAddReviewForm(guideId);
 
   return (
     <Box>
-      <Typography variant="h6">Add Your Review</Typography>
-      <Box mb={2}>
-        <Typography component="legend">Rating</Typography>
+      <Typography variant="h6" >Add Your Review:</Typography>
+      <Box mb={2} mt={2}>
         <Rating
           name="stars"
           value={stars}
@@ -69,11 +54,13 @@ const AddReviewBox: React.FC<AddReviewBoxProps> = ({ guideId }) => {
       )}
       {isError && (
         <Typography color="error">
-          Error: {error.message}
+          {error?.message}
         </Typography>
       )}
       {isSuccess && (
-        <Typography color="success.main">Review submitted successfully!</Typography>
+        <Typography color="success.main">
+          Review submitted successfully!
+        </Typography>
       )}
     </Box>
   );

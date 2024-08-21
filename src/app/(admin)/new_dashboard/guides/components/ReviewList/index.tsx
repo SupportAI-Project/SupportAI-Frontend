@@ -53,6 +53,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ guideId }) => {
                 {index < reviews.length - 1 && <Divider sx={{ mt: 2, mb: 2 }} />}
               </Box>
             ))}
+            <Divider sx={{ mt: 2, mb: 2 }} />
             <AddReviewBox guideId={guideId} />
           </Box>
         </DashboardCard>

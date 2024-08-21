@@ -1,5 +1,4 @@
 import { GuideClient } from '@/api/guide.client';
-import { Review } from '@/api/types/Review';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { CreateReviewDto } from '../dto/CreateReviewDto';
 
