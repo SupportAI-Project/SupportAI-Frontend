@@ -28,7 +28,7 @@ export const useContacts = ({ socket, handleContactSelect }: Props) => {
           username: chat.user!.username,
           isOpen: chat.isOpen,
         }));
-        setContacts(() => contacts);
+        setContacts(contacts);
         handleContactSelect(contacts[0]);
       }
     },
@@ -37,20 +37,18 @@ export const useContacts = ({ socket, handleContactSelect }: Props) => {
   );
 
   useEffect(() => {
-    socket.on("chatCreated", (chat: Chat) => {
-      const contact = {
-        chatId: chat.chatId,
-        userId: chat.user!.userId,
-        username: chat.user!.username,
-        isOpen: chat.isOpen,
-      };
-      setContacts((prevContacts) => [...prevContacts, contact]);
-    });
-
-    return () => {
-      socket.off("chatCreated");
-    };
-  }, []);
+    if (socket && contacts) {
+      socket.on("chatCreated", (chat: Chat) => {
+        const contact = {
+          chatId: chat.chatId,
+          userId: chat.customerId,
+          username: chat.user!.username,
+          isOpen: chat.isOpen,
+        };
+        setContacts([...contacts, contact]);
+      });
+    }
+  }, [contacts]);
 
   return {
     contacts,
