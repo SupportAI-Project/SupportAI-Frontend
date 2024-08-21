@@ -1,13 +1,14 @@
 "use client";
 import PageContainer from "@/components/PageContainer";
 import DashboardCard from "./shared/Card";
-import MessageInput from "./components/MessageInput";
+
 import { Box } from "@mui/material";
 import ContactList from "./components/ContactList";
 import ChatHeader from "./components/ChatHeader";
-import MessageList from "./components/MessageList";
 import { useContacts, useSelectedContact } from "./hooks";
 import { useSocket } from "@/app/hooks/useSocket";
+import SupportMessageList from "./components/SupportMessageList";
+import MessageInput from "@/common/components/MessageInput";
 
 const Page = () => {
   const socket = useSocket();
@@ -56,7 +57,7 @@ const Page = () => {
 
               {/* Message List */}
               {selectedContact && (
-                <MessageList chatId={selectedContact.chatId} />
+                <SupportMessageList chatId={selectedContact.chatId} />
               )}
 
               {/* Input and Send Button */}
