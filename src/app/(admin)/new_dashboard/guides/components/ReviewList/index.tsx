@@ -15,20 +15,21 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
   }
 
   return (
-    <PageContainer title={"Reviews"} >
-        <DashboardCard title={"Reviews"}>
-         <Box mt={2}>
-      {reviews.map((review, index) => (
-        <Box key={review.reviewId} mb={2}>
-          <Typography variant="body1" mb={0.5}>{review.comment}</Typography>
-          <Rating value={review.stars} readOnly />
-          {index < reviews.length - 1 && <Divider sx={{ mt: 2, mb: 2 }} />}     
+    <PageContainer title="Reviews">
+      <DashboardCard title="Reviews">
+        <Box mt={2}>
+          {reviews.map((review, index) => (
+            <Box key={review.reviewId} mb={2}>
+              <Typography variant="body1" mb={0.5}>
+                {review.comment}
+              </Typography>
+              <Rating value={review.stars} readOnly />
+              {index < reviews.length - 1 && <Divider sx={{ mt: 2, mb: 2 }} />}
+            </Box>
+          ))}
         </Box>
-      ))}
-    </Box>
-        </DashboardCard>
-      </PageContainer>
-    
+      </DashboardCard>
+    </PageContainer>
   );
 };
 
