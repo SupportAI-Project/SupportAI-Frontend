@@ -24,7 +24,7 @@ const GuidePage = () => {
   }
 
   if(isError) {
-    return <Alert severity="error">This is an error Alert.</Alert>;
+    return <Alert severity="error">{error.message}</Alert>;
   }
 
   if(isSuccess && "data" in response) {
