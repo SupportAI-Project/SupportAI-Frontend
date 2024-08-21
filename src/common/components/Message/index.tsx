@@ -2,17 +2,15 @@ import { ListItem, Box, Typography } from "@mui/material";
 
 type IMessage = {
   message: Message;
-  key: number;
   isSupport?: boolean;
 };
 
 export const Message = (messageProps: IMessage) => {
-  const { message, key, isSupport = true } = messageProps;
+  const { message, isSupport = true } = messageProps;
   const { isNote, isSupportSender, timeStamp, content } = message;
   const chatMode = isSupport ? isSupportSender : !isSupportSender;
   return (
     <ListItem
-      key={key}
       sx={{
         display: "flex",
         justifyContent: chatMode ? "flex-end" : "flex-start",
