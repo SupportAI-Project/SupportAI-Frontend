@@ -8,7 +8,7 @@ class ApiError extends Error {
     super(message);
     this.statusCode = statusCode;
     this.error = error;
-    this.name = "ApiError";
+    this.name = 'ApiError';
   }
 }
 
@@ -21,25 +21,25 @@ export class BaseClient {
 
   private async request<T>(
     endpoint: string,
-    method: "GET" | "POST" | "PUT" | "DELETE",
+    method: 'GET' | 'POST' | 'PUT' | 'DELETE',
     body?: any,
     options: RequestInit = {}
   ): Promise<ClientResponse<T>> {
     if (!this.base) {
-      throw new Error("Base URL is not defined");
+      throw new Error('Base URL is not defined');
     }
 
     const fetchOptions: RequestInit = {
       method,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         ...options.headers,
       },
-      credentials: "include",
+      credentials: 'include',
       ...options,
     };
 
-    if (method !== "GET" && method !== "DELETE") {
+    if (method !== 'GET' && method !== 'DELETE') {
       fetchOptions.body = body != null ? JSON.stringify(body) : undefined;
     }
 
@@ -56,8 +56,8 @@ export class BaseClient {
         );
       }
 
-      const contentType = response.headers.get("Content-Type");
-      if (contentType && contentType.includes("application/json")) {
+      const contentType = response.headers.get('Content-Type');
+      if (contentType && contentType.includes('application/json')) {
         const data: T = await response.json();
         return {
           data,
@@ -68,11 +68,11 @@ export class BaseClient {
         };
       }
     } catch (error) {
-      console.error("An error occurred", error);
+      console.error('An error occurred', error);
       if (error instanceof ApiError) {
         throw error;
       } else {
-        throw new Error("An unexpected error occurred");
+        throw new Error('An unexpected error occurred');
       }
     }
   }
@@ -81,7 +81,7 @@ export class BaseClient {
     endpoint: string,
     options: RequestInit = {}
   ): Promise<ClientResponse<T>> {
-    return this.request<T>(endpoint, "GET", options);
+    return this.request<T>(endpoint, 'GET', options);
   }
 
   protected async post<T>(
@@ -89,7 +89,7 @@ export class BaseClient {
     body: any,
     options: RequestInit = {}
   ): Promise<ClientResponse<T>> {
-    return this.request<T>(endpoint, "POST", body, options);
+    return this.request<T>(endpoint, 'POST', body, options);
   }
 
   protected async put<T>(
@@ -97,13 +97,13 @@ export class BaseClient {
     body: any,
     options: RequestInit = {}
   ): Promise<ClientResponse<T>> {
-    return this.request<T>(endpoint, "PUT", body, options);
+    return this.request<T>(endpoint, 'PUT', body, options);
   }
 
   protected async delete<T>(
     endpoint: string,
     options: RequestInit = {}
   ): Promise<ClientResponse<T>> {
-    return this.request<T>(endpoint, "DELETE", options);
+    return this.request<T>(endpoint, 'DELETE', options);
   }
 }

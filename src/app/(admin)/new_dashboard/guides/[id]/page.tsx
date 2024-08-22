@@ -1,32 +1,54 @@
 "use client";
 import PageContainer from "@/components/PageContainer";
-import { Guide } from "../types";
 import { useParams } from "next/navigation";
-import { useGuideItems } from "../hooks";
+import { useGuide } from "../hooks";
 import DashboardCard from "../../shared/Card";
+import { Typography, CircularProgress, Alert, Box, Divider } from "@mui/material";
+import { Guide } from "@/api/types/Guide";
+import ReviewList from "../components/ReviewList";
+import AddReviewBox from "../components/AddReviewBox";
 
 const GuidePage = () => {
-  const { id } = useParams<{ id: string }>()!;
+  const params = useParams();
 
-  const { guideItems } = useGuideItems();
-  const guide = guideItems.find((guide: Guide) => guide.id === Number(id));
+  const id = params?.id ? Number(params.id) : null;
+  
+  
+  let guide: Guide | undefined = undefined;
 
-  if (!guide) {
-    return <p>Guide not found</p>;
+ const {data:response , isLoading, isError, error, isSuccess} = useGuide(id ?? 0);
+
+ 
+  if (isLoading) {
+    return <CircularProgress />;
   }
 
-  return (
-    <PageContainer title={guide?.title}>
-      <DashboardCard title={guide?.title}>
-        <div>
-          <h1>{guide?.title}</h1>
-          <p>{guide?.issue}</p>
-          <p>Likes: {guide?.likes}</p>
-          <p>Dislikes: {guide?.dislikes}</p>
-        </div>
-      </DashboardCard>
-    </PageContainer>
-  );
+  if(isError) {
+    return <Alert severity="error">{error.message}</Alert>;
+  }
+
+  if(isSuccess && "data" in response) {
+    guide = response.data;
+    if(!guide.title) {
+      return <Typography>Guide not found</Typography>;
+    }
+    return (
+      <PageContainer title={guide.title}>
+        <DashboardCard title={guide.title}>
+          <div>
+          <Typography variant="body2" sx={{ mb: 2 }}>
+              Created by {guide.creator?.username} on{" "}
+              {new Date(guide.createdAt).toLocaleDateString()}
+            </Typography>
+            <div dangerouslySetInnerHTML={{ __html: guide.contentHTML }} />
+            
+          </div>
+        </DashboardCard>
+        <Divider sx={{ mt: 2, mb: 2, border: 'none' }} />
+        <ReviewList guideId={guide.id} reviews={guide.reviews ?? []}/>        
+      </PageContainer>
+    );
+  }
 };
 
 export default GuidePage;
