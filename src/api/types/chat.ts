@@ -1,7 +1,7 @@
-import { Chat } from "@/types";
+import { Chat } from '@/types';
 
 export type ChatRequest = {
-  chatId: number;
+  id: number;
 };
 
 export type ChatResponse = Chat;
