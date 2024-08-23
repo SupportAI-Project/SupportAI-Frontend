@@ -7,28 +7,28 @@ type Props = {
   socket: Socket;
 };
 type Chat = {
-  chatId: number;
+  id: number;
 };
 
 export const useChat = ({ userId, socket }: Props) => {
   const [chatId, setChatId] = useState<number | null>(null);
-  const { data, error } = useChatByUserId(userId);
+  const { data: chat, error } = useChatByUserId(userId);
   useEffect(() => {
-    if (data) {
-      if (data.user?.id !== userId) {
+    if (chat) {
+      if (chat.user?.id !== userId) {
         socket.emit('create');
         socket.on('chatCreated', (chat: Chat) => {
-          socket.emit('join', { chatId: chat.chatId });
-          setChatId(chat.chatId);
+          socket.emit('join', { chatId: chat.id});
+          setChatId(chat.id);
         });
         return;
       }
-      if (data.id) {
+      if (chat.id) {
         console.log('Chat exists');
-        socket.emit('join', { chatId: data.id });
-        setChatId(data.id);
+        socket.emit('join', { chatId: chat.id });
+        setChatId(chat.id);
       }
     }
-  }, [data]);
+  }, [chat]);
   return { chatId, error };
 };
