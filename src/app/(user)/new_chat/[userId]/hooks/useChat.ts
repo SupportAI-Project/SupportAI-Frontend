@@ -1,34 +1,34 @@
-import { useEffect, useState } from "react";
-import { useChatByUserId } from "@/hooks/api/chatHooks";
-import { Socket } from "socket.io-client";
+import { useEffect, useState } from 'react';
+import { useChatByUserId } from '@/hooks/api/chatHooks';
+import { Socket } from 'socket.io-client';
 
 type Props = {
   userId: number;
   socket: Socket;
 };
 type Chat = {
-  chatId: number;
+  id: number;
 };
 
 export const useChat = ({ userId, socket }: Props) => {
   const [chatId, setChatId] = useState<number | null>(null);
-  const { data, error } = useChatByUserId(userId);
+  const { data: chat, error } = useChatByUserId(userId);
   useEffect(() => {
-    if (data) {
-      if (data.user?.userId !== userId) {
-        socket.emit("create");
-        socket.on("chatCreated", (chat: Chat) => {
-          socket.emit("join", { chatId: chat.chatId });
-          setChatId(chat.chatId);
+    if (chat) {
+      if (chat.user?.id !== userId) {
+        socket.emit('create');
+        socket.on('chatCreated', (chat: Chat) => {
+          socket.emit('join', { chatId: chat.id});
+          setChatId(chat.id);
         });
         return;
       }
-      if (data.chatId) {
-        console.log("Chat exists");
-        socket.emit("join", { chatId: data.chatId });
-        setChatId(data.chatId);
+      if (chat.id) {
+        console.log('Chat exists');
+        socket.emit('join', { chatId: chat.id });
+        setChatId(chat.id);
       }
     }
-  }, [data]);
+  }, [chat]);
   return { chatId, error };
 };

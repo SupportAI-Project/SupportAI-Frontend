@@ -17,8 +17,8 @@ const ChatApp: React.FC = () => {
     socket.emit("create");
     socket.on("chatCreated", (chat: Chat) => {
       const fd = new FormData();
-      setChatId(chat.chatId);
-      fd.append("chatId", chat.chatId.toString());
+      setChatId(chat.id);
+      fd.append("chatId", chat.id.toString());
       socket.emit("join", fd);
       socket.on("newMessage", (data: Message) => {
         console.log("Received message: ", data);

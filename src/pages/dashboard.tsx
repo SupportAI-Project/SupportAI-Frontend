@@ -72,8 +72,8 @@ const Dashboard = () => {
 
     if (selectedChat) {
       const fd = new FormData();
-      fd.append("chatId", selectedChat.chatId.toString());
-      socket.emit("join", { chatId: selectedChat.chatId });
+      fd.append("chatId", selectedChat.id.toString());
+      socket.emit("join", { chatId: selectedChat.id });
 
       // If user sends a new message
       socket.on("newMessage", (message: Message) => {
@@ -83,7 +83,7 @@ const Dashboard = () => {
       return () => {
         socket.off("newMessage");
         const fd = new FormData();
-        fd.append("chatId", selectedChat.chatId.toString());
+        fd.append("chatId", selectedChat.id.toString());
         socket.emit("leave", fd);
       };
     }
@@ -117,7 +117,7 @@ const Dashboard = () => {
     //   console.log("Same chat");
     //   return;
     // }
-    const messages = await apiRequest("/chats/" + chat.chatId, "GET");
+    const messages = await apiRequest("/chats/" + chat.id, "GET");
 
     setChatMessages(messages.messages as Message[]);
     setSelectedChat(chat);
@@ -163,7 +163,7 @@ const Dashboard = () => {
     // };
     console.log(selectedChat);
     const data = {
-      chatId: selectedChat?.chatId,
+      chatId: selectedChat?.id,
       content: message,
     };
     const allMessage = {
@@ -192,7 +192,7 @@ const Dashboard = () => {
     const generatedGuide = await axios.post(
       "localhost:3002/openai/generate-guide",
       {
-        chatId: selectedChat?.chatId,
+        chatId: selectedChat?.id,
       }
     );
     localStorage.setItem("generatedGuide", generatedGuide.data);

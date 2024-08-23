@@ -1,8 +1,7 @@
-import { Message } from "./message.type";
-import { User } from "./user.type";
-
+import { Message } from './message.type';
+import { User } from '@/api/types/User';
 export interface Chat {
-  chatId: number;
+  id: number;
   customerId: number;
   isOpen: boolean;
   startTime: Date;

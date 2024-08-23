@@ -1,10 +1,10 @@
-"use client";
-import { useEffect, useState } from "react";
-import { Chat, ClientResponse, SuccessResponse } from "@/types";
-import { useChats } from "@/hooks/api/chatHooks";
-import { useOnFetch } from "@/common/hooks/useOnFetch";
-import { Socket } from "socket.io-client";
-import { Contact } from "../types";
+'use client';
+import { useEffect, useState } from 'react';
+import { Chat, ClientResponse, SuccessResponse } from '@/types';
+import { useChats } from '@/hooks/api/chatHooks';
+import { useOnFetch } from '@/common/hooks/useOnFetch';
+import { Socket } from 'socket.io-client';
+import { Contact } from '../types';
 
 type Props = {
   socket: Socket;
@@ -23,9 +23,9 @@ export const useContacts = ({ socket, handleContactSelect }: Props) => {
         const successResponse = clientResponse as SuccessResponse<Chat[]>;
         const chats = successResponse.data;
         const contacts = chats.map((chat) => ({
-          chatId: chat.chatId,
-          userId: chat.user!.userId,
-          username: chat.user!.username,
+          chatId: chat.id,
+          userId: chat.user?.id ?? 0,
+          username: chat.user?.username ?? 'a',
           isOpen: chat.isOpen,
         }));
         setContacts(contacts);
@@ -38,9 +38,9 @@ export const useContacts = ({ socket, handleContactSelect }: Props) => {
 
   useEffect(() => {
     if (socket && contacts) {
-      socket.on("chatCreated", (chat: Chat) => {
+      socket.on('chatCreated', (chat: Chat) => {
         const contact = {
-          chatId: chat.chatId,
+          chatId: chat.id,
           userId: chat.customerId,
           username: chat.user!.username,
           isOpen: chat.isOpen,
