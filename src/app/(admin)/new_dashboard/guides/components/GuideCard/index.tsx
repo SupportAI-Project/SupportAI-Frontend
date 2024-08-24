@@ -14,21 +14,21 @@ const GuideCard = ({ guide }: Props) => {
   return (
     <Card variant="outlined">
       <CardContent>
-        <Box display="flex" alignItems="center" mb={1}>
-          <SupportIcon color="primary" sx={{ marginRight: theme.spacing(1) }} />
-          <Typography variant="h6">{guide.title}</Typography>
-        </Box>
-        <Typography variant="body2" color="textSecondary" mb={2}>
-          Created by : {guide.creator?.username}
-        </Typography>
-        <Rating
-                value={avgRating}
-                precision={0.5}
-                readOnly
-              />
-        <Typography variant="body2" color="textSecondary" mb={2}>
-          Created at: {new Date(guide.createdAt).toLocaleDateString()}
-        </Typography>
+        <Box display="grid" alignItems="center" mb={1}>
+          <Box display="flex" alignItems="center">
+            <SupportIcon color="primary" sx={{ marginRight: theme.spacing(1) }} />
+            <Typography variant="h6">{guide.title}</Typography>
+          </Box>
+          <Typography variant="body2" color="textSecondary" mb={2}>
+            Created at: {new Date(guide.createdAt).toLocaleDateString()}
+          </Typography>
+          </Box>
+          <Rating
+                  value={avgRating}
+                  precision={0.5}
+                  readOnly
+                />
+
       </CardContent>
     </Card>
   );
