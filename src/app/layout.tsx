@@ -4,6 +4,7 @@ import { baselightTheme } from "@/util/theme";
 import "./globals.css";
 import { Providers, SocketProvider } from "./providers";
 import { CssBaseline, ThemeProvider } from "@mui/material";
+import { GuideProvider } from "./providers/guide";
 
 export default function RootLayout({
   children,
@@ -16,7 +17,9 @@ export default function RootLayout({
         <ThemeProvider theme={baselightTheme}>
           <CssBaseline />
           <Providers>
-            <SocketProvider>{children}</SocketProvider>
+            <SocketProvider>
+              <GuideProvider>{children}</GuideProvider>
+            </SocketProvider>
           </Providers>
         </ThemeProvider>
       </body>
