@@ -4,7 +4,7 @@ import { schema } from "../validations/schema";
 import { LoginRequest } from "@/api/types/login";
 import { useRouter } from "next/navigation";
 import { useLogin } from "@/hooks";
-import { User, SuccessResponse } from "@/types";
+import { UserRole, SuccessResponse } from "@/types";
 
 const useLoginForm = () => {
   const {
@@ -24,7 +24,7 @@ const useLoginForm = () => {
   const onSubmit = (data: LoginRequest) => {
     mutate(data, {
       onSuccess: (response) => {
-        const { data: user } = response as SuccessResponse<User>;
+        const { data: user } = response as SuccessResponse<UserRole>;
 
         if (user.roles.includes("admin")) {
           router.push("/dashboard");
