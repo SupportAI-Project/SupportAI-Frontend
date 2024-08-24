@@ -6,11 +6,10 @@ import DashboardCard from "../../shared/Card";
 import { Typography, CircularProgress, Alert, Box, Divider } from "@mui/material";
 import { Guide } from "@/api/types/Guide";
 import ReviewList from "../components/ReviewList";
-import AddReviewBox from "../components/AddReviewBox";
 
 const GuidePage = () => {
   const params = useParams();
-
+  
   const id = params?.id ? Number(params.id) : null;
   
   
@@ -29,19 +28,15 @@ const GuidePage = () => {
 
   if(isSuccess && "data" in response) {
     guide = response.data;
+    const creatorAndDateString = `Created by ${guide.creator?.username} on ${new Date(guide.createdAt).toLocaleDateString()}`
     if(!guide.title) {
       return <Typography>Guide not found</Typography>;
     }
     return (
       <PageContainer title={guide.title}>
-        <DashboardCard title={guide.title}>
+        <DashboardCard title={guide.title} subtitle={creatorAndDateString}>
           <div>
-          <Typography variant="body2" sx={{ mb: 2 }}>
-              Created by {guide.creator?.username} on{" "}
-              {new Date(guide.createdAt).toLocaleDateString()}
-            </Typography>
             <div dangerouslySetInnerHTML={{ __html: guide.contentHTML }} />
-            
           </div>
         </DashboardCard>
         <Divider sx={{ mt: 2, mb: 2, border: 'none' }} />
