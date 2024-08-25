@@ -1,3 +1,151 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.quill-content {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    padding: 16px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .quill-content h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 16px;
+    color: #2c3e50;
+  }
+  
+  .quill-content h2 {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-bottom: 14px;
+    color: #34495e;
+  }
+  
+  .quill-content h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: #4a4a4a;
+  }
+  
+  .quill-content h4 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #4a4a4a;
+  }
+  
+  .quill-content p {
+    font-size: 1rem;
+    margin-bottom: 16px;
+    color: #666;
+  }
+  
+  .quill-content ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    margin-bottom: 16px;
+  }
+  
+  .quill-content ul li {
+    margin-bottom: 8px;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .quill-content ol {
+    list-style-type: decimal;
+    margin-left: 20px;
+    margin-bottom: 16px;
+  }
+  
+  .quill-content ol li {
+    margin-bottom: 8px;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .quill-content img {
+    max-width: 100%;
+    height: auto;
+    margin: 16px 0;
+    border-radius: 8px;
+  }
+  
+  /* Blockquotes */
+  .quill-content blockquote {
+    margin: 16px 0;
+    padding: 16px;
+    background-color: #f9f9f9;
+    border-left: 4px solid #ccc;
+    font-style: italic;
+    color: #555;
+  }
+  
+  /* Links */
+  .quill-content a {
+    color: #2980b9;
+    text-decoration: underline;
+  }
+  
+  .quill-content a:hover {
+    color: #3498db;
+  }
+  
+  /* Code Blocks */
+  .quill-content pre {
+    background-color: #f4f4f4;
+    border-radius: 4px;
+    padding: 16px;
+    overflow-x: auto;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.95rem;
+    color: #333;
+    margin-bottom: 16px;
+  }
+  
+  .quill-content code {
+    background-color: #f4f4f4;
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.95rem;
+    color: #c7254e;
+  }
+  
+  /* Horizontal Rules */
+  .quill-content hr {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 24px 0;
+  }
+  
+  /* Customizing table elements */
+  .quill-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+  }
+  
+  .quill-content table th,
+  .quill-content table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .quill-content table th {
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  .quill-content table td {
+    background-color: #fff;
+    color: #666;
+  }
+  

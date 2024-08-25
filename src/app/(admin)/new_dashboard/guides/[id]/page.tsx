@@ -7,6 +7,8 @@ import { useGuide } from "../hooks";
 import DashboardCard from "../../shared/Card";
 import { Typography, CircularProgress, Alert, Box, Divider } from "@mui/material";
 import ReviewList from "../components/ReviewList";
+import parse from "html-react-parser";
+import "quill/dist/quill.snow.css";
 
 const GuidePage: React.FC = () => {
   const params = useParams();
@@ -34,7 +36,9 @@ const GuidePage: React.FC = () => {
     return (
       <PageContainer title={guide.title}>
         <DashboardCard title={guide.title} subtitle={creatorAndDateString}>
-          <div dangerouslySetInnerHTML={{ __html: guide.contentHTML }} />
+        <div className="quill-content">
+          {parse(guide.contentHTML)}
+        </div>
         </DashboardCard>
         <Divider sx={{ mt: 2, mb: 2, border: "none" }} />
         <ReviewList guideId={guide.id} reviews={guide.reviews ?? []} />
