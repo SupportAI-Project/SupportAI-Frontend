@@ -25,7 +25,11 @@ const GuideCard = ({ guide }: Props) => {
           </Typography>
         </Box>
         <Box display="flex" alignItems="center">
-          <Rating value={avgRating} precision={0.5} readOnly />
+          <Rating
+            value={avgRating}
+            precision={0.5}
+            readOnly sx={{ color: '#3d52a0' }}
+          />
           <Typography variant="body2" mx={1}>
             ({guide.reviews?.length ?? 0})
           </Typography>

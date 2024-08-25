@@ -43,6 +43,7 @@ const AddReviewBox: React.FC = () => {
           name="stars"
           value={stars}
           onChange={(event, newValue) => setStars(newValue ?? 1)}
+          sx={{color: '#3d52a0'}}
         />
       </Box>
       <TextField
