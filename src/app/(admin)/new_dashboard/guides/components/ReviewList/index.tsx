@@ -43,13 +43,14 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, guideId }) => {
         <Box mt={2}>
           <Divider />
           {reviewsContext}
+          {!!reviews.length &&(
           <Box display="flex" justifyContent="center" width="100%" mt={2}>
             <Button onClick={()=>{
               visibleCount === reviews.length ? showLessReviews() : showMoreReviews();
             }}>
               {visibleCount === reviews.length ? "Show Less" : "Show More"}
             </Button>
-          </Box>
+          </Box>)}
           <AddReviewBox guideId={guideId} />
         </Box>
       </DashboardCard>
