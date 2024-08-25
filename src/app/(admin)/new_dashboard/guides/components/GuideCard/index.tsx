@@ -23,12 +23,16 @@ const GuideCard = ({ guide }: Props) => {
             Created at: {new Date(guide.createdAt).toLocaleDateString()}
           </Typography>
           </Box>
-          <Rating
-                  value={avgRating}
-                  precision={0.5}
-                  readOnly
-                />
-
+          <Box display="flex" alignItems={"center"}>
+            <Rating
+                    value={avgRating}
+                    precision={0.5}
+                    readOnly
+            />
+            <Typography variant="body2" mx={1}>
+              ({guide.reviews?.length})
+            </Typography>   
+          </Box>
       </CardContent>
     </Card>
   );

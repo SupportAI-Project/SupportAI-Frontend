@@ -49,7 +49,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, guideId }) => {
               key={review.id}
               mb={1}
               sx={{
-                backgroundColor: index % 2 === 0 ? "#f8f8f8" : "#7091e6",
                 padding: 2,
                 borderRadius: 2,
               }}
