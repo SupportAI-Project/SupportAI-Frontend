@@ -17,7 +17,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
       <Box
         display="flex"
         flexDirection="row"
-        mb={3}
+        mb={4}
         sx={{
           padding: 2,
           borderRadius: 2,

@@ -25,6 +25,10 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, guideId }) => {
     setVisibleCount((prevCount) => Math.min(prevCount + 2, reviews.length)); 
   };
 
+  const showLessReviews = () => {
+    setVisibleCount(1);
+  }
+
   let reviewsContext = !reviews.length ? (
     <Typography>No reviews available</Typography>
   ) : (
@@ -39,13 +43,13 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, guideId }) => {
         <Box mt={2}>
           <Divider />
           {reviewsContext}
-          {visibleCount < reviews.length && (
-            <Box display="flex" justifyContent="center" width="100%" mt={2}>
-              <Button onClick={showMoreReviews}>
-                Show More...
-              </Button>
-            </Box>
-          )}
+          <Box display="flex" justifyContent="center" width="100%" mt={2}>
+            <Button onClick={()=>{
+              visibleCount === reviews.length ? showLessReviews() : showMoreReviews();
+            }}>
+              {visibleCount === reviews.length ? "Show Less" : "Show More"}
+            </Button>
+          </Box>
           <AddReviewBox guideId={guideId} />
         </Box>
       </DashboardCard>
