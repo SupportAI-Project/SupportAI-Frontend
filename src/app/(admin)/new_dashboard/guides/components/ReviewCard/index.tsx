@@ -42,7 +42,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
           {review.comment}
         </Typography>
       </Box>
-      <Divider />
+     
     </>
   );
 };

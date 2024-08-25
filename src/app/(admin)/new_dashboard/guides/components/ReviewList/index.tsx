@@ -1,17 +1,16 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Typography,
   Box,
-  Rating,
+  Button,
   Divider,
 } from "@mui/material";
 import { Review } from "@/api/types/Review";
 import PageContainer from "@/components/PageContainer";
 import DashboardCard from "../../../shared/Card";
-import AddReviewBox from "../../add-review/page";
-import ActionAddReview from "../ActionAddReview";
+import AddReviewBox from "../AddReviewBox";
 import ReviewCard from "../ReviewCard";
 
 interface ReviewListProps {
@@ -20,34 +19,34 @@ interface ReviewListProps {
 }
 
 const ReviewList: React.FC<ReviewListProps> = ({ reviews, guideId }) => {
-  if (!reviews.length) {
-    return (
-      <PageContainer title="Reviews">
-        <DashboardCard 
-          title="Reviews" 
-          action={<ActionAddReview guideId={guideId} />}
-        >
-          <Box mt={2}>
-            <Typography>No reviews available</Typography>
-            <Divider sx={{ mt: 2, mb: 2 }} />
-            <AddReviewBox />
-          </Box>
-        </DashboardCard>
-      </PageContainer>
-    );
-  }
+  const [visibleCount, setVisibleCount] = useState(1); 
+
+  const showMoreReviews = () => {
+    setVisibleCount((prevCount) => Math.min(prevCount + 2, reviews.length)); 
+  };
+
+  let reviewsContext = !reviews.length ? (
+    <Typography>No reviews available</Typography>
+  ) : (
+    reviews.slice(0, visibleCount).map((review, index) => (
+      <ReviewCard key={index} review={review} />
+    ))
+  );
 
   return (
     <PageContainer title="Reviews">
-      <DashboardCard 
-        title="Reviews" 
-        action={<ActionAddReview guideId={guideId} />}
-      >
+      <DashboardCard title="Reviews">
         <Box mt={2}>
-          <Divider sx={{ mt: 2, mb: 2 }} />
-          {reviews.map((review, index) => (
-            <ReviewCard key={index} review={review} />
-          ))}
+          <Divider />
+          {reviewsContext}
+          {visibleCount < reviews.length && (
+            <Box display="flex" justifyContent="center" width="100%" mt={2}>
+              <Button onClick={showMoreReviews}>
+                Show More...
+              </Button>
+            </Box>
+          )}
+          <AddReviewBox guideId={guideId} />
         </Box>
       </DashboardCard>
     </PageContainer>

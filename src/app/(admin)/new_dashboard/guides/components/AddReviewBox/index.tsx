@@ -1,16 +1,16 @@
 "use client";
 import React from 'react';
 import { Box, Typography, Rating, TextField, Button } from '@mui/material';
-import useAddReviewForm from '../hooks/useAddReviewForm';
+import useAddReviewForm from '../../hooks/useAddReviewForm';
 import { useRouter , useSearchParams} from 'next/navigation';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
+interface AddReviewBoxProps {
+  guideId: number;
+}
 
-const AddReviewBox: React.FC = () => {
+const AddReviewBox: React.FC<AddReviewBoxProps> = ({guideId}) => {
 
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const guideId = Number(searchParams?.get('guideId') ?? 0);
 
   const {
     comment,
@@ -25,18 +25,9 @@ const AddReviewBox: React.FC = () => {
     handleSubmit,
   } = useAddReviewForm(guideId);
 
-  const handleGoBack = () => {
-    router.back();
-  };
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="flex-start" sx={{ width: '100%' }}>
-
-      <ArrowBackIcon 
-        onClick={handleGoBack}
-        sx={{mb:2 , cursor: 'pointer', fontSize: 30}}        
-        />
-      
+    <Box display="flex" flexDirection="column" alignItems="flex-start" sx={{ width: '100%' , mt:2}}>
       <Typography variant="h6" >Add Your Review:</Typography>
       <Box mb={2} mt={2}>
         <Rating
