@@ -9,8 +9,9 @@ type Props = {
 
 const GuideCard = ({ guide }: Props) => {
   const theme = useTheme();
-  const totalStars = guide.reviews?.reduce((acc, review) => acc + review.rating, 0);
-  const avgRating = (totalStars ?? 0) / (guide.reviews?.length ?? 1);
+  const totalStars = guide.reviews?.reduce((acc, review) => acc + review.rating, 0) ?? 0;
+  const avgRating = totalStars / (guide.reviews?.length ?? 1);
+
   return (
     <Card variant="outlined">
       <CardContent>
@@ -22,17 +23,13 @@ const GuideCard = ({ guide }: Props) => {
           <Typography variant="body2" color="textSecondary" mb={2}>
             Created at: {new Date(guide.createdAt).toLocaleDateString()}
           </Typography>
-          </Box>
-          <Box display="flex" alignItems={"center"}>
-            <Rating
-                    value={avgRating}
-                    precision={0.5}
-                    readOnly
-            />
-            <Typography variant="body2" mx={1}>
-              ({guide.reviews?.length})
-            </Typography>   
-          </Box>
+        </Box>
+        <Box display="flex" alignItems="center">
+          <Rating value={avgRating} precision={0.5} readOnly />
+          <Typography variant="body2" mx={1}>
+            ({guide.reviews?.length ?? 0})
+          </Typography>
+        </Box>
       </CardContent>
     </Card>
   );
