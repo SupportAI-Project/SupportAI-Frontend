@@ -2,8 +2,6 @@
 import React from 'react';
 import { Box, Typography, Rating, TextField, Button } from '@mui/material';
 import useAddReviewForm from '../../hooks/useAddReviewForm';
-import { useRouter , useSearchParams} from 'next/navigation';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 interface AddReviewBoxProps {
   guideId: number;
