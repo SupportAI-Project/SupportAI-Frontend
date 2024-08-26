@@ -4,21 +4,13 @@ import DashboardCard from "./shared/Card";
 import { Box } from "@mui/material";
 import ContactList from "./components/ContactList";
 import ChatHeader from "./components/ChatHeader";
-import { useContacts, useSelectedContact } from "./hooks";
-import { useSocket } from "@/app/hooks/useSocket";
 import SupportMessageList from "./components/SupportMessageList";
 import MessageInput from "@/common/components/MessageInput";
+import { useGlobalContacts } from "@/app/hooks/useGlobalContacts";
 
 const Page = () => {
-  const socket = useSocket();
-  const { selectedContact, handleContactSelect } = useSelectedContact({
-    socket,
-  });
-  const { contacts } = useContacts({
-    socket,
-    handleContactSelect,
-  });
 
+ const {selectedContact, handleContactSelect, contacts} = useGlobalContacts();
   return (
     <PageContainer title="Dashboard">
       <DashboardCard title="Chat">
