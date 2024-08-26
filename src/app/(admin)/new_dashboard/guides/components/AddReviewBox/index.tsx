@@ -32,7 +32,7 @@ const AddReviewBox: React.FC<AddReviewBoxProps> = ({guideId}) => {
           name="stars"
           value={stars}
           onChange={(event, newValue) => setStars(newValue ?? 1)}
-          sx={{color: '#3d52a0'}}
+          sx={{color: '#FFD35C'}}
         />
       </Box>
       <TextField

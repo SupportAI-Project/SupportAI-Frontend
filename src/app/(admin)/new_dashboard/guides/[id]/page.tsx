@@ -46,7 +46,6 @@ const GuidePage: React.FC = () => {
     );
   }
 
-  return null; // Handle case where the component doesn't return anything
 };
 
 export default GuidePage;

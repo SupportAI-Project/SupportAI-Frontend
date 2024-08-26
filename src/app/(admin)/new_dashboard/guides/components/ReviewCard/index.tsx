@@ -3,7 +3,6 @@ import {
   Typography,
   Box,
   Rating,
-  Divider,
 } from "@mui/material";
 import React from 'react';
 
@@ -28,7 +27,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
             value={review.rating}
             readOnly
             precision={0.5}
-            sx={{ fontSize: '1.25rem', color: '#3d52a0' }}
+            sx={{ fontSize: '1.25rem', color: '#FFD35C' }}
             />
           <Typography variant="body2" color="textSecondary" >
             by {review.user?.username}

@@ -28,7 +28,7 @@ const GuideCard = ({ guide }: Props) => {
           <Rating
             value={avgRating}
             precision={0.5}
-            readOnly sx={{ color: '#3d52a0' }}
+            readOnly sx={{ color: '#FFD35C' }}
           />
           <Typography variant="body2" mx={1}>
             ({guide.reviews?.length ?? 0})
