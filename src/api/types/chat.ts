@@ -18,4 +18,6 @@ export type ChatRequest = {
   id: number;
 };
 
+export type ChatRequestUpdate = Partial<Chat>;
+
 export type ChatResponse = Chat;
