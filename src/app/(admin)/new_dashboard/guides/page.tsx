@@ -7,7 +7,7 @@ import SearchBar from "./components/SearchBar";
 import { useSearchGuides, useAllGuides } from "./hooks";
 import { Guide } from "@/api/types/Guide";
 
-const Page = () => {
+const GuidesListPage = () => {
   const { data: guideItems, isLoading, error, isError, isSuccess } = useAllGuides();
 
   let guides: Guide[] = [];
@@ -46,4 +46,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default GuidesListPage;

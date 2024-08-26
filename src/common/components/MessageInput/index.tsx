@@ -65,7 +65,7 @@ const MessageInput = ({ chatId, isSupport = true }: MessageInputProps) => {
           autoFocus
           {...register("message")}
           multiline
-          minRows={5}
+          minRows={1}
           maxRows={10}
           InputProps={{
             style: { overflow: "hidden" },
