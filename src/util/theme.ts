@@ -14,9 +14,11 @@ export const plus = Plus_Jakarta_Sans({
 declare module "@mui/material/styles" {
   interface Palette {
     note: SimplePaletteColorOptions;
+    gold: SimplePaletteColorOptions;
   }
   interface PaletteOptions {
     note?: SimplePaletteColorOptions;
+    gold?: SimplePaletteColorOptions;
   }
 }
 
@@ -60,7 +62,7 @@ const baselightTheme = createTheme({
       dark: "#ae8e59",
       contrastText: "#ffffff",
     },
-
+    
     grey: {
       100: "#F2F6FA",
       200: "#EAEFF4",
@@ -69,6 +71,7 @@ const baselightTheme = createTheme({
       500: "#5A6A85",
       600: "#2A3547",
     },
+
     text: {
       primary: "#2A3547",
       secondary: "#5A6A85",
@@ -79,7 +82,11 @@ const baselightTheme = createTheme({
       hover: "#f6f9fc",
     },
     divider: "#e5eaef",
+    gold: {
+      main: "#FFD35C",
+    },
   },
+  
   typography: {
     fontFamily: plus.style.fontFamily,
     h1: {
