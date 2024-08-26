@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import { Box, Button, TextField } from "@mui/material";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
@@ -7,13 +7,18 @@ import SaveAsIcon from "@mui/icons-material/SaveAs";
 const DynamicReactQuill = dynamic(() => import("react-quill"));
 
 interface Props {
-  intitialTitle?: string;
+  initialTitle?: string;
   initialIssue?: string;
   initialContent?: string;
-  onSave: (content: string) => void;
+  onSave: (title: string, content: string) => void;
 }
 
-const GuideEditor = ({ initialContent = "", onSave }: Props) => {
+const GuideEditor = ({
+  initialTitle = "",
+  initialContent = "",
+  onSave,
+}: Props) => {
+  const [guideTitle, setGuideTitle] = useState<string>(initialTitle);
   const [contentHTML, setContent] = useState<string>(initialContent);
 
   const modules = {
@@ -46,9 +51,20 @@ const GuideEditor = ({ initialContent = "", onSave }: Props) => {
     "align",
   ];
 
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setGuideTitle(event.target.value);
+  };
+
   return (
     <>
-      <TextField label="Title" variant="outlined" fullWidth sx={{ mb: 2 }} />
+      <TextField
+        label="Title"
+        variant="outlined"
+        fullWidth
+        sx={{ mb: 2 }}
+        value={guideTitle}
+        onChange={handleTitleChange}
+      />
       <TextField label="Issue" variant="outlined" fullWidth sx={{ mb: 2 }} />
       <DynamicReactQuill
         theme="snow"
@@ -63,7 +79,7 @@ const GuideEditor = ({ initialContent = "", onSave }: Props) => {
           variant="contained"
           color="primary"
           startIcon={<SaveAsIcon />}
-          onClick={() => onSave(contentHTML)}
+          onClick={() => onSave(guideTitle, contentHTML)}
         >
           Save Guide
         </Button>

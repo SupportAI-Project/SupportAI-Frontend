@@ -19,7 +19,9 @@ const DeleteEditButtons: React.FC = () => {
     router.push("/new_dashboard/guides");
   };
 
-  const handleEdit = () => {};
+  const handleEdit = () => {
+    router.push(`/new_dashboard/guides/edit/${id}`);
+  };
 
   return (
     <Box
@@ -28,7 +30,7 @@ const DeleteEditButtons: React.FC = () => {
         gap: 0,
       }}
     >
-      <IconButton aria-label="edit">
+      <IconButton aria-label="edit" onClick={handleEdit}>
         <ModeEditOutlineOutlinedIcon />
       </IconButton>
       <IconButton aria-label="delete" onClick={handleDelete}>

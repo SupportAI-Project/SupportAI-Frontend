@@ -1,6 +1,7 @@
 import { GuideClient } from "@/api/guide.client";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { CreateReviewDto } from "../dto/CreateReviewDto";
+import { Guide, GuideRequestUpdate } from "@/api/types/Guide";
 
 const guideClient = new GuideClient();
 
@@ -28,6 +29,12 @@ export function useGuide(guideId: number) {
 export function useDeleteGuide(guideId: number) {
   return useMutation({
     mutationFn: () => guideClient.deleteGuide(guideId),
+  });
+}
+
+export function useUpdateGuide(id: number, guide: GuideRequestUpdate) {
+  return useMutation({
+    mutationFn: () => guideClient.updateGuide(id, guide),
   });
 }
 

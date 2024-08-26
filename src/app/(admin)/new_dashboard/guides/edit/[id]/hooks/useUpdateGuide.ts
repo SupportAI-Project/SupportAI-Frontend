@@ -1,7 +1,19 @@
-export const useUpdateGuide = () => {
-  const handleSave = (content: string) => {
-    console.log("Saving new guide:", content);
-  };
+import { GuideClient } from "@/api/guide.client";
+import { useMutation } from "@tanstack/react-query";
 
-  return { handleSave };
+const guideClient = new GuideClient();
+type UpdateGuidePayload = {
+  id: number;
+  guide: {
+    title: string;
+    contentHTML: string;
+  };
+};
+export const useUpdateGuide = () => {
+  return useMutation({
+    mutationFn: async (payload: UpdateGuidePayload) => {
+      const { id, guide } = payload;
+      return guideClient.updateGuide(id, guide);
+    },
+  });
 };
