@@ -11,6 +11,7 @@ import { useGlobalContacts } from "@/app/hooks/useGlobalContacts";
 const Page = () => {
 
  const {selectedContact, handleContactSelect, contacts} = useGlobalContacts();
+ 
   return (
     <PageContainer title="Dashboard">
       <DashboardCard title="Chat">
