@@ -27,7 +27,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
             value={review.rating}
             readOnly
             precision={0.5}
-            sx={{ fontSize: '1.25rem', color: '#FFD35C' }}
+            sx={{ fontSize: '1.25rem', color: 'gold' }}
             />
           <Typography variant="body2" color="textSecondary" >
             by {review.user?.username}

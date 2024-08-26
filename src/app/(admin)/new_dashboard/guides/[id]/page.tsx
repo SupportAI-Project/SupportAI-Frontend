@@ -27,7 +27,7 @@ const GuidePage: React.FC = () => {
 
   if (isSuccess && "data" in response) {
     const guide = response.data;
-    const creatorAndDateString = `Created by ${guide.creator?.username} on ${new Date(guide.createdAt).toLocaleDateString()}`;
+    const creatorAndDateInfo = `Created by ${guide.creator?.username} on ${new Date(guide.createdAt).toLocaleDateString()}`;
 
     if (!guide.title) {
       return <Typography>Guide not found</Typography>;
@@ -35,7 +35,7 @@ const GuidePage: React.FC = () => {
 
     return (
       <PageContainer title={guide.title}>
-        <DashboardCard title={guide.title} subtitle={creatorAndDateString}>
+        <DashboardCard title={guide.title} subtitle={creatorAndDateInfo}>
         <div className="quill-content">
           {parse(guide.contentHTML)}
         </div>
