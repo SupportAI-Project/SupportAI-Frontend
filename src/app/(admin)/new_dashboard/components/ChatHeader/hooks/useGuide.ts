@@ -5,16 +5,42 @@ import { SuccessResponse, ErrorResponse, isSuccessResponse } from "@/types";
 import { useRouter } from "next/navigation";
 import { Chat } from "@/api/types/chat";
 import { ModelCreateGuideResponse } from "@/api/types/model";
+import { Contact } from "../../../types";
 
 const modelClient = new ModelClient();
-const chatModel = new ChatClient();
+const chatClient = new ChatClient();
 
-export const useGuide = () => {
+interface Props {
+  handleContactSelect: (contact: Contact) => void;
+  selectedContact: Contact | null;
+}
+
+export const useGuide = ({ handleContactSelect, selectedContact }: Props) => {
   const router = useRouter();
   const { setGuide } = useGuideContext();
 
+  async function handleCloseChat(chatId: number): Promise<void> {
+    const clientResponse = await chatClient.closeChat({
+      id: chatId,
+      customerId: selectedContact?.userId,
+    });
+    if (!isSuccessResponse(clientResponse)) {
+      const errorResponse = clientResponse as ErrorResponse;
+      console.error(errorResponse.error);
+      return;
+    }
+    if (selectedContact) {
+      handleContactSelect({
+        chatId: selectedContact.chatId,
+        isOpen: false,
+        userId: selectedContact.userId,
+        username: selectedContact.username,
+      });
+    }
+  }
+
   async function handleGenerateGuide(chatId: number): Promise<void> {
-    const chatResponse = await chatModel.chatById({
+    const chatResponse = await chatClient.chatById({
       id: chatId,
     });
 
@@ -51,5 +77,6 @@ export const useGuide = () => {
 
   return {
     handleGenerateGuide,
+    handleCloseChat,
   };
 };
