@@ -1,11 +1,15 @@
+"use client";
 import React from 'react';
 import { Box, Typography, Rating, TextField, Button } from '@mui/material';
 import useAddReviewForm from '../../hooks/useAddReviewForm';
+
 interface AddReviewBoxProps {
   guideId: number;
 }
 
-const AddReviewBox: React.FC<AddReviewBoxProps> = ({ guideId }) => {
+const AddReviewBox: React.FC<AddReviewBoxProps> = ({guideId}) => {
+
+
   const {
     comment,
     setComment,
@@ -19,14 +23,16 @@ const AddReviewBox: React.FC<AddReviewBoxProps> = ({ guideId }) => {
     handleSubmit,
   } = useAddReviewForm(guideId);
 
+
   return (
-    <Box>
+    <Box display="flex" flexDirection="column" alignItems="flex-start" sx={{ width: '100%' , mt:2}}>
       <Typography variant="h6" >Add Your Review:</Typography>
       <Box mb={2} mt={2}>
         <Rating
           name="stars"
           value={stars}
           onChange={(event, newValue) => setStars(newValue ?? 1)}
+          sx={{color: "gold"}}
         />
       </Box>
       <TextField
