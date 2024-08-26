@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .quill-content {
-  @apply font-sans text-gray-700 p-4 bg-white rounded-lg shadow-md;
+  @apply font-sans text-gray-700 p-4 bg-white rounded-lg;
   line-height: 1.6;
 }
 
