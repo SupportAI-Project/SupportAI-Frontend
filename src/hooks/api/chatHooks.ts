@@ -1,5 +1,6 @@
 import { ChatClient } from "@/api/chat.client";
-import { Chat, ClientResponse, SuccessResponse } from "@/types";
+import { ClientResponse, SuccessResponse } from "@/types";
+import { Chat } from "@/api/types/chat";
 import { useQuery } from "@tanstack/react-query";
 
 const chatClient = new ChatClient();

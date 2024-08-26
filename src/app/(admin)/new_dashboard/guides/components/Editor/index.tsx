@@ -10,7 +10,6 @@ const DynamicReactQuill = dynamic(() => import("react-quill"));
 
 interface Props {
   initialTitle?: string;
-  initialIssue?: string;
   initialContent?: string;
   onSave: () => void;
   register: UseFormRegister<CreateGuideRequest>;
@@ -67,7 +66,6 @@ const GuideEditor = ({
         onChange={(e) => setValue("title", e.target.value)}
         sx={{ mb: 2 }}
       />
-      <TextField label="Issue" variant="outlined" fullWidth sx={{ mb: 2 }} />
       <DynamicReactQuill
         theme="snow"
         modules={modules}

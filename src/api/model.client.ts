@@ -1,4 +1,8 @@
 import { BaseClient } from "./base.client";
+import {
+  ModelCreateGuideRequest,
+  ModelCreateGuideResponse,
+} from "./types/model";
 
 export class ModelClient extends BaseClient {
   constructor() {
