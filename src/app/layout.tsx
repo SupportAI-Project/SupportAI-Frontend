@@ -3,7 +3,7 @@
 import { baselightTheme } from "@/util/theme";
 import "./globals.css";
 import { SocketProvider } from "./providers/SocketProvider/provider";
-import { QueryProvider } from "./providers/QueryClient/provider";
+import { QueryProvider } from "./providers/QueryProvider/provider";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 
 export default function RootLayout({
