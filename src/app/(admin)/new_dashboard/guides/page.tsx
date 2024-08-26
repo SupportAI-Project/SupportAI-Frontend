@@ -6,9 +6,12 @@ import GuideList from "./components/GuideList";
 import SearchBar from "./components/SearchBar";
 import { useSearchGuides, useAllGuides } from "./hooks";
 import { Guide } from "@/api/types/Guide";
+import ChatPopup from "../components/ChatPopup";
+import { useGlobalContacts } from "@/app/hooks/useGlobalContacts";
 
 const GuidesListPage = () => {
   const { data: guideItems, isLoading, error, isError, isSuccess } = useAllGuides();
+  const {selectedContact} = useGlobalContacts();
 
   let guides: Guide[] = [];
 
@@ -21,6 +24,7 @@ const GuidesListPage = () => {
   );
 
   return (
+    <>
     <PageContainer title="Guides">
       <DashboardCard title="Guides">
         <Box>
@@ -43,6 +47,8 @@ const GuidesListPage = () => {
         </Box>
       </DashboardCard>
     </PageContainer>
+    {selectedContact && <ChatPopup selectedContact={selectedContact} />}
+    </>
   );
 };
 

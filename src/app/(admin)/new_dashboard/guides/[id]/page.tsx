@@ -9,6 +9,8 @@ import { Typography, CircularProgress, Alert, Box, Divider } from "@mui/material
 import ReviewList from "../components/ReviewList";
 import parse from "html-react-parser";
 import "quill/dist/quill.snow.css";
+import { useGlobalContacts } from "@/app/hooks/useGlobalContacts";
+import ChatPopup from "../../components/ChatPopup";
 
 const GuidePage: React.FC = () => {
   const params = useParams();
@@ -16,6 +18,8 @@ const GuidePage: React.FC = () => {
   const id = params?.id ? Number(params.id) : null;
 
   const { data: response, isLoading, isError, error, isSuccess } = useGuide(id ?? 0);
+
+  const {selectedContact} = useGlobalContacts();
 
   if (isLoading) {
     return <CircularProgress />;
@@ -34,6 +38,7 @@ const GuidePage: React.FC = () => {
     }
 
     return (
+      <>
       <PageContainer title={guide.title}>
         <DashboardCard title={guide.title} subtitle={creatorAndDateInfo}>
         <div className="quill-content">
@@ -43,6 +48,8 @@ const GuidePage: React.FC = () => {
         <Divider sx={{ mt: 2, mb: 2, border: "none" }} />
         <ReviewList guideId={guide.id} reviews={guide.reviews ?? []} />
       </PageContainer>
+      {selectedContact && <ChatPopup selectedContact={selectedContact} />}
+      </>
     );
   }
 
