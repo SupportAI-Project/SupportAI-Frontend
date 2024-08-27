@@ -3,8 +3,7 @@ import PageContainer from "@/components/PageContainer";
 import DashboardCard from "../../../shared/Card";
 import { Alert, Box, CircularProgress, Typography } from "@mui/material";
 import GuideEditor from "../../components/Editor";
-import { useUpdateGuide } from "./hooks/useUpdateGuide";
-import { useGuide } from "../../hooks/guideClientHooks";
+import { useGuide, useUpdateGuide } from "../../hooks/guideClientHooks";
 import { useParams, useRouter } from "next/navigation";
 
 const Page = () => {
@@ -16,7 +15,6 @@ const Page = () => {
 
   const handleOnSave = (id: number, title: string, contentHTML: string) => {
     handleSave.mutate({ id, guide: { title, contentHTML } });
-    router.push(`/new_dashboard/guides/${id}`);
   };
 
   const {
@@ -37,7 +35,6 @@ const Page = () => {
 
   if (isSuccess && "data" in response) {
     const guide = response.data;
-    console.log(guide);
 
     const creatorAndDateInfo = `Created by ${
       guide.creator?.username

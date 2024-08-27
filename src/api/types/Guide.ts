@@ -12,6 +12,14 @@ const guideSchema = z.object({
   reviews: z.array(reviewSchema).optional(),
 });
 
+export type UpdateGuidePayload = {
+  id: number;
+  guide: {
+    title: string;
+    contentHTML: string;
+  };
+};
+
 export type GuideRequestUpdate = Partial<Guide>;
 
 export type Guide = z.infer<typeof guideSchema>;

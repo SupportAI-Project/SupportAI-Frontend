@@ -16,7 +16,6 @@ const DeleteEditButtons: React.FC = () => {
 
   const handleDelete = () => {
     deleteMutation.mutate();
-    router.push("/new_dashboard/guides");
   };
 
   const handleEdit = () => {
