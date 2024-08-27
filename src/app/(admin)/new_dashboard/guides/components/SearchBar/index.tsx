@@ -25,8 +25,8 @@ const SearchBar = ({ searchQuery, onSearchChange, selectedIssue, onIssueChange, 
         ),
       }}
     />
-    <FormControl variant="outlined" sx={{ ml: 2, minWidth: 200 }}>
-      <InputLabel id="issue-filter-label">Filter by Issue</InputLabel>
+    <FormControl variant="outlined" sx={{ ml: 2, minWidth: 290 }}>
+      <InputLabel id="issue-filter-label">Filter by tag</InputLabel>
       <Select
         labelId="issue-filter-label"
         value={selectedIssue}
