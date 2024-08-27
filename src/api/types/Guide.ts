@@ -1,11 +1,12 @@
-import { z } from "zod";
-import { userSchema } from "./User";
-import { reviewSchema } from "./Review";
+import { z } from 'zod';
+import { userSchema } from './User';
+import { reviewSchema } from './Review';
 
 const guideSchema = z.object({
   id: z.number(),
   title: z.string(),
   contentHTML: z.string(),
+  issue: z.string(),
   creatorId: z.number(),
   createdAt: z.date(),
   creator: userSchema.optional(),

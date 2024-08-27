@@ -5,49 +5,58 @@ import { Alert, Box, CircularProgress, Typography } from "@mui/material";
 import GuideList from "./components/GuideList";
 import SearchBar from "./components/SearchBar";
 import { useSearchGuides } from "./hooks";
-import { useAllGuides } from "@/hooks";
+import { useAllGuides} from "@/hooks";
+import { useIssue } from "@/hooks/api/issueHooks";
 import { Guide } from "@/api/types/Guide";
-import ChatPopup from "../components/ChatPopup";
-import { useGlobalChat } from "@/app/hooks/useGlobalChat";
 
 const GuidesListPage = () => {
-  const { data: guideItems, isLoading, error, isError, isSuccess } = useAllGuides();
-  const {selectedContact} = useGlobalChat();
+  const { data: guideItems, isLoading: isLoadingGuides, error: guidesError, isError: isGuidesError, isSuccess: isGuidesSuccess } = useAllGuides();
+  const { data: issueData, isLoading: isLoadingIssues, error: issuesError, isError: isIssuesError, isSuccess: isIssuesSuccess } = useIssue();
 
   let guides: Guide[] = [];
+  let issues: string[] = [];
 
-  if (isSuccess && "data" in guideItems) {
+  if (isGuidesSuccess && "data" in guideItems) {
     guides = guideItems.data;
   }
 
-  const { searchQuery, filteredGuides, handleSearchChange } =
+  if (isIssuesSuccess && "data" in issueData) {
+    issues = issueData.data.categories;
+  }
+
+  const { searchQuery, selectedIssue, filteredGuides, handleSearchChange, handleIssueChange } =
     useSearchGuides(guides);
 
   return (
-    <>
     <PageContainer title="Guides">
       <DashboardCard title="Guides">
         <Box>
-          {isLoading && <CircularProgress />}
-          {isError && <Alert severity="error">{error.message}</Alert>}
-          {isSuccess && guides.length > 0 && (
+          {(isLoadingGuides || isLoadingIssues) && <CircularProgress />}
+          {(isGuidesError || isIssuesError) && (
+            <Alert severity="error">
+              {guidesError?.message || issuesError?.message || "An error occurred"}
+            </Alert>
+          )}
+          {isGuidesSuccess && isIssuesSuccess && guides.length > 0 && (
             <>
               <Box mb={2}>
                 <SearchBar
                   searchQuery={searchQuery}
                   onSearchChange={handleSearchChange}
+                  selectedIssue={selectedIssue}
+                  onIssueChange={handleIssueChange}
+                  issues={["All", ...issues]}  
                 />
               </Box>
               <GuideList guideItems={filteredGuides} />
             </>
           )}
-          {isSuccess && guides.length === 0 && (
+          {isGuidesSuccess && guides.length === 0 && (
             <Typography>No guides available</Typography>
           )}
         </Box>
       </DashboardCard>
     </PageContainer>
-    </>
   );
 };
 
