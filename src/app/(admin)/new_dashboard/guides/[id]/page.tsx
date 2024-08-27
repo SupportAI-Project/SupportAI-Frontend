@@ -17,7 +17,7 @@ import {
 import ReviewList from "../components/ReviewList";
 import parse from "html-react-parser";
 import "quill/dist/quill.snow.css";
-import { useChat } from "@/app/hooks/useGlobalChat";
+import { useChat } from "@/app/hooks/useChat";
 import ChatPopup from "../../components/ChatPopup";
 
 const GuidePage: React.FC = () => {

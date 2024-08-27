@@ -8,7 +8,7 @@ import { useSearchGuides } from "./hooks";
 import { useAllGuides } from "@/hooks";
 import { Guide } from "@/api/types/Guide";
 import ChatPopup from "../components/ChatPopup";
-import { useChat } from "@/app/hooks/useGlobalChat";
+import { useChat } from "@/app/hooks/useChat";
 
 const GuidesListPage = () => {
   const { data: guideItems, isLoading, error, isError, isSuccess } = useAllGuides();
