@@ -31,11 +31,8 @@ const SearchBar = ({ searchQuery, onSearchChange, selectedIssue, onIssueChange, 
         labelId="issue-filter-label"
         value={selectedIssue}
         onChange={onIssueChange}
-        label="Filter by Issue"
+        label="Filter by tag"
       >
-        <MenuItem value="">
-          <em>All Issues</em>
-        </MenuItem>
         {issues.map((issue) => (
           <MenuItem key={issue} value={issue}>
             {issue}
