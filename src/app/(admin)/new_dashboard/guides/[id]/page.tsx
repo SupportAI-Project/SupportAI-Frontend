@@ -38,18 +38,17 @@ const GuidePage: React.FC = () => {
     }
 
     return (
-      <>
-      <PageContainer title={guide.title}>
-        <DashboardCard title={guide.title} subtitle={creatorAndDateInfo}>
-        <div className="quill-content">
+      <Box>
+        <Typography variant="h1">{guide.title}</Typography>
+        <Typography variant="subtitle1">{creatorAndDateInfo}</Typography>
+        <Box className="quill-content">
           {parse(guide.contentHTML)}
-        </div>
-        </DashboardCard>
+        </Box>
         <Divider sx={{ mt: 2, mb: 2, border: "none" }} />
         <ReviewList guideId={guide.id} reviews={guide.reviews ?? []} />
-      </PageContainer>
-      {selectedContact && <ChatPopup selectedContact={selectedContact} />}
-      </>
+        <Divider sx={{ mt: 5, mb: 5, border: "none" }} />
+        {selectedContact && <ChatPopup selectedContact={selectedContact} />}
+      </Box>
     );
   }
 

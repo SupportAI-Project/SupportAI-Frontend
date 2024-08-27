@@ -4,15 +4,15 @@ import { CreateReviewDto, CreateReviewSchema } from '../dto/CreateReviewDto';
 
 const useAddReviewForm = (guideId: number) => {
   const [comment, setComment] = useState('');
-  const [stars, setStars] = useState(0);
+  const [stars, setStars] = useState(1);
   const [validationError, setValidationError] = useState<string | null>(null);
   const { mutate, isError, error, isPending, isSuccess } = useAddReview();
 
   const handleSubmit = () => {
     const newReview: CreateReviewDto = {
       guideId,
-      rating: stars ?? 0,
-      comment: comment.trim() || undefined,
+      rating: stars ?? 1,
+      comment: comment.trim() || '',
     };
     const validation = CreateReviewSchema.safeParse(newReview);
     if (!validation.success) {
@@ -25,7 +25,7 @@ const useAddReviewForm = (guideId: number) => {
     mutate(validation.data, {
       onSuccess: () => {
         setComment('');
-        setStars(0);
+        setStars(1);
       },
     });
   };
