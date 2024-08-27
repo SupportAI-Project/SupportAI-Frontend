@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { userSchema } from './User';
+import { z } from "zod";
+import { userSchema } from "./User";
 
 export const reviewSchema = z.object({
   id: z.number(),
@@ -12,3 +12,18 @@ export const reviewSchema = z.object({
 });
 
 export type Review = z.infer<typeof reviewSchema>;
+
+export const CreateReviewSchema = z.object({
+  guideId: z.number({
+    required_error: "Guide ID is required",
+  }),
+  rating: z
+    .number({
+      required_error: "Stars rating is required",
+    })
+    .min(1, "Stars rating must be at least 1")
+    .max(5, "Stars rating cannot exceed 5"),
+  comment: z.string().optional(),
+});
+
+export type CreateReviewRequest = z.infer<typeof CreateReviewSchema>;

@@ -1,7 +1,7 @@
 import { Box, List } from "@mui/material";
 import { useSocket } from "@/app/hooks/useSocket";
 import { useMessageList } from "@/common/hooks/useMessageList";
-import { Message } from "@/common";
+import { MessageContainer } from "@/common";
 type Props = {
   chatId: number;
 };
@@ -20,7 +20,9 @@ const SupportMessageList = ({ chatId }: Props) => {
     >
       <List>
         {messages.map((msg, index) => {
-          return <Message message={msg} key={index}></Message>;
+          return (
+            <MessageContainer message={msg} key={index}></MessageContainer>
+          );
         })}
       </List>
     </Box>

@@ -1,11 +1,12 @@
 import { ListItem, Box, Typography } from "@mui/material";
+import { Message as MessageType } from "@/api/types/message";
 
-type IMessage = {
-  message: Message;
+type Props = {
+  message: MessageType;
   isSupport?: boolean;
 };
 
-export const Message = (messageProps: IMessage) => {
+export const MessageContainer = (messageProps: Props) => {
   const { message, isSupport = true } = messageProps;
   const { isNote, isSupportSender, timeStamp, content } = message;
   const chatMode = isSupport ? isSupportSender : !isSupportSender;

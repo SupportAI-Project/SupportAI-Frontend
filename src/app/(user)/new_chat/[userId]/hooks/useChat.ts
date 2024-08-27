@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useChatByUserId } from '@/hooks/api/chatHooks';
-import { Socket } from 'socket.io-client';
+import { useEffect, useState } from "react";
+import { useChatByUserId } from "@/hooks/api/chatHooks";
+import { Socket } from "socket.io-client";
 
 type Props = {
   userId: number;
@@ -12,23 +12,23 @@ type Chat = {
 
 export const useChat = ({ userId, socket }: Props) => {
   const [chatId, setChatId] = useState<number | null>(null);
-  const { data: chat, error } = useChatByUserId(userId);
+  const { data: chat, error, isPending } = useChatByUserId(userId);
+
   useEffect(() => {
-    if (chat) {
-      if (chat.user?.id !== userId) {
-        socket.emit('create');
-        socket.on('chatCreated', (chat: Chat) => {
-          socket.emit('join', { chatId: chat.id});
+    if (!isPending) {
+      if (chat == null || chat.user?.id !== userId) {
+        socket.emit("create");
+        socket.on("chatCreated", (chat: Chat) => {
+          socket.emit("join", { chatId: chat.id });
           setChatId(chat.id);
         });
         return;
       }
       if (chat.id) {
-        console.log('Chat exists');
-        socket.emit('join', { chatId: chat.id });
+        socket.emit("join", { chatId: chat.id });
         setChatId(chat.id);
       }
     }
-  }, [chat]);
+  }, [isPending]);
   return { chatId, error };
 };

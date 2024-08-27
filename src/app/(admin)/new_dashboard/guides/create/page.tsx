@@ -3,10 +3,10 @@ import PageContainer from "@/components/PageContainer";
 import DashboardCard from "../../shared/Card";
 import { Box } from "@mui/material";
 import GuideEditor from "../components/Editor";
-import { useCreateGuide } from "./hooks/useCreateGuide";
+import { useGuide } from "./hooks/useCreateGuide";
 
 const Page = () => {
-  const { handleSave } = useCreateGuide();
+  const { guide, register, error, handleSubmit, setValue } = useGuide();
   return (
     <PageContainer title="Create Guide">
       <Box
@@ -15,7 +15,14 @@ const Page = () => {
         }}
       >
         <DashboardCard title="Create Guide" fullHeight>
-          <GuideEditor onSave={handleSave} />
+          <GuideEditor
+            register={register}
+            setValue={setValue}
+            error={error}
+            onSave={handleSubmit}
+            initialTitle={guide?.title}
+            initialContent={guide?.contentHTML}
+          />
         </DashboardCard>
       </Box>
     </PageContainer>

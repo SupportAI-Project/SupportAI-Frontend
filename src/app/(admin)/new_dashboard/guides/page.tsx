@@ -4,11 +4,18 @@ import PageContainer from "@/components/PageContainer";
 import { Alert, Box, CircularProgress, Typography } from "@mui/material";
 import GuideList from "./components/GuideList";
 import SearchBar from "./components/SearchBar";
-import { useSearchGuides, useAllGuides } from "./hooks";
+import { useSearchGuides } from "./hooks";
+import { useAllGuides } from "@/hooks";
 import { Guide } from "@/api/types/Guide";
 
 const Page = () => {
-  const { data: guideItems, isLoading, error, isError, isSuccess } = useAllGuides();
+  const {
+    data: guideItems,
+    isLoading,
+    error,
+    isError,
+    isSuccess,
+  } = useAllGuides();
 
   let guides: Guide[] = [];
 
@@ -16,9 +23,8 @@ const Page = () => {
     guides = guideItems.data;
   }
 
-  const { searchQuery, filteredGuides, handleSearchChange } = useSearchGuides(
-    guides
-  );
+  const { searchQuery, filteredGuides, handleSearchChange } =
+    useSearchGuides(guides);
 
   return (
     <PageContainer title="Guides">
