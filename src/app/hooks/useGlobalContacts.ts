@@ -5,9 +5,7 @@ import { ChatContext } from '../providers/SelectedContactProvider/provider';
 export const useGlobalChat = (): ChatContextValue => {
   const context = useContext(ChatContext);
   if (!context) {
-    throw new Error(
-      'useGlobalSelectedContact must be used within a SelectedContactProvider'
-    );
+    throw new Error('useGlobalChat must be used within a ChatProvider');
   }
   return context;
 };
