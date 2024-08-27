@@ -91,7 +91,7 @@ const ChatPopup = ({ selectedContact }: Props) => {
 
           {/* Input and Send Button */}
           <Box>
-            <MessageInput chatId={selectedContact.chatId} />
+            <MessageInput chatId={selectedContact.chatId} isPopup={true}/>
           </Box>
         </Paper>
       )}

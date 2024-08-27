@@ -25,7 +25,7 @@ const useAddReviewForm = (guideId: number) => {
     mutate(validation.data, {
       onSuccess: () => {
         setComment('');
-        setStars(1);
+        setStars(0);
       },
     });
   };
