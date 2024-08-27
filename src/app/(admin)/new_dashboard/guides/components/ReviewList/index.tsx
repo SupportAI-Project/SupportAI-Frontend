@@ -8,8 +8,6 @@ import {
   Divider,
 } from "@mui/material";
 import { Review } from "@/api/types/Review";
-import PageContainer from "@/components/PageContainer";
-import DashboardCard from "../../../shared/Card";
 import AddReviewBox from "../AddReviewBox";
 import ReviewCard from "../ReviewCard";
 
@@ -44,7 +42,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, guideId }) => {
           </Typography>
           <Divider sx={{mt:2 , mb:2}}/>
           {reviewsContext}
-          {!!reviews.length && reviews.length !== 1 &&(
+          {reviews?.length > 1 &&(
           <Box display="flex" justifyContent="center" width="100%" mt={2}>
             <Button onClick={()=>{
               visibleCount === reviews.length ? showLessReviews() : showMoreReviews();

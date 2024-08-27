@@ -1,11 +1,13 @@
 import { useContext } from 'react';
-import { SelectedContactContextValue } from '../providers/SelectedContactProvider/provider';
-import { SelectedContactContext } from '../providers/SelectedContactProvider/provider';
+import { ChatContextValue } from '../providers/SelectedContactProvider/provider';
+import { ChatContext } from '../providers/SelectedContactProvider/provider';
 
-export const useGlobalContacts = (): SelectedContactContextValue => {
-  const context = useContext(SelectedContactContext);
+export const useGlobalChat = (): ChatContextValue => {
+  const context = useContext(ChatContext);
   if (!context) {
-    throw new Error('useGlobalSelectedContact must be used within a SelectedContactProvider');
+    throw new Error(
+      'useGlobalSelectedContact must be used within a SelectedContactProvider'
+    );
   }
   return context;
 };

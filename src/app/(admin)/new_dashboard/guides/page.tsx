@@ -8,11 +8,11 @@ import { useSearchGuides } from "./hooks";
 import { useAllGuides } from "@/hooks";
 import { Guide } from "@/api/types/Guide";
 import ChatPopup from "../components/ChatPopup";
-import { useGlobalContacts } from "@/app/hooks/useGlobalContacts";
+import { useGlobalChat } from "@/app/hooks/useGlobalContacts";
 
 const GuidesListPage = () => {
   const { data: guideItems, isLoading, error, isError, isSuccess } = useAllGuides();
-  const {selectedContact} = useGlobalContacts();
+  const {selectedContact} = useGlobalChat();
 
   let guides: Guide[] = [];
 

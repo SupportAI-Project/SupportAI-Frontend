@@ -2,19 +2,19 @@ import { Contact } from '@/app/(admin)/new_dashboard/types';
 import { useSocket } from '@/app/hooks/useSocket';
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import {useContacts, useSelectedContact} from '@/app/(admin)/new_dashboard/hooks';
-interface ContactProviderProps {
+interface ChatProviderProps {
     children: ReactNode;
 }
 
-export interface SelectedContactContextValue {
+export interface ChatContextValue {
   selectedContact: Contact | null;
   handleContactSelect: (contact: Contact) => void;
   contacts: Contact[];
 }
 
-export const SelectedContactContext = createContext<SelectedContactContextValue | null>(null);
+export const ChatContext = createContext<ChatContextValue | null>(null);
 
-export const SelectedContactProvider: React.FC<ContactProviderProps> = ({ children }) => {
+export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
   const socket = useSocket();
   const { selectedContact, handleContactSelect } = useSelectedContact({
     socket,
@@ -24,10 +24,10 @@ export const SelectedContactProvider: React.FC<ContactProviderProps> = ({ childr
     handleContactSelect,
   });
   return (
-    <SelectedContactContext.Provider value={{ selectedContact, handleContactSelect,contacts }}>
+    <ChatContext.Provider value={{ selectedContact, handleContactSelect,contacts }}>
       {children}
-    </SelectedContactContext.Provider>
+    </ChatContext.Provider>
   );
 };
 
-export const useGlobalSelectedContact = () => useContext(SelectedContactContext);
+export const useGlobalChatContext = () => useContext(ChatContext);

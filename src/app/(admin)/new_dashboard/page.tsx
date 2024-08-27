@@ -6,11 +6,11 @@ import ContactList from "./components/ContactList";
 import ChatHeader from "./components/ChatHeader";
 import SupportMessageList from "./components/SupportMessageList";
 import MessageInput from "@/common/components/MessageInput";
-import { useGlobalContacts } from "@/app/hooks/useGlobalContacts";
+import { useGlobalChat } from "@/app/hooks/useGlobalContacts";
 
 const Page = () => {
 
- const {selectedContact, handleContactSelect, contacts} = useGlobalContacts();
+ const {selectedContact, handleContactSelect, contacts} = useGlobalChat();
  
   return (
     <PageContainer title="Dashboard">

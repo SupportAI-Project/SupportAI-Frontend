@@ -17,7 +17,7 @@ import {
 import ReviewList from "../components/ReviewList";
 import parse from "html-react-parser";
 import "quill/dist/quill.snow.css";
-import { useGlobalContacts } from "@/app/hooks/useGlobalContacts";
+import { useGlobalChat } from "@/app/hooks/useGlobalContacts";
 import ChatPopup from "../../components/ChatPopup";
 
 const GuidePage: React.FC = () => {
@@ -27,7 +27,7 @@ const GuidePage: React.FC = () => {
 
   const { data: response, isLoading, isError, error, isSuccess } = useGuide(id ?? 0);
 
-  const {selectedContact} = useGlobalContacts();
+  const {selectedContact} = useGlobalChat();
 
   if (isLoading) {
     return <CircularProgress />;
