@@ -7,15 +7,12 @@ import SearchBar from "./components/SearchBar";
 import { useSearchGuides } from "./hooks";
 import { useAllGuides } from "@/hooks";
 import { Guide } from "@/api/types/Guide";
+import ChatPopup from "../components/ChatPopup";
+import { useChat } from "@/app/hooks/useChat";
 
-const Page = () => {
-  const {
-    data: guideItems,
-    isLoading,
-    error,
-    isError,
-    isSuccess,
-  } = useAllGuides();
+const GuidesListPage = () => {
+  const { data: guideItems, isLoading, error, isError, isSuccess } = useAllGuides();
+  const {selectedContact} = useChat();
 
   let guides: Guide[] = [];
 
@@ -27,6 +24,7 @@ const Page = () => {
     useSearchGuides(guides);
 
   return (
+    <>
     <PageContainer title="Guides">
       <DashboardCard title="Guides">
         <Box>
@@ -49,7 +47,8 @@ const Page = () => {
         </Box>
       </DashboardCard>
     </PageContainer>
+    </>
   );
 };
 
-export default Page;
+export default GuidesListPage;

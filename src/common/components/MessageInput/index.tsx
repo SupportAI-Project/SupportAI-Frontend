@@ -6,9 +6,10 @@ import { useSocket } from "@/app/hooks/useSocket";
 type MessageInputProps = {
   chatId: number;
   isSupport?: boolean;
+  isPopup?: boolean;
 };
 
-const MessageInput = ({ chatId, isSupport = true }: MessageInputProps) => {
+const MessageInput = ({ chatId, isSupport = true , isPopup = false }: MessageInputProps) => {
   const socket = useSocket();
 
   const { errors, handleChangeNote, handleSubmit, isNote, register } =
@@ -65,7 +66,7 @@ const MessageInput = ({ chatId, isSupport = true }: MessageInputProps) => {
           autoFocus
           {...register("message")}
           multiline
-          minRows={5}
+          minRows={isPopup ? 2 : 5}
           maxRows={10}
           InputProps={{
             style: { overflow: "hidden" },
