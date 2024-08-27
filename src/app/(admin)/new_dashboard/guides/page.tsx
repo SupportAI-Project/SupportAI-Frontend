@@ -14,17 +14,17 @@ const GuidesListPage = () => {
   const { data: issueData, isLoading: isLoadingIssues, error: issuesError, isError: isIssuesError, isSuccess: isIssuesSuccess } = useIssue();
 
   let guides: Guide[] = [];
-  let issues: string[] = [];
+  let tags: string[] = [];
 
   if (isGuidesSuccess && "data" in guideItems) {
     guides = guideItems.data;
   }
 
   if (isIssuesSuccess && "data" in issueData) {
-    issues = issueData.data.categories.toSorted();
+    tags = issueData.data.categories.toSorted();
   }
 
-  const { searchQuery, selectedIssue, filteredGuides, handleSearchChange, handleIssueChange } =
+  const { searchQuery, selectedTag, filteredGuides, handleSearchChange, handleTagChange } =
     useSearchGuides(guides);
 
   return (
@@ -43,9 +43,9 @@ const GuidesListPage = () => {
                 <SearchBar
                   searchQuery={searchQuery}
                   onSearchChange={handleSearchChange}
-                  selectedIssue={selectedIssue}
-                  onIssueChange={handleIssueChange}
-                  issues={["All", ...issues]}  
+                  selectedTag={selectedTag}
+                  onTagChange={handleTagChange}
+                  tags={["All", ...tags]}  
                 />
               </Box>
               <GuideList guideItems={filteredGuides} />

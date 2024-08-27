@@ -6,7 +6,7 @@ const guideSchema = z.object({
   id: z.number(),
   title: z.string(),
   tags: z.array(z.string()).max(3),
-  issue: z.string(),
+  contentHTML: z.string(),
   creatorId: z.number(),
   createdAt: z.date(),
   creator: userSchema.optional(),

@@ -1,15 +1,16 @@
-import { TextField, InputAdornment, Box, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
+import { TextField, InputAdornment, Box, FormControl } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import Autocomplete from "@mui/material/Autocomplete";
 
 type Props = {
   searchQuery: string;
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  selectedIssue: string;
-  onIssueChange: (e: SelectChangeEvent<string>) => void;
-  issues: string[];
+  selectedTag: string;
+  onTagChange: (e: React.ChangeEvent<{}>, value: string | null) => void;
+  tags: string[];
 };
 
-const SearchBar = ({ searchQuery, onSearchChange, selectedIssue, onIssueChange, issues }: Props) => (
+const SearchBar = ({ searchQuery, onSearchChange, selectedTag, onTagChange, tags }: Props) => (
   <Box display="flex" alignItems="center" justifyContent="space-between">
     <TextField
       fullWidth
@@ -26,19 +27,20 @@ const SearchBar = ({ searchQuery, onSearchChange, selectedIssue, onIssueChange, 
       }}
     />
     <FormControl variant="outlined" sx={{ ml: 2, minWidth: 290 }}>
-      <InputLabel id="issue-filter-label">Filter by tag</InputLabel>
-      <Select
-        labelId="issue-filter-label"
-        value={selectedIssue}
-        onChange={onIssueChange}
-        label="Filter by tag"
-      >
-        {issues.map((issue) => (
-          <MenuItem key={issue} value={issue}>
-            {issue}
-          </MenuItem>
-        ))}
-      </Select>
+      <Autocomplete
+        options={[...tags]}
+        value={selectedTag}
+        onChange={onTagChange}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Filter by tag"
+            variant="outlined"
+          />
+        )}
+        isOptionEqualToValue={(option, value) => option === value}
+        getOptionLabel={(option) => option}
+      />
     </FormControl>
   </Box>
 );
