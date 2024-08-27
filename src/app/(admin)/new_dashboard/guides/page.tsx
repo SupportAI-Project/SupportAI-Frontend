@@ -21,7 +21,7 @@ const GuidesListPage = () => {
   }
 
   if (isIssuesSuccess && "data" in issueData) {
-    issues = issueData.data.categories;
+    issues = issueData.data.categories.toSorted();
   }
 
   const { searchQuery, selectedIssue, filteredGuides, handleSearchChange, handleIssueChange } =
