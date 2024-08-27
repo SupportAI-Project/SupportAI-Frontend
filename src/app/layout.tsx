@@ -6,6 +6,7 @@ import { SocketProvider } from "./providers/SocketProvider/provider";
 import { QueryProvider } from "./providers/QueryProvider/provider";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { SelectedContactProvider } from "./providers/SelectedContactProvider/provider";
+import { GuideProvider } from "./providers/guide";
 
 export default function RootLayout({
   children,
@@ -20,7 +21,7 @@ export default function RootLayout({
           <QueryProvider>
             <SocketProvider>
               <SelectedContactProvider>
-                {children}
+              <GuideProvider>{children}</GuideProvider>
               </SelectedContactProvider>
             </SocketProvider>
           </QueryProvider>

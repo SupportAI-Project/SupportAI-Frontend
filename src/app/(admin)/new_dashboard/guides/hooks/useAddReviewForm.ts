@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { useAddReview } from './guideClientHooks';
-import { CreateReviewDto, CreateReviewSchema } from '../dto/CreateReviewDto';
+import { useState } from "react";
+import { CreateReviewDto, CreateReviewSchema } from "../dto/CreateReviewDto";
+import { useAddReview } from "@/hooks";
 
 const useAddReviewForm = (guideId: number) => {
   const [comment, setComment] = useState('');
@@ -17,7 +17,7 @@ const useAddReviewForm = (guideId: number) => {
     const validation = CreateReviewSchema.safeParse(newReview);
     if (!validation.success) {
       setValidationError(
-        validation.error.errors.map((err) => err.message).join(', ')
+        validation.error.errors.map((err) => err.message).join(", ")
       );
       return;
     }

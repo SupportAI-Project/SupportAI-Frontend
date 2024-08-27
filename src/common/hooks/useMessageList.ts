@@ -1,7 +1,10 @@
 "use client";
+import { Chat } from "@/api/types/chat";
+import { Message } from "@/api/types/message";
 import { useOnFetch } from "@/common/hooks/useOnFetch";
 import { useChatById } from "@/hooks/api/chatHooks";
 import { ClientResponse, SuccessResponse } from "@/types";
+
 import { useEffect, useState } from "react";
 import { Socket } from "socket.io-client";
 

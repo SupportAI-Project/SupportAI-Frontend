@@ -3,19 +3,28 @@ import { useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import { Box, Button, TextField } from "@mui/material";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
+import { UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { CreateGuideRequest } from "@/api/types/Guide";
 
 const DynamicReactQuill = dynamic(() => import("react-quill"));
 
 interface Props {
-  intitialTitle?: string;
-  initialIssue?: string;
+  initialTitle?: string;
   initialContent?: string;
-  onSave: (content: string) => void;
+  onSave: () => void;
+  register: UseFormRegister<CreateGuideRequest>;
+  error: Error | null;
+  setValue: UseFormSetValue<CreateGuideRequest>;
 }
 
-const GuideEditor = ({ initialContent = "", onSave }: Props) => {
-  const [contentHTML, setContent] = useState<string>(initialContent);
-
+const GuideEditor = ({
+  initialContent = "",
+  initialTitle = "",
+  onSave,
+  register,
+  error,
+  setValue,
+}: Props) => {
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -48,22 +57,30 @@ const GuideEditor = ({ initialContent = "", onSave }: Props) => {
 
   return (
     <>
-      <TextField label="Title" variant="outlined" fullWidth sx={{ mb: 2 }} />
-      <TextField label="Issue" variant="outlined" fullWidth sx={{ mb: 2 }} />
+      <TextField
+        {...register("title")}
+        label="Title"
+        variant="outlined"
+        fullWidth
+        defaultValue={initialTitle}
+        onChange={(e) => setValue("title", e.target.value)}
+        sx={{ mb: 2 }}
+      />
       <DynamicReactQuill
         theme="snow"
         modules={modules}
         formats={formats}
-        value={contentHTML}
         style={{ height: "570px" }}
-        onChange={(content) => setContent(content)}
+        defaultValue={initialContent} // Initial content for the editor
+        onChange={(content) => setValue("contentHTML", content)}
       />
+      <input type="hidden" {...register("contentHTML")} />
       <Box display="flex" flexDirection="column" alignItems="flex-end" mt={6}>
         <Button
           variant="contained"
           color="primary"
           startIcon={<SaveAsIcon />}
-          onClick={() => onSave(contentHTML)}
+          onClick={() => onSave()}
         >
           Save Guide
         </Button>

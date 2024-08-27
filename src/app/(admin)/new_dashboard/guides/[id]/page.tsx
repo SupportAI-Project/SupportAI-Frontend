@@ -3,9 +3,17 @@
 import React from "react";
 import PageContainer from "@/components/PageContainer";
 import { useParams } from "next/navigation";
-import { useGuide } from "../hooks";
 import DashboardCard from "../../shared/Card";
-import { Typography, CircularProgress, Alert, Box, Divider } from "@mui/material";
+
+import { useGuide } from "@/hooks";
+
+import {
+  Typography,
+  CircularProgress,
+  Alert,
+  Box,
+  Divider,
+} from "@mui/material";
 import ReviewList from "../components/ReviewList";
 import parse from "html-react-parser";
 import "quill/dist/quill.snow.css";
@@ -14,7 +22,7 @@ import ChatPopup from "../../components/ChatPopup";
 
 const GuidePage: React.FC = () => {
   const params = useParams();
-  
+
   const id = params?.id ? Number(params.id) : null;
 
   const { data: response, isLoading, isError, error, isSuccess } = useGuide(id ?? 0);
@@ -31,7 +39,9 @@ const GuidePage: React.FC = () => {
 
   if (isSuccess && "data" in response) {
     const guide = response.data;
-    const creatorAndDateInfo = `Created by ${guide.creator?.username} on ${new Date(guide.createdAt).toLocaleDateString()}`;
+    const creatorAndDateInfo = `Created by ${
+      guide.creator?.username
+    } on ${new Date(guide.createdAt).toLocaleDateString()}`;
 
     if (!guide.title) {
       return <Typography>Guide not found</Typography>;
@@ -51,7 +61,6 @@ const GuidePage: React.FC = () => {
       </Box>
     );
   }
-
 };
 
 export default GuidePage;

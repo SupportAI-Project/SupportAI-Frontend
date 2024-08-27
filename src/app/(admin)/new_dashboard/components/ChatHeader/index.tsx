@@ -2,12 +2,14 @@ import { Box, Typography, Button } from "@mui/material";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import SnoozeIcon from "@mui/icons-material/Snooze";
 import { Contact } from "../../types";
+import { useGuide } from "./hooks/useGuide";
 
 type Props = {
   selectedContact: Contact | null;
 };
 
 const ChatHeader = ({ selectedContact }: Props) => {
+  const { handleGenerateGuide } = useGuide();
   return (
     <Box
       sx={{
@@ -23,7 +25,10 @@ const ChatHeader = ({ selectedContact }: Props) => {
       {selectedContact && (
         <>
           <Typography variant="h6">{selectedContact.username}</Typography>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Box
+            onClick={() => handleGenerateGuide(selectedContact.chatId)}
+            sx={{ display: "flex", alignItems: "center", gap: 1 }}
+          >
             <Button variant="contained" startIcon={<SmartToyIcon />}>
               Generate Guide
             </Button>
