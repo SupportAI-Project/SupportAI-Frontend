@@ -51,8 +51,8 @@ const ChatPopup = ({ selectedContact }: Props) => {
         <Paper
           elevation={6}
           sx={{
-            width: 400, // Increased width
-            height: 500, // Increased height
+            width: 400, 
+            height: 500, 
             display: 'flex',
             flexDirection: 'column',
             marginLeft: 2,
@@ -75,14 +75,6 @@ const ChatPopup = ({ selectedContact }: Props) => {
             }}
           >
             <Typography variant="h6">{selectedContact.username}</Typography>
-            <IconButton
-              onClick={toggleChat}
-              sx={{
-                color: 'white',
-              }}
-            >
-              <Close />
-            </IconButton>
           </Box>
 
           {/* Message List */}
