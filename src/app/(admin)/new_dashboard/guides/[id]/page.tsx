@@ -17,7 +17,7 @@ import {
 import ReviewList from "../components/ReviewList";
 import parse from "html-react-parser";
 import "quill/dist/quill.snow.css";
-import { useGlobalChat } from "@/app/hooks/useGlobalContacts";
+import { useGlobalChat } from "@/app/hooks/useGlobalChat";
 import ChatPopup from "../../components/ChatPopup";
 
 const GuidePage: React.FC = () => {
@@ -56,8 +56,6 @@ const GuidePage: React.FC = () => {
         </Box>
         <Divider sx={{ mt: 2, mb: 2, border: "none" }} />
         <ReviewList guideId={guide.id} reviews={guide.reviews ?? []} />
-        <Divider sx={{ mt: 5, mb: 5, border: "none" }} />
-        {selectedContact && <ChatPopup selectedContact={selectedContact} />}
       </Box>
     );
   }

@@ -8,7 +8,7 @@ import { useSearchGuides } from "./hooks";
 import { useAllGuides } from "@/hooks";
 import { Guide } from "@/api/types/Guide";
 import ChatPopup from "../components/ChatPopup";
-import { useGlobalChat } from "@/app/hooks/useGlobalContacts";
+import { useGlobalChat } from "@/app/hooks/useGlobalChat";
 
 const GuidesListPage = () => {
   const { data: guideItems, isLoading, error, isError, isSuccess } = useAllGuides();
@@ -47,7 +47,6 @@ const GuidesListPage = () => {
         </Box>
       </DashboardCard>
     </PageContainer>
-    {selectedContact && <ChatPopup selectedContact={selectedContact} />}
     </>
   );
 };

@@ -5,7 +5,7 @@ import "./globals.css";
 import { SocketProvider } from "./providers/SocketProvider/provider";
 import { QueryProvider } from "./providers/QueryProvider/provider";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { ChatProvider } from "./providers/SelectedContactProvider/provider";
+import { ChatProvider } from "./providers/ChatProvider/provider";
 import { GuideProvider } from "./providers/guide";
 
 export default function RootLayout({

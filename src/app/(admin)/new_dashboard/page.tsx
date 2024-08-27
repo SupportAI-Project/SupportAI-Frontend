@@ -6,7 +6,7 @@ import ContactList from "./components/ContactList";
 import ChatHeader from "./components/ChatHeader";
 import SupportMessageList from "./components/SupportMessageList";
 import MessageInput from "@/common/components/MessageInput";
-import { useGlobalChat } from "@/app/hooks/useGlobalContacts";
+import { useGlobalChat } from "@/app/hooks/useGlobalChat";
 
 const Page = () => {
 

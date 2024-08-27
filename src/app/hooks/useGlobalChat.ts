@@ -1,6 +1,7 @@
+'use client';
 import { useContext } from 'react';
-import { ChatContextValue } from '../providers/SelectedContactProvider/provider';
-import { ChatContext } from '../providers/SelectedContactProvider/provider';
+import { ChatContextValue } from '../providers/ChatProvider/provider';
+import { ChatContext } from '../providers/ChatProvider/provider';
 
 export const useGlobalChat = (): ChatContextValue => {
   const context = useContext(ChatContext);

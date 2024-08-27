@@ -1,3 +1,5 @@
+"use client";
+
 import { Contact } from '@/app/(admin)/new_dashboard/types';
 import { useSocket } from '@/app/hooks/useSocket';
 import React, { createContext, useState, useContext, ReactNode } from 'react';
