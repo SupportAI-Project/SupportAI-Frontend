@@ -1,13 +1,12 @@
-import { BaseClient } from './base.client';
-import { Issue } from './types/issue';
-import { UpdateIssueDto } from './types/issue';
+import { BaseClient } from "./base.client";
+import { UpdateIssueRequest, Issue } from "./types/Issue";
 
 export class IssueClient extends BaseClient {
   async getIssue() {
-    return await this.get<Issue>('issues');
+    return await this.get<Issue>("issues");
   }
 
-  async updateIssue(updateIssueRequest: UpdateIssueDto) {
-    return await this.patch<Issue>('issues', updateIssueRequest);
+  async updateIssue(updateIssueRequest: UpdateIssueRequest) {
+    return await this.patch<Issue>("issues", updateIssueRequest);
   }
 }
