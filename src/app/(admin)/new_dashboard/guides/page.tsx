@@ -5,49 +5,46 @@ import { Alert, Box, CircularProgress, Typography } from "@mui/material";
 import GuideList from "./components/GuideList";
 import SearchBar from "./components/SearchBar";
 import { useSearchGuides } from "./hooks";
-import { useAllGuides } from "@/hooks";
-import { Guide } from "@/api/types/Guide";
-import ChatPopup from "../components/ChatPopup";
-import { useChat } from "@/app/hooks/useChat";
+import { useGuideItems } from "./hooks/useGuideItems";
+import { useCategories } from "./hooks/useCategories";
 
 const GuidesListPage = () => {
-  const { data: guideItems, isLoading, error, isError, isSuccess } = useAllGuides();
-  const {selectedContact} = useChat();
+  const { guides, isLoadingGuides, guidesError, isGuidesError, isGuidesSuccess } = useGuideItems();
+  const { categories, error: issuesError, isLoading: isLoadingIssues } = useCategories();
 
-  let guides: Guide[] = [];
-
-  if (isSuccess && "data" in guideItems) {
-    guides = guideItems.data;
-  }
-
-  const { searchQuery, filteredGuides, handleSearchChange } =
+  const { searchQuery, selectedTag, filteredGuides, handleSearchChange, handleTagChange } =
     useSearchGuides(guides);
 
   return (
-    <>
     <PageContainer title="Guides">
       <DashboardCard title="Guides">
         <Box>
-          {isLoading && <CircularProgress />}
-          {isError && <Alert severity="error">{error.message}</Alert>}
-          {isSuccess && guides.length > 0 && (
+          {(isLoadingGuides || isLoadingIssues) && <CircularProgress />}
+          {(isGuidesError || issuesError) && (
+            <Alert severity="error">
+              {guidesError?.message || issuesError?.message || "An error occurred"}
+            </Alert>
+          )}
+          {isGuidesSuccess && guides.length > 0 && (
             <>
               <Box mb={2}>
                 <SearchBar
                   searchQuery={searchQuery}
                   onSearchChange={handleSearchChange}
+                  selectedTag={selectedTag}
+                  onTagChange={handleTagChange}
+                  categories={["All", ...categories]}  
                 />
               </Box>
               <GuideList guideItems={filteredGuides} />
             </>
           )}
-          {isSuccess && guides.length === 0 && (
+          {isGuidesSuccess && guides.length === 0 && (
             <Typography>No guides available</Typography>
           )}
         </Box>
       </DashboardCard>
     </PageContainer>
-    </>
   );
 };
 

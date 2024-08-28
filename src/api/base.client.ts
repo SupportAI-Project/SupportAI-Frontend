@@ -21,7 +21,7 @@ export class BaseClient {
 
   private async request<T>(
     endpoint: string,
-    method: "GET" | "POST" | "PUT" | "DELETE",
+    method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
     body?: any,
     options: RequestInit = {}
   ): Promise<ClientResponse<T>> {
@@ -98,6 +98,14 @@ export class BaseClient {
     options: RequestInit = {}
   ): Promise<ClientResponse<T>> {
     return this.request<T>(endpoint, "PUT", body, options);
+  }
+
+  protected async patch<T>(
+    endpoint: string,
+    body: any,
+    options: RequestInit = {}
+  ): Promise<ClientResponse<T>> {
+    return this.request<T>(endpoint, "PATCH", body, options);
   }
 
   protected async delete<T>(

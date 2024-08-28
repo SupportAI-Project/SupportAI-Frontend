@@ -49,12 +49,11 @@ const GuidePage: React.FC = () => {
 
     return (
       <Box>
-        <Typography variant="h1">{guide.title}</Typography>
-        <Typography variant="subtitle1">{creatorAndDateInfo}</Typography>
-        <Box className="quill-content">
-          {parse(guide.contentHTML)}
-        </Box>
-        <Divider sx={{ mt: 2, mb: 2, border: "none" }} />
+        <DashboardCard title={guide.title} subtitle={creatorAndDateInfo}>
+          <Box className="quill-content">
+            {parse(guide.contentHTML)}
+          </Box>
+        </DashboardCard>
         <ReviewList guideId={guide.id} reviews={guide.reviews ?? []} />
       </Box>
     );

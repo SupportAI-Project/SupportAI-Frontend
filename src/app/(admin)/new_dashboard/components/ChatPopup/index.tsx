@@ -24,16 +24,14 @@ const ChatPopup = ({ selectedContact }: Props) => {
         position: 'fixed',
         bottom: 0,
         right: 0,
-        width: '100%',
         display: 'flex',
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
         padding: 2,
         boxSizing: 'border-box',
-        zIndex: 1000, // Ensures the chat popup is on top of other elements
+        zIndex: 1000,
       }}
     >
-      {/* Toggle Button */}
       <IconButton
         color="primary"
         onClick={toggleChat}
@@ -46,7 +44,6 @@ const ChatPopup = ({ selectedContact }: Props) => {
         {isOpen ? <Close /> : <Chat />}
       </IconButton>
 
-      {/* Chat Popup */}
       {isOpen && selectedContact && (
         <Paper
           elevation={6}
@@ -63,7 +60,6 @@ const ChatPopup = ({ selectedContact }: Props) => {
             zIndex: 1000,
           }}
         >
-          {/* Chat Header */}
           <Box
             sx={{
               backgroundColor: 'primary.main',
@@ -77,7 +73,6 @@ const ChatPopup = ({ selectedContact }: Props) => {
             <Typography variant="h6">{selectedContact.username}</Typography>
           </Box>
 
-          {/* Message List */}
           <Box
             sx={{
               flexGrow: 1,
@@ -89,7 +84,6 @@ const ChatPopup = ({ selectedContact }: Props) => {
             <SupportMessageList chatId={selectedContact.chatId} />
           </Box>
 
-          {/* Input and Send Button */}
           <Box>
             <MessageInput chatId={selectedContact.chatId} isPopup={true}/>
           </Box>
