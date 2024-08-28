@@ -5,24 +5,12 @@ import { Alert, Box, CircularProgress, Typography } from "@mui/material";
 import GuideList from "./components/GuideList";
 import SearchBar from "./components/SearchBar";
 import { useSearchGuides } from "./hooks";
-import { useAllGuides} from "@/hooks";
-import { useIssue } from "@/hooks/api/issueHooks";
-import { Guide } from "@/api/types/Guide";
+import { useGuideItems } from "./hooks/useGuideItems";
+import { useCategories } from "./hooks/useCategories";
 
 const GuidesListPage = () => {
-  const { data: guideItems, isLoading: isLoadingGuides, error: guidesError, isError: isGuidesError, isSuccess: isGuidesSuccess } = useAllGuides();
-  const { data: issueData, isLoading: isLoadingIssues, error: issuesError, isError: isIssuesError, isSuccess: isIssuesSuccess } = useIssue();
-
-  let guides: Guide[] = [];
-  let categories: string[] = [];
-
-  if (isGuidesSuccess && "data" in guideItems) {
-    guides = guideItems.data;
-  }
-
-  if (isIssuesSuccess && "data" in issueData) {
-    categories = issueData.data.categories.toSorted();
-  }
+  const { guides, isLoadingGuides, guidesError, isGuidesError, isGuidesSuccess } = useGuideItems();
+  const { categories, error: issuesError, isLoading: isLoadingIssues } = useCategories();
 
   const { searchQuery, selectedTag, filteredGuides, handleSearchChange, handleTagChange } =
     useSearchGuides(guides);
@@ -32,12 +20,12 @@ const GuidesListPage = () => {
       <DashboardCard title="Guides">
         <Box>
           {(isLoadingGuides || isLoadingIssues) && <CircularProgress />}
-          {(isGuidesError || isIssuesError) && (
+          {(isGuidesError || issuesError) && (
             <Alert severity="error">
               {guidesError?.message || issuesError?.message || "An error occurred"}
             </Alert>
           )}
-          {isGuidesSuccess && isIssuesSuccess && guides.length > 0 && (
+          {isGuidesSuccess && guides.length > 0 && (
             <>
               <Box mb={2}>
                 <SearchBar
