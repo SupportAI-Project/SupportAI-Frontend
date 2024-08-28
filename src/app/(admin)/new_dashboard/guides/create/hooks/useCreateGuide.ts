@@ -11,11 +11,15 @@ export const useGuide = () => {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors, isValid },
   } = useForm<CreateGuideRequest>({
     resolver: zodResolver(schema),
     mode: "onChange",
     reValidateMode: "onChange",
+    defaultValues: {
+      categories: [],
+    },
   });
   const { guide } = useGuideContext();
 
@@ -36,6 +40,7 @@ export const useGuide = () => {
     guide,
     register,
     setValue,
+    watch,
     handleSubmit: handleSubmit(onSubmit),
     errors,
     isValid,

@@ -1,9 +1,9 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import "react-quill/dist/quill.snow.css";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Autocomplete, Chip } from "@mui/material";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
-import { UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form";
 import { CreateGuideRequest } from "@/api/types/Guide";
 
 const DynamicReactQuill = dynamic(() => import("react-quill"));
@@ -11,20 +11,33 @@ const DynamicReactQuill = dynamic(() => import("react-quill"));
 interface Props {
   initialTitle?: string;
   initialContent?: string;
+  categories: string[];
   onSave: () => void;
   register: UseFormRegister<CreateGuideRequest>;
   error: Error | null;
   setValue: UseFormSetValue<CreateGuideRequest>;
+  watch: UseFormWatch<CreateGuideRequest>;
 }
 
 const GuideEditor = ({
   initialContent = "",
   initialTitle = "",
+  categories,
   onSave,
   register,
   error,
   setValue,
+  watch,
 }: Props) => {
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(watch("categories") || []);
+
+  const handleCategoryChange = (event: any, newValue: string[]) => {
+    if (newValue.length <= 3) {
+      setSelectedCategories(newValue);
+      setValue("categories", newValue);
+    }
+  };
+
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -66,6 +79,26 @@ const GuideEditor = ({
         onChange={(e) => setValue("title", e.target.value)}
         sx={{ mb: 2 }}
       />
+
+      <Autocomplete
+        multiple
+        freeSolo
+        options={categories}
+        value={selectedCategories}
+        onChange={handleCategoryChange}
+        renderTags={(value: string[], getTagProps) =>
+          value.map((option: string, index: number) => (
+            <Box key={index}>
+              <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+            </Box>
+          ))
+        }
+        renderInput={(params) => (
+          <TextField {...params} variant="outlined" label="Categories" placeholder="Add up to 3 categories" />
+        )}
+        sx={{ mt: 2 ,mb: 2 }}
+      />
+
       <DynamicReactQuill
         theme="snow"
         modules={modules}
@@ -75,6 +108,7 @@ const GuideEditor = ({
         onChange={(content) => setValue("contentHTML", content)}
       />
       <input type="hidden" {...register("contentHTML")} />
+
       <Box display="flex" flexDirection="column" alignItems="flex-end" mt={6}>
         <Button
           variant="contained"
