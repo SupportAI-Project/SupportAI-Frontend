@@ -6,7 +6,7 @@ import SaveAsIcon from "@mui/icons-material/SaveAs";
 import { UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form";
 import { CreateGuideRequest } from "@/api/types/Guide";
 
-const DynamicReactQuill = dynamic((Pgiu) => import("react-quill"));
+const DynamicReactQuill = dynamic(() => import("react-quill"));
 
 interface Props {
   initialTitle?: string;
