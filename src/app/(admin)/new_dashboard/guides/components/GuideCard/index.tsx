@@ -13,7 +13,7 @@ const GuideCard = ({ guide }: Props) => {
   const avgRating = totalStars / (guide.reviews?.length ?? 1);
 
   return (
-    <Card sx={{ minHeight: 200, display: 'flex', flexDirection: 'column' }}>
+    <Card sx={{ minHeight:230, display: 'flex', flexDirection: 'column' }}>
       <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
         <Box display="grid" alignItems="center" mb={1}>
           <Box display="flex" alignItems="center">
