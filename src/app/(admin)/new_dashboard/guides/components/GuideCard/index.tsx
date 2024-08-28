@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography, Box, Rating, Chip } from "@mui/material";
+import { Card, CardContent, Typography, Box, Rating } from "@mui/material";
 import SupportIcon from "@mui/icons-material/Support";
 import { useTheme } from "@mui/material/styles";
 import { Guide } from "@/api/types/Guide";
@@ -13,26 +13,16 @@ const GuideCard = ({ guide }: Props) => {
   const avgRating = totalStars / (guide.reviews?.length ?? 1);
 
   return (
-    <Card sx={{ minHeight: 200, display: 'flex', flexDirection: 'column' }}>
-      <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>    
-        <Box display="grid" alignItems="center" mb={1}>    
+    <Card variant="outlined">
+      <CardContent>
+        <Box display="grid" alignItems="center" mb={1}>
           <Box display="flex" alignItems="center">
             <SupportIcon color="primary" sx={{ marginRight: theme.spacing(1) }} />
             <Typography variant="h6">{guide.title}</Typography>
           </Box>
-          <Typography variant="body2" color="textSecondary" mt="auto" mb="auto">
+          <Typography variant="body2" color="textSecondary" mb={2}>
             Created at: {new Date(guide.createdAt).toLocaleDateString()}
           </Typography>
-        </Box>  
-        <Box display="flex" flexWrap="wrap" mt="auto">
-          {guide.categories.map((category) => (
-            <Chip
-              key={category}
-              label={category}
-              size="small"
-              sx={{ margin: theme.spacing(0.5) }}
-            />
-          ))}
         </Box>
         <Box display="flex" alignItems="center">
           <Rating
