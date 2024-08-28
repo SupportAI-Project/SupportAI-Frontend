@@ -1,6 +1,6 @@
 import { CreateReviewDto } from "@/app/(admin)/new_dashboard/guides/dto/CreateReviewDto";
 import { BaseClient } from "./base.client";
-import { CreateGuideRequest, Guide } from "./types/Guide";
+import { Guide, GuideRequestUpdate } from "./types/Guide";
 import { Review } from "./types/Review";
 
 export class GuideClient extends BaseClient {
@@ -12,7 +12,15 @@ export class GuideClient extends BaseClient {
     return await this.get<Guide>("guides/" + guideId);
   }
 
-  async createGuide(createGuideRequest: CreateGuideRequest) {
-    return await this.post<Guide>("guides", createGuideRequest);
+  async deleteGuide(guideId: number) {
+    return await this.delete<Guide>("guides/" + guideId);
+  }
+
+  async addReview(review: CreateReviewDto) {
+    return await this.post<Review>("reviews", review);
+  }
+
+  async updateGuide(id: number, guide: GuideRequestUpdate) {
+    return await this.patch<Guide>("guides/" + id, guide);
   }
 }
