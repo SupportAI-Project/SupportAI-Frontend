@@ -5,7 +5,6 @@ import { Box, Button, TextField } from "@mui/material";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { CreateGuideRequest } from "@/api/types/Guide";
-import { editorFormats, editorModules } from "@/util/theme";
 
 const DynamicReactQuill = dynamic(() => import("react-quill"));
 
@@ -26,7 +25,36 @@ const GuideEditor = ({
   error,
   setValue,
 }: Props) => {
-  
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      [{ font: [] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [{ align: ["right", "center", "justify"] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["link", "image"],
+      [{ color: [] }],
+      [{ background: [] }],
+    ],
+  };
+
+  const formats = [
+    "header",
+    "font",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "link",
+    "color",
+    "image",
+    "background",
+    "align",
+  ];
+
   return (
     <>
       <TextField
@@ -40,10 +68,10 @@ const GuideEditor = ({
       />
       <DynamicReactQuill
         theme="snow"
-        modules={editorModules}
-        formats={editorFormats}
+        modules={modules}
+        formats={formats}
         style={{ height: "570px" }}
-        defaultValue={initialContent} 
+        defaultValue={initialContent} // Initial content for the editor
         onChange={(content) => setValue("contentHTML", content)}
       />
       <input type="hidden" {...register("contentHTML")} />
