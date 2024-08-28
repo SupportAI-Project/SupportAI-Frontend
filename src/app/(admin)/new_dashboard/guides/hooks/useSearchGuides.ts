@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { Guide } from '@/api/types/Guide';
+import { useState } from "react";
+import { Guide } from "@/api/types/Guide";
 
 export const useSearchGuides = (initialGuides: Guide[]) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTag, setSelectedTag] = useState('All');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedTag, setSelectedTag] = useState("All");
 
   const filteredGuides = initialGuides.filter((guide) => {
     const matchesQuery = guide.title
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
     const matchesTag =
-      selectedTag === 'All' || guide.tags.includes(selectedTag);
+      selectedTag === "All" || guide.categories.includes(selectedTag);
     return matchesQuery && matchesTag;
   });
 
@@ -19,7 +19,7 @@ export const useSearchGuides = (initialGuides: Guide[]) => {
   };
 
   const handleTagChange = (_: React.ChangeEvent<{}>, value: string | null) => {
-    setSelectedTag(value || 'All');
+    setSelectedTag(value || "All");
   };
 
   return {

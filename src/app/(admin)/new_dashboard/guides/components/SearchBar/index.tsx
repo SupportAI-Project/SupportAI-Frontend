@@ -7,10 +7,10 @@ type Props = {
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   selectedTag: string;
   onTagChange: (e: React.ChangeEvent<{}>, value: string | null) => void;
-  tags: string[];
+  categories: string[];
 };
 
-const SearchBar = ({ searchQuery, onSearchChange, selectedTag, onTagChange, tags }: Props) => (
+const SearchBar = ({ searchQuery, onSearchChange, selectedTag, onTagChange, categories }: Props) => (
   <Box display="flex" alignItems="center" justifyContent="space-between">
     <TextField
       fullWidth
@@ -28,7 +28,7 @@ const SearchBar = ({ searchQuery, onSearchChange, selectedTag, onTagChange, tags
     />
     <FormControl variant="outlined" sx={{ ml: 2, minWidth: 290 }}>
       <Autocomplete
-        options={[...tags]}
+        options={[...categories]}
         value={selectedTag}
         onChange={onTagChange}
         renderInput={(params) => (
