@@ -5,6 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { schema } from "../validations/schema";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useCategories } from "../../hooks/useCategories";
 
 export const useGuide = () => {
   const {
@@ -36,8 +38,21 @@ export const useGuide = () => {
     });
   };
 
+  const {categories} = useCategories();
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(watch("categories") || []);
+  const handleCategoryChange = (event: any, newValue: string[]) => {
+    if (newValue.length <= 3) {
+      setSelectedCategories(newValue);
+      setValue("categories", newValue);
+    }
+  };
+
+
   return {
     guide,
+    categories,
+    selectedCategories,
+    handleCategoryChange,
     register,
     setValue,
     watch,

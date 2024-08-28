@@ -12,6 +12,8 @@ interface Props {
   initialTitle?: string;
   initialContent?: string;
   categories: string[];
+  selectedCategories: string[];
+  handleCategoryChange: (event: any, newValue: string[]) => void;
   onSave: () => void;
   register: UseFormRegister<CreateGuideRequest>;
   error: Error | null;
@@ -23,20 +25,15 @@ const GuideEditor = ({
   initialContent = "",
   initialTitle = "",
   categories,
+  selectedCategories,
+  handleCategoryChange,
   onSave,
   register,
   error,
   setValue,
   watch,
 }: Props) => {
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(watch("categories") || []);
 
-  const handleCategoryChange = (event: any, newValue: string[]) => {
-    if (newValue.length <= 3) {
-      setSelectedCategories(newValue);
-      setValue("categories", newValue);
-    }
-  };
 
   const modules = {
     toolbar: [
