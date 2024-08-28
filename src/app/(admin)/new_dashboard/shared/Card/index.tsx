@@ -11,6 +11,7 @@ type Props = {
   children?: JSX.Element;
   middlecontent?: string | JSX.Element;
   fullHeight?: boolean;
+  buttons?: JSX.Element;
 };
 
 const DashboardCard = ({
@@ -24,6 +25,7 @@ const DashboardCard = ({
   headsubtitle,
   middlecontent,
   fullHeight = false,
+  buttons,
 }: Props) => {
   return (
     <Card
@@ -54,13 +56,34 @@ const DashboardCard = ({
               alignItems={"center"}
               mb={3}
             >
-              <Box>
-                {title ? <Typography variant="h1">{title}</Typography> : ""}
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <Box>
+                  {title ? (
+                    <Typography variant="h1" mb={1}>
+                      {title}
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
 
-                {subtitle ? (
-                  <Typography variant="subtitle2" color="textSecondary">
-                    {subtitle}
-                  </Typography>
+                  {subtitle ? (
+                    <Typography variant="subtitle2" color="textSecondary">
+                      {subtitle}
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+                </Box>
+                {buttons ? (
+                  <Box mt={1} ml={5}>
+                    {buttons}
+                  </Box>
                 ) : (
                   ""
                 )}
