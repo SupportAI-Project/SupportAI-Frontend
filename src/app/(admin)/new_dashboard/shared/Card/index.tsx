@@ -51,6 +51,8 @@ const DashboardCard = ({
               direction="row"
               spacing={2}
               justifyContent="space-between"
+              borderBottom={1}
+              borderColor={"divider"}
               alignItems={"center"}
               mb={3}
             >

@@ -2,8 +2,10 @@
 
 import { baselightTheme } from "@/util/theme";
 import "./globals.css";
-import { Providers, SocketProvider } from "./providers";
+import { SocketProvider } from "./providers/SocketProvider/provider";
+import { QueryProvider } from "./providers/QueryProvider/provider";
 import { CssBaseline, ThemeProvider } from "@mui/material";
+import { ChatProvider } from "./providers/ChatProvider/provider";
 import { GuideProvider } from "./providers/guide";
 
 export default function RootLayout({
@@ -16,11 +18,13 @@ export default function RootLayout({
       <body style={{ height: "100vh" }}>
         <ThemeProvider theme={baselightTheme}>
           <CssBaseline />
-          <Providers>
+          <QueryProvider>
             <SocketProvider>
+              <ChatProvider>
               <GuideProvider>{children}</GuideProvider>
+              </ChatProvider>
             </SocketProvider>
-          </Providers>
+          </QueryProvider>
         </ThemeProvider>
       </body>
     </html>

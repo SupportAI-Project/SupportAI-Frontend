@@ -1,8 +1,9 @@
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Button, CircularProgress } from "@mui/material";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import DoneIcon from "@mui/icons-material/Done";
 import { Contact } from "../../types";
 import { useGuide } from "./hooks/useGuide";
+import { useState } from "react";
 
 type Props = {
   selectedContact: Contact | null;
@@ -10,10 +11,12 @@ type Props = {
 };
 
 const ChatHeader = ({ selectedContact, handleContactSelect }: Props) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { handleGenerateGuide, handleCloseChat } = useGuide({
     handleContactSelect,
     selectedContact,
   });
+
   return (
     <Box
       sx={{
@@ -32,10 +35,19 @@ const ChatHeader = ({ selectedContact, handleContactSelect }: Props) => {
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <Button
               variant="contained"
-              startIcon={<SmartToyIcon />}
-              onClick={() => handleGenerateGuide(selectedContact.chatId)}
+              startIcon={!isLoading && <SmartToyIcon />}
+              onClick={() => {
+                handleGenerateGuide(selectedContact.chatId);
+                setIsLoading(true);
+              }}
+              disabled={isLoading}
+              sx={{ width: "163px", height: "36px", textTransform: "none" }}
             >
-              Generate Guide
+              {!isLoading ? (
+                "Generate Guide"
+              ) : (
+                <CircularProgress size={20} color="inherit" />
+              )}
             </Button>
 
             <Button

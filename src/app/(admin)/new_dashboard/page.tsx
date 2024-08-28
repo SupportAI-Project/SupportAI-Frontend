@@ -4,16 +4,12 @@ import DashboardCard from "./shared/Card";
 import { Box } from "@mui/material";
 import ContactList from "./components/ContactList";
 import ChatHeader from "./components/ChatHeader";
-import { useContacts } from "./hooks";
-import { useSocket } from "@/app/hooks/useSocket";
 import SupportMessageList from "./components/SupportMessageList";
 import MessageInput from "@/common/components/MessageInput";
+import { useChat } from "@/app/hooks/useChat";
 
 const Page = () => {
-  const socket = useSocket();
-  const { contacts, selectedContact, handleContactSelect } = useContacts({
-    socket,
-  });
+  const { selectedContact, handleContactSelect, contacts } = useChat();
 
   return (
     <PageContainer title="Dashboard">
@@ -22,7 +18,7 @@ const Page = () => {
           sx={{
             display: "flex",
             flexDirection: "row",
-            height: "calc(100vh - 135px)",
+            height: "calc(100vh - 155px)",
             margin: 0,
             padding: 0,
           }}
@@ -55,7 +51,10 @@ const Page = () => {
 
               {/* Message List */}
               {selectedContact && (
-                <SupportMessageList chatId={selectedContact.chatId} />
+                <SupportMessageList
+                  chatId={selectedContact.chatId}
+                  username={selectedContact.username}
+                />
               )}
 
               {/* Input and Send Button */}

@@ -8,8 +8,6 @@ import {
   Divider,
 } from "@mui/material";
 import { Review } from "@/api/types/Review";
-import PageContainer from "@/components/PageContainer";
-import DashboardCard from "../../../shared/Card";
 import AddReviewBox from "../AddReviewBox";
 import ReviewCard from "../ReviewCard";
 
@@ -30,7 +28,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, guideId }) => {
   }
 
   let reviewsContext = !reviews.length ? (
-    <Typography>No reviews available</Typography>
+    <Typography>No reviews available yet</Typography>
   ) : (
     reviews.slice(0, visibleCount).map((review, index) => (
       <ReviewCard key={index} review={review} />
@@ -38,12 +36,13 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, guideId }) => {
   );
 
   return (
-    <PageContainer title="Reviews">
-      <DashboardCard title="Reviews">
         <Box mt={2}>
-          <Divider />
+          <Typography variant="h1" mt={2}>
+            Reviews
+          </Typography>
+          <Divider sx={{mt:2 , mb:2}}/>
           {reviewsContext}
-          {!!reviews.length &&(
+          {reviews?.length > 1 &&(
           <Box display="flex" justifyContent="center" width="100%" mt={2}>
             <Button onClick={()=>{
               visibleCount === reviews.length ? showLessReviews() : showMoreReviews();
@@ -51,10 +50,8 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, guideId }) => {
               {visibleCount === reviews.length ? "Show Less" : "Show More"}
             </Button>
           </Box>)}
-          <AddReviewBox guideId={guideId} />
+          <AddReviewBox guideId={guideId ?? 0} />
         </Box>
-      </DashboardCard>
-    </PageContainer>
   );
 };
 

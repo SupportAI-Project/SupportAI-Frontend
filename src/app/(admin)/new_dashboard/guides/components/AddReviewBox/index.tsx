@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { Box, Typography, Rating, TextField, Button } from '@mui/material';
+import { Box, Typography, Rating, TextField, Button, CircularProgress, Alert } from '@mui/material';
 import useAddReviewForm from '../../hooks/useAddReviewForm';
 
 interface AddReviewBoxProps {
@@ -8,7 +8,6 @@ interface AddReviewBoxProps {
 }
 
 const AddReviewBox: React.FC<AddReviewBoxProps> = ({guideId}) => {
-
 
   const {
     comment,
@@ -24,15 +23,20 @@ const AddReviewBox: React.FC<AddReviewBoxProps> = ({guideId}) => {
   } = useAddReviewForm(guideId);
 
 
+  if(!guideId){
+    return <Alert severity="error">Guide not found</Alert>
+  }
+
   return (
-    <Box display="flex" flexDirection="column" alignItems="flex-start" sx={{ width: '100%' , mt:2}}>
+    <Box display="flex" flexDirection="column" alignItems="flex-start" sx={{ mt:2}}>
       <Typography variant="h6" >Add Your Review:</Typography>
       <Box mb={2} mt={2}>
         <Rating
           name="stars"
           value={stars}
-          onChange={(event, newValue) => setStars(newValue ?? 1)}
-          sx={{color: "gold"}}
+          onChange={(event, newValue) => {
+            setStars(newValue ?? 1)
+          }}
         />
       </Box>
       <TextField
@@ -43,16 +47,16 @@ const AddReviewBox: React.FC<AddReviewBoxProps> = ({guideId}) => {
         variant="outlined"
         value={comment}
         onChange={(e) => setComment(e.target.value)}
-        disabled={isPending}
       />
       <Box mt={2}>
         <Button
           variant="contained"
           color="primary"
           onClick={handleSubmit}
-          disabled={isPending || stars === null}
+          disabled={isPending}
+          sx={{mb:2}}
         >
-          {isPending ? 'Submitting...' : 'Submit Review'}
+        {isPending ? <CircularProgress size={24} /> : 'Submit'}
         </Button>
       </Box>
       {validationError && (

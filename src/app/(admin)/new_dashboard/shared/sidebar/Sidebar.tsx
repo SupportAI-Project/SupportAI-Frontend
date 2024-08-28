@@ -69,7 +69,7 @@ const DashboardSidebar = ({ isSidebarOpen }: ItemType) => {
                 justifyContent: "center",
                 alignItems: "center",
                 height: "100px",
-                width: "270px",
+                width: "260px",
               }}
             >
               <Image src="/logo.png" alt="logo" width={220} height={150} />

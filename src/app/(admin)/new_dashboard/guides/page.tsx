@@ -8,7 +8,7 @@ import { useSearchGuides } from "./hooks";
 import { useAllGuides } from "@/hooks";
 import { Guide } from "@/api/types/Guide";
 
-const Page = () => {
+const GuidesListPage = () => {
   const {
     data: guideItems,
     isLoading,
@@ -27,29 +27,31 @@ const Page = () => {
     useSearchGuides(guides);
 
   return (
-    <PageContainer title="Guides">
-      <DashboardCard title="Guides">
-        <Box>
-          {isLoading && <CircularProgress />}
-          {isError && <Alert severity="error">{error.message}</Alert>}
-          {isSuccess && guides.length > 0 && (
-            <>
-              <Box mb={2}>
-                <SearchBar
-                  searchQuery={searchQuery}
-                  onSearchChange={handleSearchChange}
-                />
-              </Box>
-              <GuideList guideItems={filteredGuides} />
-            </>
-          )}
-          {isSuccess && guides.length === 0 && (
-            <Typography>No guides available</Typography>
-          )}
-        </Box>
-      </DashboardCard>
-    </PageContainer>
+    <>
+      <PageContainer title="Guides">
+        <DashboardCard title="Guides">
+          <Box>
+            {isLoading && <CircularProgress />}
+            {isError && <Alert severity="error">{error.message}</Alert>}
+            {isSuccess && guides.length > 0 && (
+              <>
+                <Box mb={2}>
+                  <SearchBar
+                    searchQuery={searchQuery}
+                    onSearchChange={handleSearchChange}
+                  />
+                </Box>
+                <GuideList guideItems={filteredGuides} />
+              </>
+            )}
+            {isSuccess && guides.length === 0 && (
+              <Typography>No guides available</Typography>
+            )}
+          </Box>
+        </DashboardCard>
+      </PageContainer>
+    </>
   );
 };
 
-export default Page;
+export default GuidesListPage;
