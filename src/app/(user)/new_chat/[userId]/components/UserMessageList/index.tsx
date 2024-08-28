@@ -35,12 +35,13 @@ const UserMessageList = ({ chatId }: Props) => {
                   {date}
                 </Box>
                 {messages[date].map((msg, index) => {
-                  if (msg.isNote) return null;
                   return (
-                    <MessageContainer
-                      message={msg}
-                      key={index}
-                    ></MessageContainer>
+                    !msg.isNote && (
+                      <MessageContainer
+                        message={msg}
+                        key={index}
+                      ></MessageContainer>
+                    )
                   );
                 })}
               </Box>
