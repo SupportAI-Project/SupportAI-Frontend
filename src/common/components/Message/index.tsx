@@ -1,6 +1,5 @@
 import { ListItem, Box, Typography } from "@mui/material";
 import { Message as MessageType } from "@/api/types/message";
-import { use } from "react";
 
 type Props = {
   message: MessageType;
