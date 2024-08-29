@@ -30,14 +30,12 @@ const MessageInput = ({ chatId, isSupport = true , isPopup = false }: MessageInp
       {isSupport && (
         <Box sx={{ display: "flex", alignSelf: "start", gap: 1 }}>
           <Button
-            variant={!isNote ? "contained" : "outlined"}
-            onClick={isNote ? handleChangeNote : () => {}}
-          >
-            Reply
-          </Button>
-          <Button
+            color="note"
             variant={isNote ? "contained" : "outlined"}
-            onClick={!isNote ? handleChangeNote : () => {}}
+            onClick={handleChangeNote}
+            sx={{
+              color: isNote ? "inherit" : "rgba(0, 0, 0, 0.38)", 
+              borderColor: isNote ? "inherit" : "rgba(0, 0, 0, 0.38)",}}
           >
             Note
           </Button>
