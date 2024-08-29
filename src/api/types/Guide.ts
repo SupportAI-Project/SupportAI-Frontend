@@ -5,6 +5,7 @@ import { reviewSchema } from "./Review";
 const guideSchema = z.object({
   id: z.number(),
   title: z.string(),
+  categories: z.array(z.string()).max(3),
   contentHTML: z.string(),
   creatorId: z.number(),
   createdAt: z.date(),
@@ -17,4 +18,5 @@ export type Guide = z.infer<typeof guideSchema>;
 export type CreateGuideRequest = {
   title: string;
   contentHTML: string;
+  categories: string[];
 };

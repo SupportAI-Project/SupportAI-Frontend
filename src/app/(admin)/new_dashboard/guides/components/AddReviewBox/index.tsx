@@ -7,11 +7,13 @@ interface AddReviewBoxProps {
   guideId: number;
 }
 
-const AddReviewBox: React.FC<AddReviewBoxProps> = ({guideId}) => {
+const AddReviewBox: React.FC<AddReviewBoxProps> = ({ guideId }) => {
 
   const {
     comment,
     setComment,
+    title,
+    setTitle,
     stars,
     setStars,
     validationError,
@@ -22,23 +24,34 @@ const AddReviewBox: React.FC<AddReviewBoxProps> = ({guideId}) => {
     handleSubmit,
   } = useAddReviewForm(guideId);
 
-
-  if(!guideId){
-    return <Alert severity="error">Guide not found</Alert>
+  if (!guideId) {
+    return <Alert severity="error">Guide not found</Alert>;
   }
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="flex-start" sx={{ mt:2}}>
-      <Typography variant="h6" >Add Your Review:</Typography>
+    <Box 
+      display="flex"
+      flexDirection="column"
+      alignItems="flex-start"
+      sx={{ mt: 2 , ml: 2}} >
+      <Typography variant="h6">Add Your Review:</Typography>
       <Box mb={2} mt={2}>
         <Rating
           name="stars"
           value={stars}
           onChange={(event, newValue) => {
-            setStars(newValue ?? 1)
+            setStars(newValue ?? 1);
           }}
         />
       </Box>
+      <TextField
+        label="Review Title"
+        variant="outlined"
+        fullWidth
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        sx={{ mb: 2 }}
+      />
       <TextField
         label="Write your comment (optional)"
         multiline
@@ -54,9 +67,9 @@ const AddReviewBox: React.FC<AddReviewBoxProps> = ({guideId}) => {
           color="primary"
           onClick={handleSubmit}
           disabled={isPending}
-          sx={{mb:2}}
+          sx={{ mb: 2 }}
         >
-        {isPending ? <CircularProgress size={24} /> : 'Submit'}
+          {isPending ? <CircularProgress size={24} /> : 'Submit'}
         </Button>
       </Box>
       {validationError && (

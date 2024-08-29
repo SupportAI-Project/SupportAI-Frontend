@@ -32,7 +32,9 @@ const DashboardCard = ({
         height: fullHeight ? "100%" : "auto",
         display: "flex",
         flexDirection: "column",
-        elevation: 9,
+        border: "none",
+        boxShadow: "none",
+        elevation: 0,
         variant: undefined,
       }}
     >
@@ -45,7 +47,6 @@ const DashboardCard = ({
         </CardContent>
       ) : (
         <CardContent sx={{ p: "30px", flex: 1 }}>
-          {/* Allow content to expand */}
           {title ? (
             <Stack
               direction="row"

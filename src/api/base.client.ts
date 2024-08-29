@@ -21,7 +21,7 @@ export class BaseClient {
 
   private async request<T>(
     endpoint: string,
-    method: "GET" | "POST" | "PATCH" | "DELETE",
+    method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
     body?: any,
     options: RequestInit = {}
   ): Promise<ClientResponse<T>> {

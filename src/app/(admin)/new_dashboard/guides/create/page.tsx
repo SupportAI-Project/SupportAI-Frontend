@@ -4,9 +4,10 @@ import DashboardCard from "../../shared/Card";
 import { Box } from "@mui/material";
 import GuideEditor from "../components/Editor";
 import { useGuide } from "./hooks/useCreateGuide";
+import { useCategories } from "../hooks/useCategories";
 
 const Page = () => {
-  const { guide, register, error, handleSubmit, setValue } = useGuide();
+  const { guide,categories,selectedCategories,handleCategoryChange ,register, error, handleSubmit, setValue, watch } = useGuide();
   return (
     <PageContainer title="Create Guide">
       <Box
@@ -18,6 +19,10 @@ const Page = () => {
           <GuideEditor
             register={register}
             setValue={setValue}
+            selectedCategories={selectedCategories}
+            handleCategoryChange={handleCategoryChange}
+            watch={watch}
+            categories={categories}
             error={error}
             onSave={handleSubmit}
             initialTitle={guide?.title}

@@ -18,7 +18,6 @@ import ReviewList from "../components/ReviewList";
 import parse from "html-react-parser";
 import "quill/dist/quill.snow.css";
 import { useChat } from "@/app/hooks/useChat";
-import ChatPopup from "../../components/ChatPopup";
 
 const GuidePage: React.FC = () => {
   const params = useParams();
@@ -26,8 +25,6 @@ const GuidePage: React.FC = () => {
   const id = params?.id ? Number(params.id) : null;
 
   const { data: response, isLoading, isError, error, isSuccess } = useGuide(id ?? 0);
-
-  const {selectedContact} = useChat();
 
   if (isLoading) {
     return <CircularProgress />;
@@ -49,13 +46,14 @@ const GuidePage: React.FC = () => {
 
     return (
       <Box>
-        <Typography variant="h1">{guide.title}</Typography>
-        <Typography variant="subtitle1">{creatorAndDateInfo}</Typography>
-        <Box className="quill-content">
-          {parse(guide.contentHTML)}
+        <DashboardCard title={guide.title} subtitle={creatorAndDateInfo}>
+          <Box className="quill-content">
+            {parse(guide.contentHTML)}
+          </Box>
+        </DashboardCard>
+        <Box ml={3}>
+          <ReviewList guideId={guide.id} reviews={guide.reviews ?? []} />
         </Box>
-        <Divider sx={{ mt: 2, mb: 2, border: "none" }} />
-        <ReviewList guideId={guide.id} reviews={guide.reviews ?? []} />
       </Box>
     );
   }
