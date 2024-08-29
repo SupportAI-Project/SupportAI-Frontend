@@ -33,7 +33,7 @@ const AddReviewBox: React.FC<AddReviewBoxProps> = ({ guideId }) => {
       display="flex"
       flexDirection="column"
       alignItems="flex-start"
-      sx={{ mt: 2 }} >
+      sx={{ mt: 2 , ml: 2}} >
       <Typography variant="h6">Add Your Review:</Typography>
       <Box mb={2} mt={2}>
         <Rating
