@@ -10,6 +10,7 @@ import {
 import { Review } from "@/api/types/Review";
 import AddReviewBox from "../AddReviewBox";
 import ReviewCard from "../ReviewCard";
+import DashboardCard from "../../../shared/Card";
 
 interface ReviewListProps {
   reviews: Review[];
@@ -36,11 +37,10 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, guideId }) => {
   );
 
   return (
-        <Box mt={2}>
-          <Typography variant="h1" mt={2}>
-            Reviews
-          </Typography>
-          <Divider sx={{mt:2 , mb:2}}/>
+
+    <Box mt={3}>
+      <DashboardCard title={"Reviews"}> 
+        <Box>
           {reviewsContext}
           {reviews?.length > 1 &&(
           <Box display="flex" justifyContent="center" width="100%" mt={2}>
@@ -52,6 +52,9 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, guideId }) => {
           </Box>)}
           <AddReviewBox guideId={guideId ?? 0} />
         </Box>
+      </DashboardCard>
+  </Box>
+  
   );
 };
 
