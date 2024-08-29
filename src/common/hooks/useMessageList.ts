@@ -7,7 +7,7 @@ import { ClientResponse, SuccessResponse } from "@/types";
 
 import { useEffect, useState } from "react";
 import { Socket } from "socket.io-client";
-import { groupByDay } from "../utils";
+import { groupByDay } from "../../util";
 
 type Props = {
   chatId: number;
