@@ -43,7 +43,7 @@ const DashboardCard = ({
       {cardheading ? (
         <CardContent>
           <Typography variant="h5">{headtitle}</Typography>
-          <Typography variant="subtitle2" color="textSecondary">
+          <Typography variant="subtitle2" color="text.primary">
             {headsubtitle}
           </Typography>
         </CardContent>
@@ -61,7 +61,7 @@ const DashboardCard = ({
                 {title ? <Typography variant="h3">{title}</Typography> : ""}
 
                 {subtitle ? (
-                  <Typography variant="subtitle2" color="textSecondary">
+                  <Typography variant="subtitle2" color="text.primary">
                     {subtitle}
                   </Typography>
                 ) : (

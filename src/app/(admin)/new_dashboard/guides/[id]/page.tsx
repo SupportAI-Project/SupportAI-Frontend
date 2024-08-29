@@ -49,7 +49,7 @@ const GuidePage: React.FC = () => {
         <DashboardCard title={guide.title} subtitle={creatorAndDateInfo}>
           <Box 
           className="quill-content"
-          sx={{backgroundColor:"#f5f5f5", padding:5, borderRadius:2}}
+          sx={{backgroundColor:"bg.light", padding:5, borderRadius:2}}
           >
             {parse(guide.contentHTML)}
           </Box>

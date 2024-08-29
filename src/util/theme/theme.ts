@@ -54,7 +54,7 @@ const baselightTheme = createTheme({
 
     text: {
       primary: "#2A3547",
-      secondary: "#5A6A85",
+      secondary: "#FFFFFF",
     },
     action: {
       disabledBackground: "rgba(73,82,88,0.12)",
@@ -65,6 +65,11 @@ const baselightTheme = createTheme({
     gold: {
       main: "#FFD35C",
     },
+    bg:{
+      main: "#F5F5F5",
+      dark: "#F5F5F5",
+      light:"#F0F0F0"
+    }
   },
 
   typography: appTypography,
