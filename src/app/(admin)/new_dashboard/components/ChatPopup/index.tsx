@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Box, IconButton, Paper, Typography } from '@mui/material';
-import { Chat, Close } from '@mui/icons-material';
+import { Chat, Close, Minimize } from '@mui/icons-material';
 import SupportMessageList from '../SupportMessageList';
 import MessageInput from '@/common/components/MessageInput';
 import { Contact } from '../../types';
@@ -32,8 +32,10 @@ const ChatPopup = ({ selectedContact }: Props) => {
         zIndex: 1000,
       }}
     >
+
+      {!isOpen &&(
       <IconButton
-        color="primary"
+        color='primary'
         onClick={toggleChat}
         sx={{
           backgroundColor: 'primary.main',
@@ -41,8 +43,8 @@ const ChatPopup = ({ selectedContact }: Props) => {
           '&:hover': { backgroundColor: 'primary.dark' },
         }}
       >
-        {isOpen ? <Close /> : <Chat />}
-      </IconButton>
+        <Chat />
+      </IconButton>)}
 
       {isOpen && selectedContact && (
         <Paper
@@ -60,16 +62,23 @@ const ChatPopup = ({ selectedContact }: Props) => {
             zIndex: 1000,
           }}
         >
+
           <Box
             sx={{
               backgroundColor: 'primary.main',
-              color: 'white',
-              padding: 2,
+              color:'info.contrastText',
+              padding: 1,
               display: 'flex',
-              justifyContent: 'space-between',
+              justifyContent: "space-between",
               alignItems: 'center',
             }}
           >
+           
+            <IconButton 
+              onClick={toggleChat}
+              sx={{color: 'info.contrastText' ,mb:1}} >
+              <Minimize />
+            </IconButton>
             <Typography variant="h6">{selectedContact.username}</Typography>
           </Box>
 
@@ -87,6 +96,7 @@ const ChatPopup = ({ selectedContact }: Props) => {
           <Box>
             <MessageInput chatId={selectedContact.chatId} isPopup={true}/>
           </Box>
+
         </Paper>
       )}
     </Box>
