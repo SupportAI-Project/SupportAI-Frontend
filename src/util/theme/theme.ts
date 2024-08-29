@@ -9,7 +9,7 @@ const baselightTheme = createTheme({
       main: "rgba(254, 237, 175)",
     },
     primary: {
-      main: "#5D87FF",
+      main: "#2D52BD",
       light: "#ECF2FF",
       dark: "#4570EA",
     },

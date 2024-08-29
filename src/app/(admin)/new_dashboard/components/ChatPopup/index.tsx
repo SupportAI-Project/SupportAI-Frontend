@@ -57,7 +57,7 @@ const ChatPopup = ({ selectedContact }: Props) => {
             marginLeft: 2,
             backgroundColor: 'background.paper',
             boxShadow: 1,
-            borderRadius: 1,
+            borderRadius: 3,
             overflow: 'hidden',
             zIndex: 1000,
           }}
