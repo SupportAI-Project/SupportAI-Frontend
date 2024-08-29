@@ -51,7 +51,9 @@ const GuidePage: React.FC = () => {
             {parse(guide.contentHTML)}
           </Box>
         </DashboardCard>
-        <ReviewList guideId={guide.id} reviews={guide.reviews ?? []} />
+        <Box ml={3}>
+          <ReviewList guideId={guide.id} reviews={guide.reviews ?? []} />
+        </Box>
       </Box>
     );
   }
