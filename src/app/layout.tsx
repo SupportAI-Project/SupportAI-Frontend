@@ -1,6 +1,6 @@
 "use client";
 
-import { baselightTheme } from "@/util/theme";
+import { baselightTheme } from "@/util/theme/theme";
 import "./globals.css";
 import { SocketProvider } from "./providers/SocketProvider/provider";
 import { QueryProvider } from "./providers/QueryProvider/provider";
