@@ -32,7 +32,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, guideId }) => {
     <Typography>No reviews available yet</Typography>
   ) : (
     reviews.slice(0, visibleCount).map((review, index) => (
-      <ReviewCard key={index} review={review} />
+        <ReviewCard key={index} review={review} />
     ))
   );
 
@@ -41,18 +41,20 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, guideId }) => {
     <Box mt={3}>
       <DashboardCard title={"Reviews"}> 
         <Box>
-          {reviewsContext}
+          <Box sx={{border:"1px solid" , borderColor:"border.main", padding:2, borderRadius:3}}>
+            {reviewsContext}
+          </Box>
           {reviews?.length > 1 &&(
-          <Box display="flex" justifyContent="center" width="100%" mt={2}>
-            <Button onClick={()=>{
-              visibleCount === reviews.length ? showLessReviews() : showMoreReviews();
-            }}>
-              {visibleCount === reviews.length ? "Show Less" : "Show More"}
-            </Button>
-          </Box>)}
-          <AddReviewBox guideId={guideId ?? 0} />
+            <Box display="flex" justifyContent="center" width="100%">
+              <Button onClick={()=>{
+                visibleCount === reviews.length ? showLessReviews() : showMoreReviews();
+              }}>
+                {visibleCount === reviews.length ? "Show Less" : "Show More"}
+              </Button>
+            </Box>)}
         </Box>
       </DashboardCard>
+      <AddReviewBox guideId={guideId ?? 0} />
   </Box>
   
   );

@@ -34,7 +34,7 @@ const DashboardCard = ({
         height: fullHeight ? "100%" : "auto",
         display: "flex",
         flexDirection: "column",
-        border: isVisibleBorder ? "1px solid #E0E0E0" : "none",
+        border: isVisibleBorder ? "border.main" : "none",
         boxShadow: "none",
         elevation: 0,
         variant: undefined,

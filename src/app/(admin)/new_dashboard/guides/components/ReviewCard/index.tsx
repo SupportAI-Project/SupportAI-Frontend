@@ -3,6 +3,7 @@ import {
   Typography,
   Box,
   Rating,
+  Divider,
 } from "@mui/material";
 import React from 'react';
 
@@ -17,33 +18,39 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
       flexDirection="row"
       mb={4}
       sx={{
-        padding: 2,
+        padding: 3,
         borderRadius: 2,
+        backgroundColor:"bg.light" ,
       }}
     >
-      <Box display="grid" mr={10}>
-        <Rating 
+      <Box display="flex" flexDirection="column" sx={{mr:13}}>
+      <Rating 
           value={review.rating}
           readOnly
           precision={0.5}
           sx={{ fontSize: '1.25rem', color: 'gold' }}
         />
-        <Typography variant="body2" color="textSecondary">
-          by {review.user?.username}
-        </Typography>
-        <Typography variant="body2" color="textSecondary" mb={1}>
-          {new Date(review.createdAt).toLocaleDateString()}
-        </Typography>
-      </Box>
+        <Box ml={1}>
+          <Typography fontWeight={700} >
+            {review.user?.username}
+          </Typography>
 
+          <Typography color="text.primary">
+            {new Date(review.createdAt).toLocaleDateString()}
+          </Typography>
+        </Box>
+      </Box>
+      <Divider orientation="vertical" flexItem />
       <Box>
-        <Typography variant="h6" component="h3" mb={1}>
+        <Typography variant="h6" mb={1}>
           {review.title}
         </Typography>
 
         <Typography variant="body1" mb={1}>
           {review.comment}
         </Typography>
+
+      
       </Box>
     </Box>
   );

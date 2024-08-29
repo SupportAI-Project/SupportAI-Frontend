@@ -2,6 +2,7 @@
 import React from 'react';
 import { Box, Typography, Rating, TextField, Button, CircularProgress, Alert } from '@mui/material';
 import useAddReviewForm from '../../hooks/useAddReviewForm';
+import DashboardCard from '../../../shared/Card';
 
 interface AddReviewBoxProps {
   guideId: number;
@@ -29,12 +30,12 @@ const AddReviewBox: React.FC<AddReviewBoxProps> = ({ guideId }) => {
   }
 
   return (
+   <DashboardCard title={"Add Your Review"}> 
     <Box 
       display="flex"
       flexDirection="column"
       alignItems="flex-start"
-      sx={{ mt: 2 , ml: 2}} >
-      <Typography variant="h6">Add Your Review:</Typography>
+      sx={{ mt: 2 }} >
       <Box mb={2} mt={2}>
         <Rating
           name="stars"
@@ -86,6 +87,7 @@ const AddReviewBox: React.FC<AddReviewBoxProps> = ({ guideId }) => {
         </Typography>
       )}
     </Box>
+  </DashboardCard>
   );
 };
 
