@@ -21,32 +21,31 @@ const SupportMessageList = ({ chatId, username }: Props) => {
       }}
     >
       <List>
-        {messages &&
-          Object.keys(messages).map((date, index) => {
-            return (
-              <Box key={index}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: 1,
-                  }}
-                >
-                  {date}
-                </Box>
-                {messages[date].map((msg, index) => {
-                  return (
-                    <MessageContainer
-                      message={msg}
-                      key={index}
-                      username={username}
-                    ></MessageContainer>
-                  );
-                })}
+        {Object.keys(messages).map((date, index) => {
+          return (
+            <Box key={index}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  padding: 1,
+                }}
+              >
+                {date}
               </Box>
-            );
-          })}
+              {messages[date].map((msg, index) => {
+                return (
+                  <MessageContainer
+                    message={msg}
+                    key={index}
+                    username={username}
+                  ></MessageContainer>
+                );
+              })}
+            </Box>
+          );
+        })}
       </List>
     </Box>
   );
