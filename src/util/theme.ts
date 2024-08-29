@@ -1,8 +1,4 @@
-import {
-  createTheme,
-  PaletteColorOptions,
-  SimplePaletteColorOptions,
-} from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 import { Plus_Jakarta_Sans } from "next/font/google";
 
 export const plus = Plus_Jakarta_Sans({
@@ -11,16 +7,6 @@ export const plus = Plus_Jakarta_Sans({
   display: "swap",
   fallback: ["Helvetica", "Arial", "sans-serif"],
 });
-declare module "@mui/material/styles" {
-  interface Palette {
-    note: SimplePaletteColorOptions;
-    gold: SimplePaletteColorOptions;
-  }
-  interface PaletteOptions {
-    note?: SimplePaletteColorOptions;
-    gold?: SimplePaletteColorOptions;
-  }
-}
 
 const baselightTheme = createTheme({
   direction: "ltr",
@@ -62,7 +48,7 @@ const baselightTheme = createTheme({
       dark: "#ae8e59",
       contrastText: "#ffffff",
     },
-    
+
     grey: {
       100: "#F2F6FA",
       200: "#EAEFF4",
@@ -86,7 +72,7 @@ const baselightTheme = createTheme({
       main: "#FFD35C",
     },
   },
-  
+
   typography: {
     fontFamily: plus.style.fontFamily,
     h1: {
