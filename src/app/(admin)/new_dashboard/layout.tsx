@@ -1,6 +1,10 @@
 "use client";
 import { styled, Container, Box } from "@mui/material";
 import Sidebar from "./shared/sidebar/Sidebar";
+import ContactSidebar from "./components/ContactSidebar";
+import ChatPopup from "./components/ChatPopup";
+import { useChat } from "@/app/hooks/useChat";
+import { useIsDashboardPage } from "./guides/hooks/useIsDashboardPage";
 
 const MainWrapper = styled("div")(() => ({
   display: "flex",
@@ -16,39 +20,40 @@ const PageWrapper = styled("div")(() => ({
   backgroundColor: "transparent",
 }));
 
+const RightSidebarWrapper = styled(Box)(() => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-end", 
+  gap: 2,
+}));
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { selectedContact } = useChat();
+  const isDashboardPage = useIsDashboardPage();
+
   return (
     <MainWrapper className="mainwrapper">
-      {/* ------------------------------------------- */}
-      {/* Sidebar */}
-      {/* ------------------------------------------- */}
       <Sidebar isSidebarOpen={true} />
-      {/* ------------------------------------------- */}
-      {/* Main Wrapper */}
-      {/* ------------------------------------------- */}
+
       <PageWrapper className="page-wrapper">
-        {/* ------------------------------------------- */}
-        {/* PageContent */}
-        {/* ------------------------------------------- */}
         <Container
           maxWidth={false}
           sx={{
             paddingTop: "20px",
           }}
         >
-          {/* ------------------------------------------- */}
-          {/* Page Route */}
-          {/* ------------------------------------------- */}
           <Box sx={{ minHeight: "calc(100vh - 170px)" }}>{children}</Box>
-          {/* ------------------------------------------- */}
-          {/* End Page */}
-          {/* ------------------------------------------- */}
         </Container>
       </PageWrapper>
+
+      <RightSidebarWrapper>
+        <ContactSidebar isContactSidebarOpen={true} />
+        {!isDashboardPage && <ChatPopup selectedContact={selectedContact} />}
+      </RightSidebarWrapper>
     </MainWrapper>
   );
 }
