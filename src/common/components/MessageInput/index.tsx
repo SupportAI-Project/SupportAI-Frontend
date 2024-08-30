@@ -28,7 +28,7 @@ const MessageInput = ({ chatId, isSupport = true , isPopup = false }: MessageInp
       }}
     >
       {isSupport && (
-        <Box sx={{ display: "flex", alignSelf: "start", gap: 1 }}>
+        <Box sx={{ display: "flex", alignSelf: "start" ,padding:1}}>
           <Button
             color="note"
             variant={isNote ? "contained" : "outlined"}
@@ -47,7 +47,7 @@ const MessageInput = ({ chatId, isSupport = true , isPopup = false }: MessageInp
           display: "flex",
           alignItems: "end",
           flexDirection: "row",
-          paddingTop: 1,
+          padding: 1,
           width: "100%",
           position: "sticky",
           bottom: 0,
@@ -69,6 +69,7 @@ const MessageInput = ({ chatId, isSupport = true , isPopup = false }: MessageInp
           InputProps={{
             style: { overflow: "hidden" },
           }}
+          sx={{ backgroundColor: "bg.main"}}
           error={!!errors.message}
           helperText={errors.message ? errors.message.message : ""}
         />

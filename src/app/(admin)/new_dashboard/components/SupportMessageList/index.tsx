@@ -18,6 +18,7 @@ const SupportMessageList = ({ chatId }: Props) => {
         paddingBottom: 2,
       }}
     >
+
       <List>
         {messages.map((msg, index) => {
           return (
@@ -25,6 +26,7 @@ const SupportMessageList = ({ chatId }: Props) => {
           );
         })}
       </List>
+      
     </Box>
   );
 };

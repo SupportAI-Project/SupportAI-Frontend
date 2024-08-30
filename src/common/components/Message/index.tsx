@@ -35,7 +35,7 @@ export const MessageContainer = (messageProps: Props) => {
           wordWrap: "break-word",
         }}
       >
-        <Typography variant="body2" color="textSecondary">
+        <Typography variant="body2" color="text.primary">
           {isSupportSender ? "Support" : "User"} •{" "}
           {new Date(timeStamp).toLocaleTimeString("il-IL", {
             hour: "2-digit",
