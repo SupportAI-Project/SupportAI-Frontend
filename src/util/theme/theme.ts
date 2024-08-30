@@ -54,7 +54,7 @@ const baselightTheme = createTheme({
 
     text: {
       primary: "#2A3547",
-      secondary: "#FFFFFF",
+      secondary: "#2A3547",
       bold: "#2c2929",
     },
     action: {
@@ -118,6 +118,19 @@ const baselightTheme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: "#f5f5f5",
+        },
+      },
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          "&:hover": {
+            backgroundColor: "#2D52BD",
+          },
+          "&$selected": {
+            color: "#FFFFFF",
+            backgroundColor: "#2D52BD",
+          },
         },
       },
     },

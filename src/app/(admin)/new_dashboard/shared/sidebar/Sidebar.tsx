@@ -15,7 +15,7 @@ const DashboardSidebar = ({ isSidebarOpen }: ItemType) => {
       width: "7px",
     },
     "&::-webkit-scrollbar-thumb": {
-      backgroundColor: "primary.main",
+      backgroundColor: "paper",
       borderRadius: "15px",
     },
   };
@@ -58,7 +58,7 @@ const DashboardSidebar = ({ isSidebarOpen }: ItemType) => {
                 boxSizing: "border-box",
                 ...scrollbarStyles,
                 width: "270px",
-                backgroundColor: "primary.main",
+                backgroundColor: "paper",
               },
             }}
           >

@@ -65,8 +65,7 @@ import {
                     selected={selectedContact?.chatId === contact.chatId}
                     onClick={() => handleContactSelect(contact)}
                     sx={{
-                      borderRadius: 1,
-                      marginRight: 0,
+                      borderRadius: 2,
                     }}
                   >
                     <ListItemAvatar>
