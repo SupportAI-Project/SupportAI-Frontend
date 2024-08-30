@@ -20,7 +20,7 @@ const GuideCard = ({ guide }: Props) => {
             <SupportIcon color="primary" sx={{ marginRight: theme.spacing(1) }} />
             <Typography variant="h6">{guide.title}</Typography>
           </Box>
-          <Typography variant="body2" color="textSecondary" mb={2}>
+          <Typography variant="body2" color="text.primary" mb={2} mt={1} ml={1}>
             Created at: {new Date(guide.createdAt).toLocaleDateString()}
           </Typography>
         </Box>
