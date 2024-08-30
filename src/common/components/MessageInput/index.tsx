@@ -58,7 +58,7 @@ const MessageInput = ({ chatId, isSupport = true , isPopup = false }: MessageInp
           fullWidth
           variant="outlined"
           size="small"
-          placeholder="Type a message..."
+          placeholder={isNote ? "Add a note" : "Type a message..."}
           id="message"
           autoComplete="message"
           autoFocus
