@@ -69,7 +69,6 @@ const MessageInput = ({ chatId, isSupport = true , isPopup = false }: MessageInp
           InputProps={{
             style: { overflow: "hidden" },
           }}
-          sx={{ backgroundColor: "bg.main"}}
           error={!!errors.message}
           helperText={errors.message ? errors.message.message : ""}
         />

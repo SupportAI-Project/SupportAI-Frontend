@@ -5,7 +5,7 @@ import { useAddReview } from "@/hooks";
 const useAddReviewForm = (guideId: number) => {
   const [comment, setComment] = useState("");
   const [title, setTitle] = useState("");
-  const [stars, setStars] = useState(1);
+  const [stars, setStars] = useState(0);
   const [validationError, setValidationError] = useState<string | null>(null);
   const { mutate, isError, error, isPending, isSuccess } = useAddReview();
 
