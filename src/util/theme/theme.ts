@@ -110,8 +110,14 @@ const baselightTheme = createTheme({
     MuiInputLabel: {
       styleOverrides: {
         root: {
-          fontFamily: plusFont.style.fontFamily,
           color: "#2A3547",
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#f5f5f5",
         },
       },
     },
