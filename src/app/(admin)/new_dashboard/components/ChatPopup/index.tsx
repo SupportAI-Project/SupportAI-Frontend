@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Box, IconButton, Paper, Typography } from '@mui/material';
-import { Chat, Close, Minimize } from '@mui/icons-material';
+import { Chat, Minimize } from '@mui/icons-material';
 import SupportMessageList from '../SupportMessageList';
 import MessageInput from '@/common/components/MessageInput';
 import { Contact } from '../../types';
@@ -21,62 +21,54 @@ const ChatPopup = ({ selectedContact }: Props) => {
   return (
     <Box
       sx={{
-        position: 'fixed',
-        bottom: 0,
-        right: 0,
-        display: 'flex',
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end',
-        padding: 2,
-        boxSizing: 'border-box',
-        zIndex: 1000,
+        position: 'fixed', 
+        bottom: 20, 
+        right: 290, 
+        zIndex: 1500,
       }}
     >
-
-      {!isOpen &&(
-      <IconButton
-        color='primary'
-        onClick={toggleChat}
-        sx={{
-          backgroundColor: 'primary.main',
-          color: 'white',
-          '&:hover': { backgroundColor: 'primary.dark' },
-        }}
-      >
-        <Chat />
-      </IconButton>)}
+      {!isOpen && (
+        <IconButton
+          color='primary'
+          onClick={toggleChat}
+          sx={{
+            backgroundColor: 'primary.main',
+            color: 'white',
+            '&:hover': { backgroundColor: 'primary.dark' },
+          }}
+        >
+          <Chat />
+        </IconButton>
+      )}
 
       {isOpen && selectedContact && (
         <Paper
           elevation={6}
           sx={{
-            width: 400, 
-            height: 500, 
+            width: 400,
+            height: 500,
             display: 'flex',
             flexDirection: 'column',
-            marginLeft: 2,
             backgroundColor: 'background.paper',
             boxShadow: 1,
             borderRadius: 3,
             overflow: 'hidden',
-            zIndex: 1000,
           }}
         >
-
           <Box
             sx={{
               backgroundColor: 'primary.main',
-              color:'info.contrastText',
+              color: 'info.contrastText',
               padding: 1,
               display: 'flex',
               justifyContent: "space-between",
               alignItems: 'center',
             }}
           >
-           
-            <IconButton 
+            <IconButton
               onClick={toggleChat}
-              sx={{color: 'info.contrastText' ,mb:1}} >
+              sx={{ color: 'info.contrastText', mb: 1 }}
+            >
               <Minimize />
             </IconButton>
             <Typography variant="h6">{selectedContact.username}</Typography>
@@ -94,9 +86,8 @@ const ChatPopup = ({ selectedContact }: Props) => {
           </Box>
 
           <Box>
-            <MessageInput chatId={selectedContact.chatId} isPopup={true}/>
+            <MessageInput chatId={selectedContact.chatId} isPopup={true} />
           </Box>
-
         </Paper>
       )}
     </Box>
