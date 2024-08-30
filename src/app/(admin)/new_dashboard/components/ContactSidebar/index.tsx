@@ -7,6 +7,7 @@ import {
     ListItemAvatar,
     Avatar,
     ListItemText,
+    Typography,
   } from "@mui/material";
   import { Contact } from "../../types";
   import { useChat } from "@/app/hooks/useChat";
@@ -16,7 +17,7 @@ import {
   }
   
   const ContactSidebar = ({ isContactSidebarOpen }: Props) => {
-    const sidebarWidth = "270px";
+    const sidebarWidth = "230px";
     const { selectedContact, contacts, handleContactSelect } = useChat();
   
     const scrollbarStyles = {
@@ -34,6 +35,7 @@ import {
         sx={{
           width: sidebarWidth,
           flexShrink: 0,
+          whiteSpace: "nowrap",
         }}
       >
         <Drawer
@@ -45,26 +47,24 @@ import {
               boxSizing: "border-box",
               ...scrollbarStyles,
               width: sidebarWidth,
-              backgroundColor: "primary.light",
+              backgroundColor: "paper",
+              padding: "20px",
             },
           }}
         >
           <List>
+            <Typography variant="h4" mb={4}>Open chats</Typography>
             {contacts.length === 0 ? (
-              <Box sx={{ padding: "16px", textAlign: "center", color: "#883434" }}>
+              <Box sx={{ padding: "16px", textAlign: "center", color: "text.primary" }}>
                 No chats yet!
               </Box>
             ) : (
               contacts.map((contact, index) => (
-                <Box key={index} sx={{ padding: "8px 0" }}>
+                <Box key={index} >
                   <ListItemButton
                     selected={selectedContact?.chatId === contact.chatId}
                     onClick={() => handleContactSelect(contact)}
                     sx={{
-                      backgroundColor:
-                        selectedContact?.chatId === contact.chatId
-                          ? "primary.main"
-                          : "primary.light",
                       borderRadius: 1,
                       marginRight: 0,
                     }}
