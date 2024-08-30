@@ -107,6 +107,14 @@ const baselightTheme = createTheme({
         },
       },
     },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          fontFamily: plusFont.style.fontFamily,
+          color: "#2A3547",
+        },
+      },
+    },
   },
 });
 
