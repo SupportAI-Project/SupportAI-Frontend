@@ -114,13 +114,6 @@ const baselightTheme = createTheme({
         },
       },
     },
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          backgroundColor: "#f5f5f5",
-        },
-      },
-    },
     MuiListItemButton: {
       styleOverrides: {
         root: {

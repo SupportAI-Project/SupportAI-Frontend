@@ -5,6 +5,7 @@ import ContactSidebar from "./components/ContactSidebar";
 import ChatPopup from "./components/ChatPopup";
 import { useChat } from "@/app/hooks/useChat";
 import { useIsDashboardPage } from "./guides/hooks/useIsDashboardPage";
+import { useIsChatPopupOpen } from "./hooks/useIsChatPopupOpen";
 
 const MainWrapper = styled("div")(() => ({
   display: "flex",
@@ -34,6 +35,7 @@ export default function RootLayout({
 }) {
   const { selectedContact } = useChat();
   const isDashboardPage = useIsDashboardPage();
+  const {isOpen ,setIsOpen} = useIsChatPopupOpen();
 
   return (
     <MainWrapper className="mainwrapper">
@@ -51,8 +53,8 @@ export default function RootLayout({
       </PageWrapper>
 
       <RightSidebarWrapper>
-        <ContactSidebar isContactSidebarOpen={true} />
-        {!isDashboardPage && <ChatPopup selectedContact={selectedContact} />}
+        {(isOpen || isDashboardPage) && <ContactSidebar isContactSidebarOpen={true} />}
+        {!isDashboardPage && <ChatPopup isOpen={isOpen} setIsOpen={setIsOpen} selectedContact={selectedContact} />}
       </RightSidebarWrapper>
     </MainWrapper>
   );

@@ -9,10 +9,12 @@ import { Contact } from '../../types';
 
 interface Props {
   selectedContact: Contact | null;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
-const ChatPopup = ({ selectedContact }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
+const ChatPopup = ({ selectedContact, setIsOpen,isOpen }: Props) => {
+  
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
