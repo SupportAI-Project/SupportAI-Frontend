@@ -24,7 +24,13 @@ const GuidePage: React.FC = () => {
 
   const id = params?.id ? Number(params.id) : null;
 
-  const { data: response, isLoading, isError, error, isSuccess } = useGuide(id ?? 0);
+  const {
+    data: response,
+    isLoading,
+    isError,
+    error,
+    isSuccess,
+  } = useGuide(id ?? 0);
 
   if (isLoading) {
     return <CircularProgress />;
@@ -47,9 +53,7 @@ const GuidePage: React.FC = () => {
     return (
       <Box>
         <DashboardCard title={guide.title} subtitle={creatorAndDateInfo}>
-          <Box className="quill-content">
-            {parse(guide.contentHTML)}
-          </Box>
+          <Box className="quill-content">{parse(guide.contentHTML)}</Box>
         </DashboardCard>
         <Box ml={3}>
           <ReviewList guideId={guide.id} reviews={guide.reviews ?? []} />

@@ -26,6 +26,7 @@
     "cookies-next": "^4.2.1",
     "file-saver": "^2.0.5",
     "font-awesome": "^4.7.0",
+    "html-react-parser": "^5.1.15",
     "html-to-text": "^9.0.5",
     "html2canvas": "^1.4.1",
     "html2pdf.js": "^0.10.2",
