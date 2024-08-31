@@ -53,7 +53,7 @@ export default function RootLayout({
       </PageWrapper>
 
       <RightSidebarWrapper>
-        {(isOpen || isDashboardPage) && <ContactSidebar isContactSidebarOpen={true} />}
+        {(isOpen || isDashboardPage) && <ContactSidebar isContactSidebarOpen={isOpen} />}
         {!isDashboardPage && <ChatPopup isOpen={isOpen} setIsOpen={setIsOpen} selectedContact={selectedContact} />}
       </RightSidebarWrapper>
     </MainWrapper>

@@ -8,6 +8,7 @@ import {
     Avatar,
     ListItemText,
     Typography,
+    Slide,
   } from "@mui/material";
   import { Contact } from "../../types";
   import { useChat } from "@/app/hooks/useChat";
@@ -31,6 +32,7 @@ import {
     };
   
     return (
+      <Slide direction="left" in={isContactSidebarOpen} mountOnEnter unmountOnExit>
       <Box
         sx={{
           width: sidebarWidth,
@@ -81,6 +83,7 @@ import {
           </List>
         </Drawer>
       </Box>
+      </Slide>
     );
   };
   

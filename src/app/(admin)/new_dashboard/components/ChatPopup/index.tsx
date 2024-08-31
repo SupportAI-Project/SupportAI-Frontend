@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Box, IconButton, Paper, Typography } from '@mui/material';
+import { Box, IconButton, Paper, Typography,Slide } from '@mui/material';
 import { Chat, Minimize } from '@mui/icons-material';
 import SupportMessageList from '../SupportMessageList';
 import MessageInput from '@/common/components/MessageInput';
@@ -21,6 +21,7 @@ const ChatPopup = ({ selectedContact, setIsOpen,isOpen }: Props) => {
   };
 
   return (
+    
     <Box
       sx={{
         position: 'fixed', 
@@ -42,8 +43,9 @@ const ChatPopup = ({ selectedContact, setIsOpen,isOpen }: Props) => {
           <Chat />
         </IconButton>
       )}
-
+      
       {isOpen && selectedContact && (
+        <Slide direction="up" in={isOpen} mountOnEnter unmountOnExit>
         <Paper
           elevation={6}
           sx={{
@@ -91,8 +93,11 @@ const ChatPopup = ({ selectedContact, setIsOpen,isOpen }: Props) => {
             <MessageInput chatId={selectedContact.chatId} isPopup={true} />
           </Box>
         </Paper>
+        </Slide>
       )}
+      
     </Box>
+    
   );
 };
 
