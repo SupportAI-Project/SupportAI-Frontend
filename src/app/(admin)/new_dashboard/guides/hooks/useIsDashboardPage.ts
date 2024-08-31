@@ -1,6 +1,14 @@
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export const useIsDashboardPage = () => {
   const pathname = usePathname();
-  return pathname === "/new_dashboard"; // TODO: change "new_dashboard" name when we have a landing page
+
+  const [isDashboardPage, setIsDashboardPage] = useState(false);
+
+  useEffect(() => {
+    setIsDashboardPage(pathname === "/new_dashboard");
+    console.log(isDashboardPage, "isDashboardPage");
+  }, [isDashboardPage,pathname]);
+  return isDashboardPage;
 };

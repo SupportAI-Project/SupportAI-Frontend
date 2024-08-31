@@ -1,6 +1,26 @@
-import { createTheme } from "@mui/material/styles";
+import {
+  createTheme,
+  PaletteColorOptions,
+  SimplePaletteColorOptions,
+} from "@mui/material/styles";
 import { Plus_Jakarta_Sans } from "next/font/google";
-import { appTypography, plusFont } from "./app.typography";
+
+export const plus = Plus_Jakarta_Sans({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+  display: "swap",
+  fallback: ["Helvetica", "Arial", "sans-serif"],
+});
+declare module "@mui/material/styles" {
+  interface Palette {
+    note: SimplePaletteColorOptions;
+    gold: SimplePaletteColorOptions;
+  }
+  interface PaletteOptions {
+    note?: SimplePaletteColorOptions;
+    gold?: SimplePaletteColorOptions;
+  }
+}
 
 const baselightTheme = createTheme({
   direction: "ltr",
@@ -9,7 +29,7 @@ const baselightTheme = createTheme({
       main: "rgba(254, 237, 175)",
     },
     primary: {
-      main: "#2D52BD",
+      main: "#5D87FF",
       light: "#ECF2FF",
       dark: "#4570EA",
     },
@@ -42,7 +62,7 @@ const baselightTheme = createTheme({
       dark: "#ae8e59",
       contrastText: "#ffffff",
     },
-
+    
     grey: {
       100: "#F2F6FA",
       200: "#EAEFF4",
@@ -54,8 +74,7 @@ const baselightTheme = createTheme({
 
     text: {
       primary: "#2A3547",
-      secondary: "#2A3547",
-      bold: "#2c2929",
+      secondary: "#5A6A85",
     },
     action: {
       disabledBackground: "rgba(73,82,88,0.12)",
@@ -66,17 +85,67 @@ const baselightTheme = createTheme({
     gold: {
       main: "#FFD35C",
     },
-    bg: {
-      main: "#F5F5F5",
-      dark: "#F5F5F5",
-      light: "#F0F0F0",
+  },
+  
+  typography: {
+    fontFamily: plus.style.fontFamily,
+    h1: {
+      fontWeight: 600,
+      fontSize: "2.25rem",
+      lineHeight: "2.75rem",
+      fontFamily: plus.style.fontFamily,
     },
-    border: {
-      main: "#E0E0E0",
+    h2: {
+      fontWeight: 600,
+      fontSize: "1.875rem",
+      lineHeight: "2.25rem",
+      fontFamily: plus.style.fontFamily,
+    },
+    h3: {
+      fontWeight: 600,
+      fontSize: "1.5rem",
+      lineHeight: "1.75rem",
+      fontFamily: plus.style.fontFamily,
+    },
+    h4: {
+      fontWeight: 600,
+      fontSize: "1.3125rem",
+      lineHeight: "1.6rem",
+    },
+    h5: {
+      fontWeight: 600,
+      fontSize: "1.125rem",
+      lineHeight: "1.6rem",
+    },
+    h6: {
+      fontWeight: 600,
+      fontSize: "1rem",
+      lineHeight: "1.2rem",
+    },
+    button: {
+      textTransform: "capitalize",
+      fontWeight: 400,
+    },
+    body1: {
+      fontSize: "0.875rem",
+      fontWeight: 400,
+      lineHeight: "1.334rem",
+    },
+    body2: {
+      fontSize: "0.75rem",
+      letterSpacing: "0rem",
+      fontWeight: 400,
+      lineHeight: "1rem",
+    },
+    subtitle1: {
+      fontSize: "0.875rem",
+      fontWeight: 400,
+    },
+    subtitle2: {
+      fontSize: "0.875rem",
+      fontWeight: 400,
     },
   },
-
-  typography: appTypography,
   components: {
     MuiCssBaseline: {
       styleOverrides: {
@@ -103,27 +172,6 @@ const baselightTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: "7px",
-          fontFamily: plusFont.style.fontFamily,
-        },
-      },
-    },
-    MuiInputLabel: {
-      styleOverrides: {
-        root: {
-          color: "#2A3547",
-        },
-      },
-    },
-    MuiListItemButton: {
-      styleOverrides: {
-        root: {
-          "&:hover": {
-            backgroundColor: "#2D52BD",
-          },
-          "&$selected": {
-            color: "#FFFFFF",
-            backgroundColor: "#2D52BD",
-          },
         },
       },
     },
