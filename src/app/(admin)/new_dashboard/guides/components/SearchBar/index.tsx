@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import Autocomplete from "@mui/material/Autocomplete";
+import { SortCriteria, sortOptions } from "../../types";
 
 type Props = {
   searchQuery: string;
@@ -16,9 +17,10 @@ type Props = {
   selectedTag: string;
   onTagChange: (e: React.ChangeEvent<{}>, value: string | null) => void;
   categories: string[];
-  sortCriteria: "rating" | "date";
+  sortCriteria: SortCriteria;
   handleSortChange: (e: SelectChangeEvent<string>) => void;
 };
+
 
 const SearchBar = ({ 
   searchQuery, 
@@ -62,12 +64,14 @@ const SearchBar = ({
     </FormControl>
     <FormControl variant="outlined" sx={{ ml: 2, minWidth: 150 }}>
       <Select
-        value={sortCriteria}
         onChange={handleSortChange}
         displayEmpty
       >
-        <MenuItem value="rating">Sort by Rating</MenuItem>
-        <MenuItem value="date">Sort by Date</MenuItem>
+        {sortOptions.map((option) => (
+          <MenuItem key={option} value={option}>
+            Sort by {option}
+          </MenuItem>
+        ))}
       </Select>
     </FormControl>
   </Box>
