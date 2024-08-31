@@ -12,7 +12,15 @@ const GuidesListPage = () => {
   const { guides, isLoadingGuides, guidesError, isGuidesError, isGuidesSuccess } = useGuideItems();
   const { categories, error: issuesError, isLoading: isLoadingIssues } = useCategories();
 
-  const { searchQuery, selectedTag, filteredGuides, handleSearchChange, handleTagChange } =
+  const { 
+    searchQuery, 
+    selectedTag, 
+    filteredGuides, 
+    sortCriteria, 
+    handleSearchChange, 
+    handleTagChange, 
+    handleSortChange 
+  } =
     useSearchGuides(guides);
 
   return (
@@ -34,6 +42,8 @@ const GuidesListPage = () => {
                   selectedTag={selectedTag}
                   onTagChange={handleTagChange}
                   categories={["All", ...categories]}  
+                  sortCriteria={sortCriteria}
+                  handleSortChange={handleSortChange}
                 />
               </Box>
               <GuideList guideItems={filteredGuides} />
