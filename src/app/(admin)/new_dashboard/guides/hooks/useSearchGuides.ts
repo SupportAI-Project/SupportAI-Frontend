@@ -9,17 +9,16 @@ export const useSearchGuides = (initialGuides: Guide[]) => {
   const [selectedTag, setSelectedTag] = useState("All");
   const [sortCriteria, setSortCriteria] = useState<SortCriteria>("rating");
 
-  const filteredGuides = sortByCriteria(
-    initialGuides.filter((guide) => {
-      const matchesQuery = guide.title
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase());
-      const matchesTag =
-        selectedTag === "All" || guide.categories.includes(selectedTag);
-      return matchesQuery && matchesTag;
-    }),
-    sortCriteria
-  );
+  const filteredGuides = initialGuides.filter((guide) => {
+    const matchesQuery = guide.title
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchesTag =
+      selectedTag === "All" || guide.categories.includes(selectedTag);
+    return matchesQuery && matchesTag;
+  });
+
+  const sortedAndFilteredGuides = sortByCriteria(filteredGuides, sortCriteria);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -37,7 +36,7 @@ export const useSearchGuides = (initialGuides: Guide[]) => {
     searchQuery,
     selectedTag,
     sortCriteria,
-    filteredGuides,
+    filteredGuides: sortedAndFilteredGuides,
     handleSearchChange,
     handleTagChange,
     handleSortChange,
