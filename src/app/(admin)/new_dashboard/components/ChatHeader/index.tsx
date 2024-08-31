@@ -5,7 +5,7 @@ import {
   Backdrop,
   CircularProgress,
 } from "@mui/material";
-import { Box, Typography, Button, CircularProgress } from "@mui/material";
+
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import DoneIcon from "@mui/icons-material/Done";
 import { Contact } from "../../types";
