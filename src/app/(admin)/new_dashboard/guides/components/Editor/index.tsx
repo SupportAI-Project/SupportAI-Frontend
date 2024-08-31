@@ -3,7 +3,11 @@ import { useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import { Box, Button, TextField, Autocomplete, Chip } from "@mui/material";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
-import { UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form";
+import {
+  UseFormRegister,
+  UseFormSetValue,
+  UseFormWatch,
+} from "react-hook-form";
 import { CreateGuideRequest } from "@/api/types/Guide";
 
 const DynamicReactQuill = dynamic(() => import("react-quill"));
@@ -33,8 +37,6 @@ const GuideEditor = ({
   setValue,
   watch,
 }: Props) => {
-
-
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -86,21 +88,30 @@ const GuideEditor = ({
         renderTags={(value: string[], getTagProps) =>
           value.map((option: string, index: number) => (
             <Box key={index}>
-              <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+              <Chip
+                variant="outlined"
+                label={option}
+                {...getTagProps({ index })}
+              />
             </Box>
           ))
         }
         renderInput={(params) => (
-          <TextField {...params} variant="outlined" label="Categories" placeholder="Add up to 3 categories" />
+          <TextField
+            {...params}
+            variant="outlined"
+            label="Categories"
+            placeholder="Add up to 3 categories"
+          />
         )}
-        sx={{ mt: 2 ,mb: 2 }}
+        sx={{ mt: 2, mb: 2 }}
       />
 
       <DynamicReactQuill
         theme="snow"
         modules={modules}
         formats={formats}
-        style={{ height: "570px" }}
+        style={{ height: "550px" }}
         defaultValue={initialContent} // Initial content for the editor
         onChange={(content) => setValue("contentHTML", content)}
       />

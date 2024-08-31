@@ -6,15 +6,25 @@ import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import { AuthClient } from "@/api/auth.client";
 import { useRouter } from "next/navigation";
 import CreateIcon from "@mui/icons-material/Create";
+import { useGuideContext } from "@/app/providers/guide";
 
 const authClient = new AuthClient();
 
 export const useMenuItems = () => {
   const router = useRouter();
+  const { setGuide } = useGuideContext();
 
   const handleLogout = async () => {
     await authClient.logout();
     router.push("/login");
+  };
+
+  const handleCreateGuide = () => {
+    setGuide({
+      contentHTML: "",
+      title: "",
+    });
+    router.push("/new_dashboard/guides/create");
   };
 
   const menuItems = [
@@ -43,6 +53,7 @@ export const useMenuItems = () => {
       title: "Create Guide",
       icon: CreateIcon,
       href: "/new_dashboard/guides/create",
+      onClick: handleCreateGuide,
     },
     {
       navlabel: true,

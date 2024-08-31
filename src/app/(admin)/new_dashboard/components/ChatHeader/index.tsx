@@ -5,33 +5,29 @@ import {
   Backdrop,
   CircularProgress,
 } from "@mui/material";
+import { Box, Typography, Button, CircularProgress } from "@mui/material";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
-import SnoozeIcon from "@mui/icons-material/Snooze";
+import DoneIcon from "@mui/icons-material/Done";
 import { Contact } from "../../types";
 import { useGuide } from "./hooks/useGuide";
 import { useState } from "react";
+import { useChat } from "./hooks/useChat";
 
 type Props = {
   selectedContact: Contact | null;
+  handleContactSelect: (contact: Contact) => void;
 };
 
-const ChatHeader = ({ selectedContact }: Props) => {
-  const { handleGenerateGuide } = useGuide();
+const ChatHeader = ({ selectedContact, handleContactSelect }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
-
-  const handleClicked = (selectedContact: Contact) => {
-    setIsLoading(true);
-    handleGenerateGuide(selectedContact.chatId);
-  };
+  const { handleGenerateGuide, guideError, isGuideError } = useGuide();
+  const { handleCloseChat, chatError, isChatError } = useChat({
+    handleContactSelect,
+    selectedContact,
+  });
 
   return (
     <>
-      <Backdrop
-        sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
-        open={isLoading}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
       <Box
         sx={{
           display: "flex",
@@ -43,24 +39,55 @@ const ChatHeader = ({ selectedContact }: Props) => {
           borderColor: "divider",
         }}
       >
-        {}
         {selectedContact && (
           <>
             <Typography variant="h6">{selectedContact.username}</Typography>
-            <Box
-              onClick={() => handleClicked(selectedContact)}
-              sx={{ display: "flex", alignItems: "center", gap: 1 }}
-            >
-              <Button variant="contained" startIcon={<SmartToyIcon />}>
-                Generate Guide
-              </Button>
-              <Button
-                variant="outlined"
-                startIcon={<SnoozeIcon />}
-                sx={{ textTransform: "none" }}
-              >
-                Snooze
-              </Button>
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <Box sx={{ color: "red", height: "1.5rem" }}>
+                {isGuideError && (
+                  <Typography variant="subtitle1" color="red">
+                    {guideError?.message}
+                  </Typography>
+                )}
+                {isChatError && (
+                  <Typography variant="subtitle1" color="red">
+                    {chatError?.message}
+                  </Typography>
+                )}
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Button
+                  variant="contained"
+                  startIcon={!isLoading && <SmartToyIcon />}
+                  onClick={() => {
+                    handleGenerateGuide(selectedContact.chatId);
+                    setIsLoading(true);
+                  }}
+                  disabled={isLoading}
+                  sx={{ width: "163px", height: "36px", textTransform: "none" }}
+                >
+                  {!isLoading ? (
+                    "Generate Guide"
+                  ) : (
+                    <CircularProgress size={20} color="inherit" />
+                  )}
+                </Button>
+
+                <Button
+                  variant="outlined"
+                  startIcon={<DoneIcon />}
+                  sx={{ textTransform: "none" }}
+                  disabled={!selectedContact.isOpen}
+                  onClick={() =>
+                    handleCloseChat({
+                      id: selectedContact.chatId,
+                      customerId: selectedContact.userId,
+                    })
+                  }
+                >
+                  Close
+                </Button>
+              </Box>
             </Box>
           </>
         )}

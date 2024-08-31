@@ -1,11 +1,12 @@
 "use client";
 
-import { Contact } from '@/app/(admin)/new_dashboard/types';
-import { useSocket } from '@/app/hooks/useSocket';
-import React, { createContext, useState, useContext, ReactNode } from 'react';
-import {useContacts, useSelectedContact} from '@/app/(admin)/new_dashboard/hooks';
+import { Contact } from "@/app/(admin)/new_dashboard/types";
+import { useSocket } from "@/app/hooks/useSocket";
+import React, { createContext, useContext, ReactNode } from "react";
+import { useContacts } from "./hooks/useContacts";
+
 interface ChatProviderProps {
-    children: ReactNode;
+  children: ReactNode;
 }
 
 export interface ChatContextValue {
@@ -18,15 +19,13 @@ export const ChatContext = createContext<ChatContextValue | null>(null);
 
 export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
   const socket = useSocket();
-  const { selectedContact, handleContactSelect } = useSelectedContact({
+  const { contacts, selectedContact, handleContactSelect } = useContacts({
     socket,
-  });
-  const { contacts } = useContacts({
-    socket,
-    handleContactSelect,
   });
   return (
-    <ChatContext.Provider value={{ selectedContact, handleContactSelect,contacts }}>
+    <ChatContext.Provider
+      value={{ selectedContact, handleContactSelect, contacts }}
+    >
       {children}
     </ChatContext.Provider>
   );

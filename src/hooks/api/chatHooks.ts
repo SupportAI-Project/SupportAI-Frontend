@@ -1,7 +1,7 @@
 import { ChatClient } from "@/api/chat.client";
 import { ClientResponse, SuccessResponse } from "@/types";
-import { Chat } from "@/api/types/chat";
-import { useQuery } from "@tanstack/react-query";
+import { Chat, ChatRequestClose } from "@/api/types/chat";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const chatClient = new ChatClient();
 
@@ -40,5 +40,15 @@ export function useChatByUserId(userId: number) {
         chats[0]
       );
     },
+  });
+}
+
+export function useCloseChat() {
+  return useMutation({
+    mutationFn: (chatRequestClose: ChatRequestClose) =>
+      chatClient.closeChat({
+        id: chatRequestClose.id,
+        customerId: chatRequestClose.customerId,
+      }),
   });
 }

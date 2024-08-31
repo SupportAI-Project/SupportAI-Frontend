@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Box, IconButton, Paper, Typography,Slide } from '@mui/material';
-import { Chat, Minimize } from '@mui/icons-material';
-import SupportMessageList from '../SupportMessageList';
-import MessageInput from '@/common/components/MessageInput';
-import { Contact } from '../../types';
+import React, { useState } from "react";
+import { Box, IconButton, Paper, Typography, Slide } from "@mui/material";
+import { Chat, Minimize } from "@mui/icons-material";
+import SupportMessageList from "../SupportMessageList";
+import MessageInput from "@/common/components/MessageInput";
+import { Contact } from "../../types";
 
 interface Props {
   selectedContact: Contact | null;
@@ -13,91 +13,92 @@ interface Props {
   setIsOpen: (isOpen: boolean) => void;
 }
 
-const ChatPopup = ({ selectedContact, setIsOpen,isOpen }: Props) => {
-  
-
+const ChatPopup = ({ selectedContact, setIsOpen, isOpen }: Props) => {
   const toggleChat = () => {
     setIsOpen(!isOpen);
   };
 
   return (
-    
     <Box
       sx={{
-        position: 'fixed', 
-        bottom: 20, 
-        right: 290, 
+        position: "fixed",
+        bottom: 20,
+        right: 290,
         zIndex: 1500,
       }}
     >
       {!isOpen && (
         <IconButton
-          color='primary'
+          color="primary"
           onClick={toggleChat}
           sx={{
-            backgroundColor: 'primary.main',
-            color: 'white',
-            '&:hover': { backgroundColor: 'primary.dark' },
+            backgroundColor: "primary.main",
+            color: "white",
+            "&:hover": { backgroundColor: "primary.dark" },
           }}
         >
           <Chat />
         </IconButton>
       )}
-      
+
       {isOpen && selectedContact && (
         <Slide direction="up" in={isOpen} mountOnEnter unmountOnExit>
-        <Paper
-          elevation={6}
-          sx={{
-            width: 400,
-            height: 500,
-            display: 'flex',
-            flexDirection: 'column',
-            backgroundColor: 'background.paper',
-            boxShadow: 1,
-            borderRadius: 3,
-            overflow: 'hidden',
-          }}
-        >
-          <Box
+          <Paper
+            elevation={6}
             sx={{
-              backgroundColor: 'primary.main',
-              color: 'info.contrastText',
-              padding: 1,
-              display: 'flex',
-              justifyContent: "space-between",
-              alignItems: 'center',
+              width: 400,
+              height: 500,
+              display: "flex",
+              flexDirection: "column",
+              backgroundColor: "background.paper",
+              boxShadow: 1,
+              borderRadius: 3,
+              overflow: "hidden",
             }}
           >
-            <IconButton
-              onClick={toggleChat}
-              sx={{ color: 'info.contrastText', mb: 1 }}
+            <Box
+              sx={{
+                backgroundColor: "primary.main",
+                color: "info.contrastText",
+                padding: 1,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
             >
-              <Minimize />
-            </IconButton>
-            <Typography variant="h6">{selectedContact.username}</Typography>
-          </Box>
+              <IconButton
+                onClick={toggleChat}
+                sx={{ color: "info.contrastText", mb: 1 }}
+              >
+                <Minimize />
+              </IconButton>
+              <Typography variant="h6">{selectedContact.username}</Typography>
+            </Box>
 
-          <Box
-            sx={{
-              flexGrow: 1,
-              padding: 2,
-              overflowY: 'auto',
-              backgroundColor: 'background.default',
-            }}
-          >
-            <SupportMessageList chatId={selectedContact.chatId} />
-          </Box>
+            <Box
+              sx={{
+                flexGrow: 1,
+                padding: 2,
+                overflowY: "auto",
+                backgroundColor: "background.default",
+              }}
+            >
+              <SupportMessageList
+                chatId={selectedContact.chatId}
+                username={selectedContact.username}
+              />
+            </Box>
 
-          <Box>
-            <MessageInput chatId={selectedContact.chatId} isPopup={true} />
-          </Box>
-        </Paper>
+            {/* Input and Send Button */}
+            {selectedContact && selectedContact.isOpen && (
+              <Box>
+                <MessageInput chatId={selectedContact.chatId} isPopup={true} />
+              </Box>
+            )}
+          </Paper>
         </Slide>
       )}
-      
     </Box>
-    
   );
 };
 

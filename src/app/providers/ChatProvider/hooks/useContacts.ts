@@ -4,7 +4,7 @@ import { ClientResponse, SuccessResponse } from "@/types";
 import { useChats } from "@/hooks/api/chatHooks";
 import { useOnFetch } from "@/common/hooks/useOnFetch";
 import { Socket } from "socket.io-client";
-import { Contact } from "../types";
+import { Contact } from "@/app/(admin)/new_dashboard/types";
 import { Chat } from "@/api/types/chat";
 
 type Props = {

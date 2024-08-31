@@ -7,6 +7,7 @@ import { ClientResponse, SuccessResponse } from "@/types";
 
 import { useEffect, useState } from "react";
 import { Socket } from "socket.io-client";
+import { groupByDay } from "../../util";
 
 type Props = {
   chatId: number;
@@ -47,6 +48,6 @@ export const useMessageList = ({ chatId, socket }: Props) => {
   }, [chatId]);
 
   return {
-    messages: chatMessages.concat(newMessages),
+    messages: groupByDay(chatMessages.concat(newMessages)),
   };
 };

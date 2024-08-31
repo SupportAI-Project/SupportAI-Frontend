@@ -1,55 +1,30 @@
-import { ChatClient } from "@/api/chat.client";
-import { ModelClient } from "@/api/model.client";
 import { useGuideContext } from "@/app/providers/guide";
 import { SuccessResponse, ErrorResponse, isSuccessResponse } from "@/types";
 import { useRouter } from "next/navigation";
-import { Chat } from "@/api/types/chat";
 import { ModelCreateGuideResponse } from "@/api/types/model";
-
-const modelClient = new ModelClient();
-const chatModel = new ChatClient();
+import { useModelGenerateGuide } from "@/hooks/api/modelHooks";
 
 export const useGuide = () => {
   const router = useRouter();
   const { setGuide } = useGuideContext();
+  const { mutate, isError, error, isPending } = useModelGenerateGuide();
 
   async function handleGenerateGuide(chatId: number): Promise<void> {
-    const chatResponse = await chatModel.chatById({
-      id: chatId,
-    });
-
-    if (!isSuccessResponse(chatResponse)) {
-      const errorResponse = chatResponse as ErrorResponse;
-      console.error(errorResponse.error);
-      return;
-    }
-    const chat = (chatResponse as SuccessResponse<Chat>).data;
-
-    const modelCreateGuideResponse = await modelClient.createGuide({
-      user: {
-        roles: chat.user.roles,
-        username: chat.user.username,
+    mutate(chatId, {
+      onSuccess: (response) => {
+        const modelCreateGuideResponse =
+          response as SuccessResponse<ModelCreateGuideResponse>;
+        const guideResponse = modelCreateGuideResponse.data;
+        setGuide(guideResponse);
+        router.push("new_dashboard/guides/create");
       },
-      messages: chat.messages.map((message) => ({
-        content: message.content,
-        isSupportSender: message.isSupportSender,
-      })),
     });
-
-    if (!isSuccessResponse(modelCreateGuideResponse)) {
-      const errorResponse = modelCreateGuideResponse as ErrorResponse;
-      console.error(errorResponse.error);
-      return;
-    }
-
-    const guideResponse = (
-      modelCreateGuideResponse as SuccessResponse<ModelCreateGuideResponse>
-    ).data;
-    setGuide(guideResponse);
-    router.push("new_dashboard/guides/create");
   }
 
   return {
     handleGenerateGuide,
+    isPending,
+    guideError: error,
+    isGuideError: isError,
   };
 };

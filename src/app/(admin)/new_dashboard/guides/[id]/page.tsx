@@ -24,7 +24,13 @@ const GuidePage: React.FC = () => {
 
   const id = params?.id ? Number(params.id) : null;
 
-  const { data: response, isLoading, isError, error, isSuccess } = useGuide(id ?? 0);
+  const {
+    data: response,
+    isLoading,
+    isError,
+    error,
+    isSuccess,
+  } = useGuide(id ?? 0);
 
   if (isLoading) {
     return <CircularProgress />;
