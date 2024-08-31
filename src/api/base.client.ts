@@ -92,14 +92,6 @@ export class BaseClient {
     return this.request<T>(endpoint, "POST", body, options);
   }
 
-  protected async put<T>(
-    endpoint: string,
-    body: any,
-    options: RequestInit = {}
-  ): Promise<ClientResponse<T>> {
-    return this.request<T>(endpoint, "PUT", body, options);
-  }
-
   protected async patch<T>(
     endpoint: string,
     body: any,

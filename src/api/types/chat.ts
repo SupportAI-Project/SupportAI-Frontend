@@ -18,4 +18,8 @@ export type ChatRequest = {
   id: number;
 };
 
+export type ChatRequestUpdate = Partial<Chat>;
+
+export type ChatRequestClose = Pick<Chat, "id" | "customerId">;
+
 export type ChatResponse = Chat;

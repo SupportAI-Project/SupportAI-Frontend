@@ -9,9 +9,18 @@ import { useGuideItems } from "./hooks/useGuideItems";
 import { useCategories } from "./hooks/useCategories";
 
 const GuidesListPage = () => {
-  const { guides, isLoadingGuides, guidesError, isGuidesError, isGuidesSuccess } = useGuideItems();
-  const { categories, error: issuesError, isLoading: isLoadingIssues } = useCategories();
-
+  const {
+    guides,
+    isLoadingGuides,
+    guidesError,
+    isGuidesError,
+    isGuidesSuccess,
+  } = useGuideItems();
+  const {
+    categories,
+    error: issuesError,
+    isLoading: isLoadingIssues,
+  } = useCategories();
   const { 
     searchQuery, 
     selectedTag, 
@@ -23,6 +32,7 @@ const GuidesListPage = () => {
   } =
     useSearchGuides(guides);
 
+
   return (
     <PageContainer title="Guides">
       <DashboardCard title="Guides">
@@ -30,7 +40,9 @@ const GuidesListPage = () => {
           {(isLoadingGuides || isLoadingIssues) && <CircularProgress />}
           {(isGuidesError || issuesError) && (
             <Alert severity="error">
-              {guidesError?.message || issuesError?.message || "An error occurred"}
+              {guidesError?.message ||
+                issuesError?.message ||
+                "An error occurred"}
             </Alert>
           )}
           {isGuidesSuccess && guides.length > 0 && (

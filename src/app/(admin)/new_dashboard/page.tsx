@@ -9,9 +9,8 @@ import MessageInput from "@/common/components/MessageInput";
 import { useChat } from "@/app/hooks/useChat";
 
 const Page = () => {
+  const { selectedContact, handleContactSelect, contacts } = useChat();
 
- const {selectedContact, handleContactSelect, contacts} = useChat();
- 
   return (
     <PageContainer title="Dashboard">
       <DashboardCard title="Chat">
@@ -19,7 +18,7 @@ const Page = () => {
           sx={{
             display: "flex",
             flexDirection: "row",
-            height: "calc(100vh - 135px)",
+            height: "calc(100vh - 155px)",
             margin: 0,
             padding: 0,
           }}
@@ -44,16 +43,22 @@ const Page = () => {
             >
               {/* Chat Header */}
               {selectedContact && (
-                <ChatHeader selectedContact={selectedContact} />
+                <ChatHeader
+                  selectedContact={selectedContact}
+                  handleContactSelect={handleContactSelect}
+                />
               )}
 
               {/* Message List */}
               {selectedContact && (
-                <SupportMessageList chatId={selectedContact.chatId} />
+                <SupportMessageList
+                  chatId={selectedContact.chatId}
+                  username={selectedContact.username}
+                />
               )}
 
               {/* Input and Send Button */}
-              {selectedContact && (
+              {selectedContact && selectedContact.isOpen && (
                 <MessageInput chatId={selectedContact.chatId} />
               )}
             </Box>

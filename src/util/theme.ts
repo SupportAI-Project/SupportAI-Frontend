@@ -15,10 +15,14 @@ declare module "@mui/material/styles" {
   interface Palette {
     note: SimplePaletteColorOptions;
     gold: SimplePaletteColorOptions;
+    lightBlue: SimplePaletteColorOptions;
+    lightGrey: SimplePaletteColorOptions;
   }
   interface PaletteOptions {
     note?: SimplePaletteColorOptions;
     gold?: SimplePaletteColorOptions;
+    lightBlue?: SimplePaletteColorOptions;
+    lightGrey?: SimplePaletteColorOptions;
   }
 }
 
@@ -62,7 +66,7 @@ const baselightTheme = createTheme({
       dark: "#ae8e59",
       contrastText: "#ffffff",
     },
-    
+
     grey: {
       100: "#F2F6FA",
       200: "#EAEFF4",
@@ -85,8 +89,15 @@ const baselightTheme = createTheme({
     gold: {
       main: "#FFD35C",
     },
+    lightBlue: {
+      main: "#d3e2f2",
+    },
+    lightGrey: {
+      main: "#ebebeb",
+      light: "rgba(42, 53, 71, 0.6)",
+    },
   },
-  
+
   typography: {
     fontFamily: plus.style.fontFamily,
     h1: {
@@ -142,8 +153,8 @@ const baselightTheme = createTheme({
       fontWeight: 400,
     },
     subtitle2: {
-      fontSize: "0.875rem",
-      fontWeight: 400,
+      fontSize: "0.925rem",
+      fontWeight: 550,
     },
   },
   components: {
