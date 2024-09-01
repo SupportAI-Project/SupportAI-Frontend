@@ -28,7 +28,7 @@ export const useSearchGuides = (initialGuides: Guide[]) => {
     setSelectedTag(value || "All");
   };
 
-  const handleSortChange = (event: SelectChangeEvent<string> ) => {
+  const handleSortChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> ) => {
     setSortCriteria(event.target.value as SortCriteria);
   };
 

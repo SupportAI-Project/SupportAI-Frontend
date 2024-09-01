@@ -1,11 +1,12 @@
-import { 
-  TextField, 
-  InputAdornment, 
-  Box, 
-  FormControl, 
-  Select, 
+import {
+  TextField,
+  InputAdornment,
+  Box,
+  FormControl,
+  Select,
   MenuItem,
-  SelectChangeEvent
+  SelectChangeEvent,
+  InputLabel,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -18,18 +19,19 @@ type Props = {
   onTagChange: (e: React.ChangeEvent<{}>, value: string | null) => void;
   categories: string[];
   sortCriteria: SortCriteria;
-  handleSortChange: (e: SelectChangeEvent<string>) => void;
+  handleSortChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
 };
 
-
-const SearchBar = ({ 
-  searchQuery, 
-  onSearchChange, 
-  selectedTag, 
-  onTagChange, 
-  categories, 
-  sortCriteria, 
-  handleSortChange 
+const SearchBar = ({
+  searchQuery,
+  onSearchChange,
+  selectedTag,
+  onTagChange,
+  categories,
+  sortCriteria,
+  handleSortChange,
 }: Props) => (
   <Box display="flex" alignItems="center" justifyContent="space-between">
     <TextField
@@ -52,27 +54,26 @@ const SearchBar = ({
         value={selectedTag}
         onChange={onTagChange}
         renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Filter by tag"
-            variant="outlined"
-          />
+          <TextField {...params} label="Filter by tag" variant="outlined" />
         )}
         isOptionEqualToValue={(option, value) => option === value}
         getOptionLabel={(option) => option}
       />
     </FormControl>
     <FormControl variant="outlined" sx={{ ml: 2, minWidth: 150 }}>
-      <Select
-        onChange={handleSortChange}
-        displayEmpty
+      <TextField
+        select
+        label="Sort by"
+        value={sortCriteria}
+        onChange={(e) => handleSortChange(e)}
+        variant="outlined"
       >
         {sortOptions.map((option) => (
           <MenuItem key={option} value={option}>
-            Sort by {option}
+            {option}
           </MenuItem>
         ))}
-      </Select>
+      </TextField>
     </FormControl>
   </Box>
 );
