@@ -41,7 +41,7 @@ export default function RootLayout({
       </PageWrapper>
 
       <RightSidebarWrapper>
-        {(isOpen || isDashboardPage) && (
+        {(isOpen && !isDashboardPage) && (
           <ContactSidebar
             isContactSidebarOpen={isDashboardPage ? true : isOpen}
           />

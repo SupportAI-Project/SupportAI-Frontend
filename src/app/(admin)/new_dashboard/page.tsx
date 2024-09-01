@@ -23,6 +23,11 @@ const Page = () => {
             padding: 0,
           }}
         >
+          <ContactList
+            contacts={contacts}
+            selectedContact={selectedContact}
+            onSelectContact={handleContactSelect}
+          />
 
           {/* Chat Container */}
           {selectedContact && (

@@ -18,10 +18,9 @@ const ContactList = ({ contacts, onSelectContact, selectedContact }: Props) => {
   return (
     <Box
       sx={{
-        width: "20%",
-        borderRight: "1px solid #E0E0E0",
+        width: "30%",
+        borderRight: "1px solid #e0e0e0",
         overflow: "auto",
-        padding: 2,
       }}
     >
       <List>
@@ -32,17 +31,17 @@ const ContactList = ({ contacts, onSelectContact, selectedContact }: Props) => {
         ) : (
           <List>
             {contacts.map((contact, index) => (
-              <Box key={index} sx={{ padding: "8px 0" }}>
+              <Box key={index} sx={{ padding: "0 8px" }}>
                 <ListItemButton
                   selected={selectedContact?.chatId === contact.chatId}
                   onClick={() => onSelectContact(contact)}
                   sx={{
                     backgroundColor:
                       selectedContact?.chatId === contact.chatId
-                        ? "primary.main"
-                        : "primary.light",
-                    borderRadius: 1,
-                    marginLeft: 0, 
+                        ? "#f5f5f5"
+                        : "#ffffff",
+                    borderRadius: 0,
+                    marginRight: 0,
                   }}
                 >
                   <ListItemAvatar>
