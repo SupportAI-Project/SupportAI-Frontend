@@ -1,6 +1,7 @@
-import { Box, Drawer } from "@mui/material";
+import { Box, Button, Drawer, Typography } from "@mui/material";
 import Image from "next/image";
 import SidebarItems from "./SidebarItems";
+import Link from "next/link";
 
 interface ItemType {
   isSidebarOpen: boolean;
@@ -38,7 +39,6 @@ const DashboardSidebar = ({ isSidebarOpen }: ItemType) => {
           sx: {
             boxSizing: "border-box",
             ...scrollbarStyles,
-            
           },
         }}
       >
@@ -81,6 +81,38 @@ const DashboardSidebar = ({ isSidebarOpen }: ItemType) => {
               {/* Sidebar Items */}
               {/* ------------------------------------------- */}
               <SidebarItems />
+              <Box
+                display="flex"
+                alignItems="center"
+                gap={2}
+                sx={{
+                  m: 3,
+                  p: 3,
+                  bgcolor: "primary.light",
+                  borderRadius: "8px",
+                }}
+              >
+                <>
+                  <Box>
+                    <Typography
+                      variant="h5"
+                      sx={{ width: "80px" }}
+                      fontSize="16px"
+                      mb={1}
+                    >
+                      Empower Guides with AI!
+                    </Typography>
+                  </Box>
+                  <Box mt="-35px">
+                    <img
+                      width="94"
+                      height="94"
+                      src="https://img.icons8.com/3d-fluency/94/chatbot.png"
+                      alt="chatbot"
+                    />
+                  </Box>
+                </>
+              </Box>
             </Box>
           </Drawer>
         </Box>
