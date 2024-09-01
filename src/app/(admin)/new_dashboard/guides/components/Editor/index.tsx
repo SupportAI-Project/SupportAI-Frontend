@@ -111,7 +111,7 @@ const GuideEditor = ({
         theme="snow"
         modules={modules}
         formats={formats}
-        style={{ height: "550px" }}
+        style={{ height: "350px" }}
         defaultValue={initialContent} // Initial content for the editor
         onChange={(content) => setValue("contentHTML", content)}
       />
