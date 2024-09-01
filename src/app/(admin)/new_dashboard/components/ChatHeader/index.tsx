@@ -65,8 +65,8 @@ const ChatHeader = ({ selectedContact, handleContactSelect }: Props) => {
                   }}
                   disabled={isLoading}
                   sx={{
-                    width: "10rem",
-                    height: "2rem",
+                    width: "10.5rem",
+                    height: "36px",
                     textTransform: "none",
                   }}
                 >
