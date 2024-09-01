@@ -64,7 +64,11 @@ const ChatHeader = ({ selectedContact, handleContactSelect }: Props) => {
                     setIsLoading(true);
                   }}
                   disabled={isLoading}
-                  sx={{ width: "163px", height: "36px", textTransform: "none" }}
+                  sx={{
+                    width: "10rem",
+                    height: "2rem",
+                    textTransform: "none",
+                  }}
                 >
                   {!isLoading ? (
                     "Generate Guide"
