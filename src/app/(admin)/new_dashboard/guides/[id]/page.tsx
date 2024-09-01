@@ -53,11 +53,14 @@ const GuidePage: React.FC = () => {
     return (
       <Box>
         <DashboardCard title={guide.title} subtitle={creatorAndDateInfo}>
-          <Box className="quill-content">{parse(guide.contentHTML)}</Box>
+          <Box 
+          className="quill-content"
+          sx={{backgroundColor:"bg.light", padding:5, borderRadius:3}}
+          >
+            {parse(guide.contentHTML)}
+          </Box>
         </DashboardCard>
-        <Box ml={3}>
-          <ReviewList guideId={guide.id} reviews={guide.reviews ?? []} />
-        </Box>
+         <ReviewList guideId={guide.id} reviews={guide.reviews ?? []} />
       </Box>
     );
   }

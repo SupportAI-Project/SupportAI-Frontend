@@ -1,4 +1,11 @@
-import { Box, Typography, Button, CircularProgress } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  Backdrop,
+  CircularProgress,
+} from "@mui/material";
+
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import DoneIcon from "@mui/icons-material/Done";
 import { Contact } from "../../types";
@@ -57,7 +64,11 @@ const ChatHeader = ({ selectedContact, handleContactSelect }: Props) => {
                     setIsLoading(true);
                   }}
                   disabled={isLoading}
-                  sx={{ width: "163px", height: "36px", textTransform: "none" }}
+                  sx={{
+                    width: "10rem",
+                    height: "2rem",
+                    textTransform: "none",
+                  }}
                 >
                   {!isLoading ? (
                     "Generate Guide"

@@ -1,54 +1,59 @@
 "use client";
-import { styled, Container, Box } from "@mui/material";
+import { Container, Box } from "@mui/material";
 import Sidebar from "./shared/sidebar/Sidebar";
-
-const MainWrapper = styled("div")(() => ({
-  display: "flex",
-  minHeight: "100vh",
-  width: "100%",
-}));
-
-const PageWrapper = styled("div")(() => ({
-  display: "flex",
-  flexGrow: 1,
-  flexDirection: "column",
-  zIndex: 1,
-  backgroundColor: "transparent",
-}));
+import ContactSidebar from "./components/ContactSidebar";
+import ChatPopup from "./components/ChatPopup";
+import { useChat } from "@/app/hooks/useChat";
+import { useIsDashboardPage } from "./guides/hooks/useIsDashboardPage";
+import { useIsChatPopupOpen } from "./hooks/useIsChatPopupOpen";
+import { useIsCreateGuidePage } from "./guides/hooks/useIsCreateGuidePage";
+import {
+  LeftSidebarWrapper,
+  RightSidebarWrapper,
+  PageWrapper,
+  MainWrapper,
+} from "@/app/wrappers/wrappers";
+import ContactList from "./components/ContactList";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { selectedContact } = useChat();
+  const isDashboardPage = useIsDashboardPage();
+  const isCreateGuidePage = useIsCreateGuidePage();
+  const { isOpen, setIsOpen } = useIsChatPopupOpen();
+
   return (
     <MainWrapper className="mainwrapper">
-      {/* ------------------------------------------- */}
-      {/* Sidebar */}
-      {/* ------------------------------------------- */}
       <Sidebar isSidebarOpen={true} />
-      {/* ------------------------------------------- */}
-      {/* Main Wrapper */}
-      {/* ------------------------------------------- */}
+
       <PageWrapper className="page-wrapper">
-        {/* ------------------------------------------- */}
-        {/* PageContent */}
-        {/* ------------------------------------------- */}
         <Container
           maxWidth={false}
           sx={{
             paddingTop: "20px",
           }}
         >
-          {/* ------------------------------------------- */}
-          {/* Page Route */}
-          {/* ------------------------------------------- */}
           <Box sx={{ minHeight: "calc(100vh - 170px)" }}>{children}</Box>
-          {/* ------------------------------------------- */}
-          {/* End Page */}
-          {/* ------------------------------------------- */}
         </Container>
       </PageWrapper>
+
+      <RightSidebarWrapper>
+        {(isOpen && !isDashboardPage) && (
+          <ContactSidebar
+            isContactSidebarOpen={isDashboardPage ? true : isOpen}
+          />
+        )}
+        {!isDashboardPage && !isCreateGuidePage && (
+          <ChatPopup
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            selectedContact={selectedContact}
+          />
+        )}
+      </RightSidebarWrapper>
     </MainWrapper>
   );
 }

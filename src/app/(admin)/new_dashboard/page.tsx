@@ -23,7 +23,6 @@ const Page = () => {
             padding: 0,
           }}
         >
-          {/* Contact List */}
           <ContactList
             contacts={contacts}
             selectedContact={selectedContact}
@@ -36,7 +35,7 @@ const Page = () => {
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                width: "70%",
+                width: "100%",
                 height: "100%",
                 paddingLeft: 2,
               }}

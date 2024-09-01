@@ -96,6 +96,10 @@ const baselightTheme = createTheme({
       main: "#ebebeb",
       light: "rgba(42, 53, 71, 0.6)",
     },
+    bg: {
+      main: "#f5f5f5",
+      light: "#f5f5f5",
+    },
   },
 
   typography: {

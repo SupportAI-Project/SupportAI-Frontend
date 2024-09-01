@@ -15,7 +15,7 @@ const DashboardSidebar = ({ isSidebarOpen }: ItemType) => {
       width: "7px",
     },
     "&::-webkit-scrollbar-thumb": {
-      backgroundColor: "#eff2f7",
+      backgroundColor: "paper",
       borderRadius: "15px",
     },
   };
@@ -38,6 +38,7 @@ const DashboardSidebar = ({ isSidebarOpen }: ItemType) => {
           sx: {
             boxSizing: "border-box",
             ...scrollbarStyles,
+            
           },
         }}
       >
@@ -57,6 +58,7 @@ const DashboardSidebar = ({ isSidebarOpen }: ItemType) => {
                 boxSizing: "border-box",
                 ...scrollbarStyles,
                 width: "270px",
+                backgroundColor: "paper",
               },
             }}
           >
@@ -74,7 +76,6 @@ const DashboardSidebar = ({ isSidebarOpen }: ItemType) => {
             >
               <Image src="/logo.png" alt="logo" width={220} height={150} />
             </Box>
-            {/* <Logo img="/logo.png" /> */}
             <Box>
               {/* ------------------------------------------- */}
               {/* Sidebar Items */}

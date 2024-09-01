@@ -20,6 +20,7 @@ const SupportMessageList = ({ chatId, username }: Props) => {
         backgroundColor: (theme) => theme.palette.background.paper,
       }}
     >
+
       <List>
         {Object.keys(messages).map((date, index) => {
           return (
@@ -47,6 +48,7 @@ const SupportMessageList = ({ chatId, username }: Props) => {
           );
         })}
       </List>
+      
     </Box>
   );
 };

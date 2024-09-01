@@ -11,6 +11,7 @@ type Props = {
   children?: JSX.Element;
   middlecontent?: string | JSX.Element;
   fullHeight?: boolean;
+  isVisibleBorder?: boolean;
 };
 
 const DashboardCard = ({
@@ -24,6 +25,7 @@ const DashboardCard = ({
   headsubtitle,
   middlecontent,
   fullHeight = false,
+  isVisibleBorder = false,
 }: Props) => {
   return (
     <Card
@@ -41,7 +43,7 @@ const DashboardCard = ({
       {cardheading ? (
         <CardContent>
           <Typography variant="h5">{headtitle}</Typography>
-          <Typography variant="subtitle2" color="textSecondary">
+          <Typography variant="subtitle2" color="text.primary">
             {headsubtitle}
           </Typography>
         </CardContent>
@@ -56,10 +58,10 @@ const DashboardCard = ({
               mb={3}
             >
               <Box>
-                {title ? <Typography variant="h1">{title}</Typography> : ""}
+                {title ? <Typography variant="h3">{title}</Typography> : ""}
 
                 {subtitle ? (
-                  <Typography variant="subtitle2" color="textSecondary">
+                  <Typography variant="subtitle2" color="text.primary">
                     {subtitle}
                   </Typography>
                 ) : (
