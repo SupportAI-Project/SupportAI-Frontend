@@ -9,7 +9,6 @@ const GuideLayout = ({ children }: { children: ReactNode }) => {
   return (
     <>
       {children}
-      {selectedContact && <ChatPopup selectedContact={selectedContact} />}
     </>
   );
 };

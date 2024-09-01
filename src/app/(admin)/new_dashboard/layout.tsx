@@ -6,6 +6,7 @@ import ChatPopup from "./components/ChatPopup";
 import { useChat } from "@/app/hooks/useChat";
 import { useIsDashboardPage } from "./guides/hooks/useIsDashboardPage";
 import { useIsChatPopupOpen } from "./hooks/useIsChatPopupOpen";
+import { useIsCreateGuidePage } from "./guides/hooks/useIsCreateGuidePage";
 
 const MainWrapper = styled("div")(() => ({
   display: "flex",
@@ -24,7 +25,7 @@ const PageWrapper = styled("div")(() => ({
 const RightSidebarWrapper = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
-  alignItems: "flex-end", 
+  alignItems: "flex-end",
   gap: 2,
 }));
 
@@ -35,7 +36,8 @@ export default function RootLayout({
 }) {
   const { selectedContact } = useChat();
   const isDashboardPage = useIsDashboardPage();
-  const {isOpen ,setIsOpen} = useIsChatPopupOpen();
+  const isCreateGuidePage = useIsCreateGuidePage();
+  const { isOpen, setIsOpen } = useIsChatPopupOpen();
 
   return (
     <MainWrapper className="mainwrapper">
@@ -53,8 +55,18 @@ export default function RootLayout({
       </PageWrapper>
 
       <RightSidebarWrapper>
-        {(isOpen || isDashboardPage) && <ContactSidebar isContactSidebarOpen={isDashboardPage ? true : isOpen} />}
-        {!isDashboardPage && <ChatPopup isOpen={isOpen} setIsOpen={setIsOpen} selectedContact={selectedContact} />}
+        {(isOpen || isDashboardPage) && (
+          <ContactSidebar
+            isContactSidebarOpen={isDashboardPage ? true : isOpen}
+          />
+        )}
+        {!isDashboardPage && !isCreateGuidePage && (
+          <ChatPopup
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            selectedContact={selectedContact}
+          />
+        )}
       </RightSidebarWrapper>
     </MainWrapper>
   );
