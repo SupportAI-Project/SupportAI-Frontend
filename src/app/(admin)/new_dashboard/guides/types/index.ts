@@ -7,4 +7,4 @@ export type Guide = {
 };
 
 export type SortCriteria = "rating" | "date";
-export const sortOptions = ["rating", "date"];
+export const sortOptions = ["Rating", "Date"];
