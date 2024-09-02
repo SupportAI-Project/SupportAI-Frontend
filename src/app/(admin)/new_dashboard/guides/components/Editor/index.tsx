@@ -1,15 +1,9 @@
 import dynamic from "next/dynamic";
-import {
-  BaseSyntheticEvent,
-  FormEventHandler,
-  useEffect,
-  useState,
-} from "react";
+import { BaseSyntheticEvent, useEffect, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import { Box, Button, TextField, Autocomplete, Chip } from "@mui/material";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import {
-  SubmitHandler,
   UseFormRegister,
   UseFormSetValue,
   UseFormWatch,
@@ -73,7 +67,15 @@ const GuideEditor = ({
   ];
 
   return (
-    <Box component="form" onSubmit={onSave} noValidate>
+    <Box
+      component="form"
+      onSubmit={onSave}
+      noValidate
+      sx={{
+        maxWidth: "100%",
+        padding: "1rem",
+      }}
+    >
       <TextField
         {...register("title")}
         label="Title"
@@ -120,18 +122,33 @@ const GuideEditor = ({
         theme="snow"
         modules={modules}
         formats={formats}
-        style={{ height: "550px" }}
-        defaultValue={initialContent} // Initial content for the editor
+        style={{
+          height: "45vh",
+          minHeight: "300px",
+        }}
+        defaultValue={initialContent}
         onChange={(content) => setValue("contentHTML", content)}
       />
       <input type="hidden" {...register("contentHTML")} />
 
-      <Box display="flex" flexDirection="column" alignItems="flex-end" mt={6}>
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="flex-end"
+        mt={6}
+        sx={{
+          width: "100%",
+          bottom: "4rem",
+        }}
+      >
         <LoadingButton
           variant="contained"
           color="primary"
           startIcon={<SaveAsIcon />}
           type="submit"
+          sx={{
+            width: "15%",
+          }}
         >
           Save Guide
         </LoadingButton>
