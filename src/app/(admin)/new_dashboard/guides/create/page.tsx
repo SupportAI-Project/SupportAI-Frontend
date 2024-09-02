@@ -7,7 +7,8 @@ import { useGuide } from "./hooks/useCreateGuide";
 import { useCategories } from "../hooks/useCategories";
 
 const Page = () => {
-  const { guide,categories,selectedCategories,handleCategoryChange ,register, error, handleSubmit, setValue, watch } = useGuide();
+  const { guide, categories, register, error, handleSubmit, setValue, watch } =
+    useGuide();
   return (
     <PageContainer title="Create Guide">
       <Box
@@ -19,10 +20,8 @@ const Page = () => {
           <GuideEditor
             register={register}
             setValue={setValue}
-            selectedCategories={selectedCategories}
-            handleCategoryChange={handleCategoryChange}
             watch={watch}
-            categories={categories}
+            allCategories={categories}
             error={error}
             onSave={handleSubmit}
             initialTitle={guide?.title}

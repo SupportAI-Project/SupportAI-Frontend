@@ -3,7 +3,7 @@ import { User } from "./User";
 
 export type ModelCreateGuideRequest = {
   messages: Pick<Message, "content" | "isSupportSender">[];
-  user: Pick<User, "roles" | "username">;
+  user: Pick<User, "username">;
 };
 
 export type ModelCreateGuideResponse = {
