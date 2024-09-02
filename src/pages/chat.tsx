@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import styles from "../../styles/chat.module.css";
-import "../../styles/chat.scss";
+import styles from "../styles/chat.module.css";
+import "../styles/chat.scss";
 import { Textarea } from "@/components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { Chat, Message } from "@/types";
 import socket from "../socket";
+import Image from "next/image";
 
 const ChatApp: React.FC = () => {
   const [message, setMessage] = useState<string>("");
@@ -16,8 +17,8 @@ const ChatApp: React.FC = () => {
     socket.emit("create");
     socket.on("chatCreated", (chat: Chat) => {
       const fd = new FormData();
-      setChatId(chat.chatId);
-      fd.append("chatId", chat.chatId.toString());
+      setChatId(chat.id);
+      fd.append("chatId", chat.id.toString());
       socket.emit("join", fd);
       socket.on("newMessage", (data: Message) => {
         console.log("Received message: ", data);
@@ -35,12 +36,13 @@ const ChatApp: React.FC = () => {
   async function handleSendMessage() {
     if (message === "") return;
     console.log("Send message: ", message);
-    const newMessage = {
+    const newMessage: Message = {
+      messageId: chatMessages.length + 1,
       content: message,
       isNote: false,
       isSupportSender: false,
       chatId: chatId,
-      time: new Date(),
+      timeStamp: new Date(),
     };
 
     setChatMessages([...chatMessages, newMessage]);
@@ -76,7 +78,7 @@ const ChatApp: React.FC = () => {
               </div>
               <ul className={`list-unstyled ${styles["chat-list"]} mt-2 mb-0`}>
                 <li className={styles.clearfix}>
-                  <img
+                  <Image
                     src="https://bootdey.com/img/Content/avatar/avatar1.png"
                     alt="avatar"
                   />
@@ -97,7 +99,7 @@ const ChatApp: React.FC = () => {
               <div className={`${styles["chat-header"]} ${styles.clearfix}`}>
                 <div className="row">
                   <div className="col-lg-6">
-                    <img
+                    <Image
                       src="https://bootdey.com/img/Content/avatar/avatar2.png"
                       alt="avatar"
                     />
@@ -121,9 +123,9 @@ const ChatApp: React.FC = () => {
                           className={`d-flex justify-content-end ${styles["message-data"]}`}
                         >
                           <span className={`${styles["message-data-time"]}`}>
-                            {msg.time.toLocaleTimeString()}
+                            {msg.timeStamp.toLocaleTimeString()}
                           </span>
-                          <img
+                          <Image
                             src="https://bootdey.com/img/Content/avatar/avatar7.png"
                             alt="avatar"
                           />
