@@ -16,6 +16,9 @@ type Props = {
 };
 
 const ContactList = ({ contacts, onSelectContact, selectedContact }: Props) => {
+  
+  const reversedContacts = [...contacts].reverse();
+  
   return (
     <Box
       sx={{
@@ -25,13 +28,13 @@ const ContactList = ({ contacts, onSelectContact, selectedContact }: Props) => {
       }}
     >
       <List>
-        {contacts.length === 0 ? (
+        {reversedContacts.length === 0 ? (
           <Box sx={{ padding: "16px", textAlign: "center", color: "#888" }}>
             No chats yet!
           </Box>
         ) : (
           <List>
-            {contacts.map((contact, index) => (
+            {reversedContacts.map((contact, index) => (
               <ContactCard
                 key={index}
                 contact={contact}
