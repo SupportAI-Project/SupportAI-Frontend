@@ -23,7 +23,7 @@ const ChatPopup = ({ selectedContact, setIsOpen, isOpen }: Props) => {
       sx={{
         position: "fixed",
         bottom: 20,
-        right: 290,
+        right: isOpen ? 270 : 30,
         zIndex: 1500,
       }}
     >
