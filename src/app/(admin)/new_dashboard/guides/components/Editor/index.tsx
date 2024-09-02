@@ -1,24 +1,30 @@
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import {
+  BaseSyntheticEvent,
+  FormEventHandler,
+  useEffect,
+  useState,
+} from "react";
 import "react-quill/dist/quill.snow.css";
 import { Box, Button, TextField, Autocomplete, Chip } from "@mui/material";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import {
+  SubmitHandler,
   UseFormRegister,
   UseFormSetValue,
   UseFormWatch,
 } from "react-hook-form";
 import { CreateGuideRequest } from "@/api/types/Guide";
+import { LoadingButton } from "@mui/lab";
 
 const DynamicReactQuill = dynamic(() => import("react-quill"));
 
 interface Props {
   initialTitle?: string;
   initialContent?: string;
-  categories: string[];
-  selectedCategories: string[];
-  handleCategoryChange: (event: any, newValue: string[]) => void;
-  onSave: () => void;
+  categories?: string[];
+  allCategories?: string[];
+  onSave: (e?: BaseSyntheticEvent) => void;
   register: UseFormRegister<CreateGuideRequest>;
   error: Error | null;
   setValue: UseFormSetValue<CreateGuideRequest>;
@@ -29,9 +35,8 @@ const GuideEditor = ({
   initialContent = "",
   initialTitle = "",
   categories,
-  selectedCategories,
-  handleCategoryChange,
   onSave,
+  allCategories = ["Internet", "Router", "Wi-Fi", "Network"],
   register,
   error,
   setValue,
@@ -68,7 +73,7 @@ const GuideEditor = ({
   ];
 
   return (
-    <>
+    <Box component="form" onSubmit={onSave} noValidate>
       <TextField
         {...register("title")}
         label="Title"
@@ -82,9 +87,13 @@ const GuideEditor = ({
       <Autocomplete
         multiple
         freeSolo
-        options={categories}
-        value={selectedCategories}
-        onChange={handleCategoryChange}
+        options={allCategories}
+        defaultValue={categories}
+        {...register("categories")}
+        value={watch("categories") || categories}
+        onChange={(event, newValue) => {
+          setValue("categories", newValue);
+        }}
         renderTags={(value: string[], getTagProps) =>
           value.map((option: string, index: number) => (
             <Box key={index}>
@@ -118,16 +127,16 @@ const GuideEditor = ({
       <input type="hidden" {...register("contentHTML")} />
 
       <Box display="flex" flexDirection="column" alignItems="flex-end" mt={6}>
-        <Button
+        <LoadingButton
           variant="contained"
           color="primary"
           startIcon={<SaveAsIcon />}
-          onClick={() => onSave()}
+          type="submit"
         >
           Save Guide
-        </Button>
+        </LoadingButton>
       </Box>
-    </>
+    </Box>
   );
 };
 

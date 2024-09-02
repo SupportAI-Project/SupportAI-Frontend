@@ -38,21 +38,11 @@ export const useGuide = () => {
     });
   };
 
-  const {categories} = useCategories();
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(watch("categories") || []);
-  const handleCategoryChange = (event: any, newValue: string[]) => {
-    if (newValue.length <= 3) {
-      setSelectedCategories(newValue);
-      setValue("categories", newValue);
-    }
-  };
-
+  const { categories } = useCategories();
 
   return {
     guide,
     categories,
-    selectedCategories,
-    handleCategoryChange,
     register,
     setValue,
     watch,

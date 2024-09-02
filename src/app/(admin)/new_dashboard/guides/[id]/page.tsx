@@ -18,6 +18,7 @@ import ReviewList from "../components/ReviewList";
 import parse from "html-react-parser";
 import "quill/dist/quill.snow.css";
 import { useChat } from "@/app/hooks/useChat";
+import DeleteEditButtons from "../components/Buttons";
 
 const GuidePage: React.FC = () => {
   const params = useParams();
@@ -52,15 +53,19 @@ const GuidePage: React.FC = () => {
 
     return (
       <Box>
-        <DashboardCard title={guide.title} subtitle={creatorAndDateInfo}>
-          <Box 
-          className="quill-content"
-          sx={{backgroundColor:"bg.light", padding:5, borderRadius:3}}
+        <DashboardCard
+          buttons={<DeleteEditButtons />}
+          title={guide.title}
+          subtitle={creatorAndDateInfo}
+        >
+          <Box
+            className="quill-content"
+            sx={{ backgroundColor: "bg.light", padding: 5, borderRadius: 3 }}
           >
             {parse(guide.contentHTML)}
           </Box>
         </DashboardCard>
-         <ReviewList guideId={guide.id} reviews={guide.reviews ?? []} />
+        <ReviewList guideId={guide.id} reviews={guide.reviews ?? []} />
       </Box>
     );
   }
