@@ -15,8 +15,9 @@ const guideSchema = z.object({
 
 export type Guide = z.infer<typeof guideSchema>;
 
-export type CreateGuideRequest = {
-  title: string;
-  contentHTML: string;
-  categories: string[];
-};
+export type CreateGuideRequest = Pick<
+  Guide,
+  "title" | "categories" | "contentHTML"
+>;
+
+export type UpdateGuideRequest = Partial<CreateGuideRequest> & { id: number };

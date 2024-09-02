@@ -16,7 +16,6 @@ export function useModelGenerateGuide() {
       const chat = (chatResponse as SuccessResponse<Chat>).data;
       return modelClient.createGuide({
         user: {
-          roles: chat.user.roles,
           username: chat.user.username,
         },
         messages: chat.messages.map((message) => ({
