@@ -66,13 +66,13 @@ const ChatPopup = ({ selectedContact, setIsOpen, isOpen }: Props) => {
                 alignItems: "center",
               }}
             >
+              <Typography variant="h6">{selectedContact.username}</Typography>
               <IconButton
                 onClick={toggleChat}
                 sx={{ color: "info.contrastText", mb: 1 }}
               >
                 <Minimize />
               </IconButton>
-              <Typography variant="h6">{selectedContact.username}</Typography>
             </Box>
 
             <Box
