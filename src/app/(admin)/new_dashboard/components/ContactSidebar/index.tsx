@@ -10,8 +10,8 @@ import {
     Typography,
     Slide,
   } from "@mui/material";
-  import { Contact } from "../../types";
   import { useChat } from "@/app/hooks/useChat";
+  import ContactCard from "../ContactCard";
   
   interface Props {
     isContactSidebarOpen: boolean;
@@ -62,22 +62,12 @@ import {
               </Box>
             ) : (
               contacts.map((contact, index) => (
-                <Box key={index} >
-                  <ListItemButton
-                    selected={selectedContact?.chatId === contact.chatId}
-                    onClick={() => handleContactSelect(contact)}
-                    sx={{
-                      borderRadius: 2,
-                    }}
-                  >
-                    <ListItemAvatar>
-                      <Avatar
-                        src={"https://bootdey.com/img/Content/avatar/avatar2.png"} 
-                      />
-                    </ListItemAvatar>
-                    <ListItemText primary={contact.username} />
-                  </ListItemButton>
-                </Box>
+                <ContactCard
+                key={index}
+                contact={contact}
+                selected={selectedContact?.chatId === contact.chatId}
+                onSelect={handleContactSelect}
+              />
               ))
             )}
           </List>
