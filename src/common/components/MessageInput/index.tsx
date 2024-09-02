@@ -9,7 +9,11 @@ type MessageInputProps = {
   isPopup?: boolean;
 };
 
-const MessageInput = ({ chatId, isSupport = true , isPopup = false }: MessageInputProps) => {
+const MessageInput = ({
+  chatId,
+  isSupport = true,
+  isPopup = false,
+}: MessageInputProps) => {
   const socket = useSocket();
 
   const { errors, handleChangeNote, handleSubmit, isNote, register } =
@@ -28,14 +32,15 @@ const MessageInput = ({ chatId, isSupport = true , isPopup = false }: MessageInp
       }}
     >
       {isSupport && (
-        <Box sx={{ display: "flex", alignSelf: "start" ,padding:1}}>
+        <Box sx={{ display: "flex", alignSelf: "start", padding: 1 }}>
           <Button
             color="note"
             variant={isNote ? "contained" : "outlined"}
             onClick={handleChangeNote}
             sx={{
-              color: isNote ? "inherit" : "rgba(0, 0, 0, 0.38)", 
-              borderColor: isNote ? "inherit" : "rgba(0, 0, 0, 0.38)",}}
+              color: "inherit",
+              borderColor: "inherit",
+            }}
           >
             Note
           </Button>
